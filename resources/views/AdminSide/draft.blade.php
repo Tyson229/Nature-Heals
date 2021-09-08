@@ -39,7 +39,7 @@
 
 @section('content')
 <main>
-    <h1 class="display-5">Draft</h1>
+    <h1 class="display-5">test</h1>
     <div class="row">
         <!--Add new tool button-->
         <div class="col-sm-3">
