@@ -27,5 +27,25 @@ class DatabaseSeeder extends Seeder
             'role_name' => 'Admin'
         ]);
         User::factory()->count(5)->create();
+
+        DB::table('tool_statuses')->insert([
+            'status' => 'Hidden',
+            'created_at'=> now(),
+        ]);
+        DB::table('tool_statuses')->insert([
+            'status' => 'Published',
+            'created_at'=> now(),
+        ]);
+        
+        DB::table('tool_statuses')->insert([
+            'status' => 'Draft',
+            'created_at'=> now(),
+        ]);
+        
+        DB::table('tool_statuses')->insert([
+            'status' => 'Request',
+            'created_at'=> now(),
+        ]);
+        
     }
 }

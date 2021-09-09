@@ -134,40 +134,20 @@
                 </tr>
                 </thead>
 
+                @foreach ($users as $user)
                 <tbody class="bg-white">
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Person 1</td>
-                    <td>person1@admin.com</td>
-                    <td>admin1</td>
-                    <td>Admin</td>
+                    <th scope="row">{{ $user->id }}</th>
+                    <td>{{ $user->fname }}</td>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->password }}</td>
+                    <td>{{ $user->role_name }}</td>
                     <td>
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createToolForm">Edit</button>
                         <button class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Owner 1</td>
-                    <td>Owner1@owner.com</td>
-                    <td>owner</td>
-                    <td>Owner</td>
-                    <td>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createToolForm">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Person 2</td>
-                    <td>person2@admin.com</td>
-                    <td>admin2</td>
-                    <td>Admin</td>
-                    <td>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createToolForm">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
+                @endforeach
                 </tbody>
             </table>
             

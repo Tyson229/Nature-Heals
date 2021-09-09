@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'username' => $firstName.$lastName,
             'fname' => $firstName,
             'lname' => $lastName,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$92I', // password
             'role_ID' => rand(1,2),
             'created_at' => now(),
         ];

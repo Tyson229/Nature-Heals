@@ -26,9 +26,9 @@ class PagesController extends Controller
         return view('AdminSide.homepage');
     }
 
-    public function adminUser(){
+   /* public function adminUser(){
         return view('AdminSide.userManagement');
-    }
+    }*/
 
     public function adminTools(){
         return view('AdminSide.tools');
