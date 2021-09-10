@@ -114,8 +114,8 @@
                                     </div>
                                     <div class="col-sm-4">        
                                         <select id="rolesLabel" class="form-select" name="roles">
-                                            <option selected value="1">Admin</option>
-                                            <option value="2">Owner</option>
+                                            <option value="1">Owner</option>
+                                            <option value="2">Admin</option>
                                         </select>    
                                     </div>
                                 </div> 

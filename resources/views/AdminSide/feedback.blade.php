@@ -68,7 +68,7 @@
 
 @section('content')
     <main>
-        <h1 class="display-5">Feedback</h1>
+        <h1 class="display-5">Tool Feedback</h1>
         <div class="row">
             <!--Add new tool button-->
             <div class="col-sm-4">
@@ -80,6 +80,53 @@
             <div class="col-sm-3"></div>
 
         </div>
+
+        <div class="modal fade" id="createToolForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createToolFormLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark" >
+                        <h1 class="text-white display-6">Feedback Detail</h1>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container bg-white">
+                            <form>      
+                                <div class="row">    
+                                    <!--Name-->
+                                    <div class="col-sm-12">
+                                        <label for="usernameLabel" class="col-form-label">Name: John Doe</label>
+                                    </div>
+                                   
+                                    
+                                    <!--email-->
+                                    <div class="col-sm-12">
+                                        <label for="emailLabel" class="col-form-label">Email: person1@gmail.com</label>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <label for="toolnameLabel" class="col-form-label">Tool name: The Resilience Questionnaire</label>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <label for="domainnameLabel" class="col-form-label">Health Domain: Emotional</label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label for="contentLabel" class="col-form-label">Feedback: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, aperiam, necessitatibus placeat dignissimos numquam deserunt, voluptatum laboriosam similique nobis dolorum ea! Laborum, molestias? Id ducimus exercitationem aut debitis sint quo?</label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label for="dateLabel" class="col-form-label">Date: 2/7/2021</label>
+                                    </div>
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
         <!--Table List-->
@@ -94,6 +141,8 @@
                         <th scope="col">Tool Name</th>
                         <th scope="col">Health Domain</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Action</th>
+
                     </tr>
                 </thead>
 
@@ -109,20 +158,12 @@
                         <td class="col-sm-3">The Resilience Questionnaire</td>
                         <td>Emotional</td>
                         <td>2/7/2021</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#createToolForm">Open</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="bg-secondary p-0 border shadow text-white" colspan="9">
-                            <div id="hidden" class="collapse mt-2 mb-2">
-                                <div class="row">
-                                <div class="col-sm-3 text-center">Content</div>
-                                <div class="col-sm-9">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, aperiam, necessitatibus placeat dignissimos numquam deserunt, voluptatum laboriosam similique nobis dolorum ea! Laborum, molestias? Id ducimus exercitationem aut debitis sint quo?
-                                </div>
-                                </div>
-                            </div>
-                        </td>    
-                    </tr>
-                    
+
                     <tr data-bs-toggle="collapse" data-bs-target="#hidden2">
                         
                         <th scope="row" >
@@ -134,18 +175,10 @@
                         <td class="col-sm-3">The Resilience Questionnaire</td>
                         <td>Emotional</td>
                         <td>8/6/2021</td>
-                    </tr>
-                    <tr>
-                        <td class="bg-secondary p-0 border shadow text-white" colspan="9">
-                            <div id="hidden2" class="collapse mt-2 mb-2">
-                                <div class="row">
-                                <div class="col-sm-3 text-center">Content</div>
-                                <div class="col-sm-9">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, aperiam, necessitatibus placeat dignissimos numquam deserunt, voluptatum laboriosam similique nobis dolorum ea! Laborum, molestias? Id ducimus exercitationem aut debitis sint quo?
-                                </div>
-                                </div>
-                            </div>
-                        </td>    
+                        <td>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#createToolForm">Open</button>
+                        </td>
                     </tr>
                     
                     <tr data-bs-toggle="collapse" data-bs-target="#hidden3">
@@ -159,19 +192,12 @@
                         <td class="col-sm-3">The Resilience Questionnaire</td>
                         <td>Emotional</td>
                         <td>3/6/2021</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#createToolForm">Open</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="bg-secondary p-0 border shadow text-white" colspan="9">
-                            <div id="hidden3" class="collapse mt-2 mb-2">
-                                <div class="row">
-                                <div class="col-sm-3 text-center">Content</div>
-                                <div class="col-sm-9">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, aperiam, necessitatibus placeat dignissimos numquam deserunt, voluptatum laboriosam similique nobis dolorum ea! Laborum, molestias? Id ducimus exercitationem aut debitis sint quo?
-                                </div>
-                                </div>
-                            </div>
-                        </td>    
-                    </tr>
+
                 </tbody>
             </table>
             <nav aria-label="Page navigation">
