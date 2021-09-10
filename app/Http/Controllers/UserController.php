@@ -18,7 +18,7 @@ class UserController extends Controller
         //
         $users = DB::table('users')
                     ->join('roles','role_ID','=','roles.id')
-                    ->select('users.id','fname','username','password','roles.role_name')
+                    ->select('users.id','fname','email','password','roles.role_name')
                     ->get();   
         return view('AdminSide.userManagement',['users' => $users]);          
     }
@@ -41,7 +41,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fname = $request->input('fname');
+        $lname = $request->input('lname');
+        $email = $request->input('email');
+        $password = $request -> input('password');
+        $role = $request->input('roles');
+
+        $data = array('fname'=>$fname, 'lname'=>$lname, 'email'=>$email, 'password'=>$password, 'role_ID' => $role);
+
+        DB::table('users')->insert($data);
+
+        return redirect('/login/home');
     }
 
     /**
@@ -75,7 +85,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
+
     }
 
     /**

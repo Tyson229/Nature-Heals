@@ -35,12 +35,17 @@ Route::get('/contact', [PagesController::class,'contact']);
 Route::get('/request', [PagesController::class,'request']);
 
 /**Admin end**/
+Route::get('/login', [PagesController::class,'adminLogin']);
+Route::get('/login/forgotPassword', [PagesController::class,'adminForgotPassword']);
+Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']);
+
 Route::get('/login/home', [PagesController::class,'adminHome']);
+
 Route::get('/login/user', [UserController::class, 'index']);
+Route::post('/login/user/store', [UserController::class, 'store']);
+
 Route::get('/login/tools', [PagesController::class,'adminTools']);
 Route::get('/login/request', [PagesController::class,'adminRequest']);
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
-
-Route::get('/test', [PagesController::class,'test']);
