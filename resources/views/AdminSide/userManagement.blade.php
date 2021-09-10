@@ -69,52 +69,64 @@
                         <h1 class="text-white display-6">Add New Admin</h1>
                         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <form action="/login/user/store" method="POST">
+                        @csrf
                     <div class="modal-body">
                         <div class="container bg-white">
-                            <form>      
+                                  
                                 <div class="row">    
-                                    <!--Name-->
-                                    <div class="col-sm-2">
-                                        <label for="nameLabel" class="col-form-label">Name</label>
+                                    <!--First Name-->
+                                    <div class="col-sm-4">
+                                        <label for="fnameLabel" class="col-form-label">First Name</label>
                                     </div>
-                                    <div class="col-sm-10 mb-3">
-                                        <input id="nameLabel" class="form-control" placeholder="Name">
+                                    <div class="col-sm-12 mb-1">
+                                        <input id="fnameLabel" name="fname" class="form-control" required>
                                     </div>
+
+                                    <!--Last Name-->
+                                    <div class="col-sm-4">
+                                        <label for="lnameLabel" class="col-form-label">Last Name</label>
+                                    </div>
+                                    <div class="col-sm-12 mb-1">
+                                        <input id="lnameLabel" name="lname" class="form-control" required>
+                                    </div>
+
                                     
-                                    <!--Username-->
-                                    <div class="col-sm-2">
-                                        <label for="ussernameLabel" class="col-form-label">Username</label>
+                                    <!--Last Name-->
+                                    <div class="col-sm-3">
+                                        <label for="emailLabel" class="col-form-label">Email</label>
                                     </div>
-                                    <div class="col-sm-10 mb-3">
-                                        <input id="usernameLabel" class="form-control" placeholder="Username">
+                                    <div class="col-sm-12 mb-1">
+                                        <input id="emailLabel" name="email" class="form-control" required>
                                     </div>
 
                                     <!--Password-->
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-3">
                                         <label for="passwordLabel" class="col-form-label">Password</label>
                                     </div>
-                                    <div class="col-sm-10 mb-3">
-                                        <input id="passwordLabel" class="form-control" placeholder="password">
+                                    <div class="col-sm-12 mb-1">
+                                        <input id="passwordLabel" name="password" class="form-control" required >
                                     </div>
                                     
                                     <!--Roles-->
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-12">
                                         <label for="rolesLabel" class="col-form-label">Roles</label>
                                     </div>
                                     <div class="col-sm-4">        
-                                        <select id="rolesLabel" class="form-select">
-                                            <option selected value="Admin">Admin</option>
-                                            <option value="Owner">Owner</option>
+                                        <select id="rolesLabel" class="form-select" name="roles">
+                                            <option selected value="1">Admin</option>
+                                            <option value="2">Owner</option>
                                         </select>    
                                     </div>
                                 </div> 
-                            </form>
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary" value="Submit">Add</button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -127,47 +139,27 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Password</th>
                     <th scope="col">Roles</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
 
+                @foreach ($users as $user)
                 <tbody class="bg-white">
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Person 1</td>
-                    <td>person1@admin.com</td>
-                    <td>admin1</td>
-                    <td>Admin</td>
+                    <th scope="row">{{ $user->id }}</th>
+                    <td>{{ $user->fname }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->password }}</td>
+                    <td>{{ $user->role_name }}</td>
                     <td>
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createToolForm">Edit</button>
                         <button class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Owner 1</td>
-                    <td>Owner1@owner.com</td>
-                    <td>owner</td>
-                    <td>Owner</td>
-                    <td>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createToolForm">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Person 2</td>
-                    <td>person2@admin.com</td>
-                    <td>admin2</td>
-                    <td>Admin</td>
-                    <td>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createToolForm">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
-                    </td>
-                </tr>
+                @endforeach
                 </tbody>
             </table>
             

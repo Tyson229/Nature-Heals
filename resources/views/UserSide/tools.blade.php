@@ -102,7 +102,7 @@
                     <!-- Category col  -->
                     <div class="col-md-3 mt-4 mb-4">
 
-                        <h4 class="grid-title"><i class="category"></i> Select Category:</h4>
+                        <h4 class="grid-title"><i class="category"></i> &nbsp;Select Category</h4>
                         
                         <!-- collapsed for Category and checkbox -->
                         <div class="accordion" id="accordionCategoryStayOpenSelection">
@@ -140,7 +140,7 @@
                             <!-- collapsed  #2 -->
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="CategoryStayOpen-headingTwo">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CategoryStayOpen-collapsetwo" aria-expanded="true" aria-controls="CategoryStayOpen-collapseTow">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CategoryStayOpen-collapseTwo" aria-expanded="true" aria-controls="CategoryStayOpen-collapseTwo">
                                     Health Condition  
                                 </button>
                               </h2>
@@ -224,7 +224,7 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="CategoryStayOpen-headingFive">
                                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CategoryStayOpen-collapseFive" aria-expanded="false" aria-controls="CategoryStayOpen-collapseFive">
-                                        Age Group : 
+                                        Age Group 
                                   </button>
                                 </h2>
                                 <div id="CategoryStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="CategoryStayOpen-headingFive">

@@ -24,7 +24,7 @@
     </a> 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Pending Tool Request
+      Tool Request
     </a>
     <a class="nav-link bg-primary text-white" href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
@@ -52,6 +52,7 @@
             </div>
         </div>
 
+
          <!--Modal-->
         <div class="modal fade" id="createTaskForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createTaskFormLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -69,7 +70,7 @@
                                         <label for="taskLabel" class="col-form-label">Task</label>
                                     </div>
                                     <div class="col-sm-10 mb-3">
-                                        <input id="taskLabel" class="form-control" placeholder="Task">
+                                        <textarea id="taskLabel" class="form-control" rows="1" placeholder="Write your task here..."></textarea>
                                     </div>
 
                                     <!--Priortity-->
@@ -97,12 +98,58 @@
         </div>
         <!--Modal-->
 
+        
+         <!--Modal 2-->
+         <div class="modal fade" id="editTaskForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="editTaskFormLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header bg-dark" >
+                        <h1 class="text-white display-6">Task Details</h1>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container bg-white">
+                            <form>      
+                                <div class="row">    
+                                    <!--Task-->
+                                    <div class="col-sm-2">
+                                        <label for="taskLabel" class="col-form-label">Task</label>
+                                    </div>
+                                    <div class="col-sm-10 mb-3">
+                                            <textarea id="taskLabel" class="form-control" rows="1" placeholder="Write your task here..."></textarea>
+                                    </div>
+
+                                    <!--Priortity-->
+                                    <div class="col-sm-2">
+                                        <label for="priorityLabel" class="col-form-label">Priority</label>
+                                    </div>
+                                    <div class="col-sm-4">        
+                                        <select id="priorityLabel" class="form-select">
+                                            <option selected value="High">High</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Low">Low</option>
+                                        </select>    
+                                    </div>
+                                
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal 2-->
+
         <!--Table List-->
         <div class="container-fluid mt-2 p-0">
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">Check</th>
+                        <th scope="col">Checked</th>
                         <th scope="col">Task</th>
                         <th scope="col">Priority</th>
                         <th scope="col">Creator</th>
@@ -115,42 +162,42 @@
                         <th scope="row">
                             <button class="btn btn-outline-success"><i class="fas fa-check"></i></button>
                         </th>
-                        <td class="col-sm-4">Task 1</td>
-                        <td class="col-sm-1">Low</td>
-                        <td class="col-sm-2">Person 1</td>
+
+                        <td class="col-sm-4">Finish the request tool</td>
+                        <td>Medium</td>
+                        <td>Abdullah</td>
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Edit</button>
+                            data-bs-target="#editTaskForm">Edit</button>
                             <button class="btn btn-danger">Delete</button>
-                            
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
                             <button class="btn btn-outline-success"><i class="fas fa-check"></i></button>
                         </th>
-                        <td class="col-sm-4">Task 1</td>
-                        <td class="col-sm-1">Low</td>
-                        <td class="col-sm-2">Person 1</td>
+
+                        <td>Read the tool details</td>
+                        <td>low</td>
+                        <td>Usha</td>
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Edit</button>
+                            data-bs-target="#editTaskForm">Edit</button>
                             <button class="btn btn-danger">Delete</button>
-                            
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
                             <button class="btn btn-outline-success"><i class="fas fa-check"></i></button>
                         </th>
-                        <td class="col-sm-4">Task 1</td>
-                        <td class="col-sm-1">Low</td>
-                        <td class="col-sm-2">Person 1</td>
+
+                        <td>Create new tool</td>
+                        <td>High</td>
+                        <td>Tyson</td>
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Edit</button>
+                            data-bs-target="#editTaskForm">Edit</button>
                             <button class="btn btn-danger">Delete</button>
-                            
                         </td>
                     </tr>
                 </tbody>
