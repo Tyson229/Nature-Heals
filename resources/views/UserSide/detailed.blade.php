@@ -123,12 +123,12 @@
                         <div class="row">
                             <div class="col form-group">
                                 <b><label for="fname"> First name </label></b>
-                                <input type ="text" id="fname" class="form-control">
+                                <input type ="text" id="fname" name="fname" class="form-control">
                             </div>
                             
                             <div class="col form-group">
                                 <b><label for="lname"> Last name </label></b>
-                                <input type ="text" id="fname" class="form-control">
+                                <input type ="text" id="lname" name="lname" class="form-control">
                             </div>
                         </div>
                     </div>

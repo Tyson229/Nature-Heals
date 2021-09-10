@@ -3,7 +3,7 @@
 @section('style')
 <style>
 
-	html{
+html{
 		font-size:1.2rem;
 	}
 	
@@ -34,6 +34,11 @@
 		border-bottom-left-radius: 0.5rem;
 	}
 	
+	p{
+		position:relative;
+		top:-22px;
+		right:-4px;
+	}
 	.contact-info {
 		margin-top: 10%;
 	}
@@ -105,7 +110,6 @@
 	{
 	
 	padding: 40px 5px 5px 5px;
-	width:440px;
 	}
 	
 	
@@ -120,10 +124,15 @@
 	{
 		padding-left: 10px;
 	}
+
+
+	.no-gutters{
+		--bs-gutter-x: 0rem;
+	}
 	@media (min-width:1025px) {
 	.contact-wrap
 	{
-		padding-right: 0 !important;
+	
 		padding-top: 25px !important;
 		padding-bottom: 25px !important;
 	}
@@ -133,16 +142,27 @@
 	}
 	
 	}
-	@media (max-width:481px)  {
+	@media (max-width:768px)  {
 	.col-md-5.align-items-stretch
 	{
-		padding: 1.6rem !important;
+		
 		display: block !important; 
 	}
 	.info-wrap
 	{
 		padding: 45px !important;
 	}
+	}
+
+	.break-word{
+		word-break: break-word;
+	}
+
+
+	@media (max-width: 768px) {
+		.d-flex {
+			display: block !important;
+		}
 	}
 	</style>
 @endsection
@@ -169,7 +189,7 @@
 								<div class="contact-wrap w-100 p-md-5 p-4  border-top border-bottom border-start rounded-3" style="border-radius: 3px;background-color:#f8f9fa;">
 									<div class="form-sub">
 										<h1 class="mb-4 display-4"> Get in touch </h3>
-										<p class="text-sub"> To get a update Please provide email address. </p>
+										<p class="text-sub" style="color:red"> To get a update Please provide email address. </p>
 										<div id="form-message-warning" class="mb-4"></div>
 										<div id="form-message-success" class="mb-4"> </div>
 										<form>
@@ -192,7 +212,7 @@
 											<div class="form-group" style="margin-top: 10px;"> 
 												<label for="exampleFormControlSelect1">Select Category</label>
 												<select class="form-control" id="exampleFormControlSelect1">
-													<option value=""> ------------------ Please choose an option ------------------------- </option>
+													<option value=""> ---------- Please choose an option ------------ </option>
 													<option value="feedback"> Feedback </option>
 													<option value="question"> Question </option>
 													<option value="generalInquiry"> General Inquiry </option>
@@ -206,7 +226,7 @@
 											<div class="row mt-5 mb-8">
 												<div class="col-sm-2"></div>
 												<div class="col-sm-12">
-													<button class="btn btn-dark btn-lg float-end" type="button"> Send Request </button>
+													<button class="btn btn-dark btn-lg float-end" type="button"> Send</button>
 												</div>
 											</div>
 										</form>
