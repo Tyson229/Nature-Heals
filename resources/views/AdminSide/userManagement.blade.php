@@ -44,7 +44,7 @@
         <h1 class="display-5">User Management</h1>
         <div class="row">
             <!--Add new tool button-->
-            <div class="col-sm-3">
+            <div class="col-sm-3 mb-2">
                 <button class=" btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createUserForm"><i class="fas fa-plus"></i> Add New Admin</button>
             </div>
             <div class="col-sm-4"></div>
@@ -60,9 +60,11 @@
             </div>
         </div>
         
+       
         <!--Create Modal-->
+        
         <!--Pop up form-->
-        <div class="modal fade" id="createUserForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUserFormLabel" aria-hidden="true">
+        <div class="modal fade" id="createUserForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createUserFormLabel" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header bg-dark" >
@@ -74,54 +76,54 @@
                     <div class="modal-body">
                         <div class="container bg-white">
                                 @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                    </ul>
-                                </div>
+                                    <div class="alert alert-danger">
+                                        @foreach ($errors->all() as $error)
+                                        <ul>
+                                            <li>{{ $error }}</li>
+                                        </ul>
+                                        @endforeach
+                                    </div>
                                 @endif  
                                 <div class="row">    
                                     <!--First Name-->
                                     <div class="col-sm-4">
-                                        <label for="fnameLabel" class="col-form-label">First Name</label>
+                                        <label for="createFnameLabel" class="col-form-label">First Name</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="fnameLabel" name="fname" class="form-control" required>
+                                        <input id="createFnameLabel" name="fname" class="form-control" required>
                                     </div>
 
                                     <!--Last Name-->
                                     <div class="col-sm-4">
-                                        <label for="lnameLabel" class="col-form-label">Last Name</label>
+                                        <label for="createLnameLabel" class="col-form-label">Last Name</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="lnameLabel" name="lname" class="form-control" required>
+                                        <input id="createLnameLabel" name="lname" class="form-control" required>
                                     </div>
 
                                     
                                     <!--Last Name-->
                                     <div class="col-sm-3">
-                                        <label for="emailLabel" class="col-form-label">Email</label>
+                                        <label for="createEmailLabel" class="col-form-label">Email</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="emailLabel" name="email" class="form-control" required>
+                                        <input id="createEmailLabel" name="email" class="form-control" required>
                                     </div>
 
                                     <!--Password-->
                                     <div class="col-sm-3">
-                                        <label for="passwordLabel" class="col-form-label">Password</label>
+                                        <label for="createPasswordLabel" class="col-form-label">Password</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="passwordLabel" name="password" class="form-control" required >
+                                        <input id="createPasswordLabel" name="password" class="form-control" required >
                                     </div>
                                     
                                     <!--Roles-->
                                     <div class="col-sm-12">
-                                        <label for="rolesLabel" class="col-form-label">Roles</label>
+                                        <label for="createRolesLabel" class="col-form-label">Roles</label>
                                     </div>
                                     <div class="col-sm-4">        
-                                        <select id="rolesLabel" class="form-select" name="roles">
+                                        <select id="createRolesLabel" class="form-select" name="roles">
                                             <option value="1">Owner</option>
                                             <option value="2">Admin</option>
                                         </select>    
@@ -138,12 +140,30 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript">
+            @if (count($errors) > 0)
+            $(function() {
+                $('#createUserForm').modal('show');
+            });
+            @endif
+        </script>
         <!--Create Modal-->
 
-        
+        <!--Message-->
+        @if(session('message'))
+            <div class="alert alert-success mb-1" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <strong>
+                    {{ session('message')}}            
+                </strong>
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <!--Message-->    
 
         <!--Table List-->
-        <div class="container-fluid mt-2 p-0">
+        <div class="container-fluid p-0">
             <table class="table table-hover">
                 <thead class="table-dark">
                 <tr>
@@ -236,43 +256,43 @@
                                                     <div class="row">    
                                                         <!--First Name-->
                                                         <div class="col-sm-4">
-                                                            <label for="fnameLabel" class="col-form-label">First Name</label>
+                                                            <label for="editFnameLabel" class="col-form-label">First Name</label>
                                                         </div>
                                                         <div class="col-sm-12 mb-1">
-                                                            <input id="fnameLabel" name="fname" class="form-control" value="{{ $user->fname }}" required >
+                                                            <input id="editFnameLabel" name="fname" class="form-control" value="{{ $user->fname }}" required >
                                                         </div>
 
                                                         <!--Last Name-->
                                                         <div class="col-sm-4">
-                                                            <label for="lnameLabel" class="col-form-label">Last Name</label>
+                                                            <label for="editLnameLabel" class="col-form-label">Last Name</label>
                                                         </div>
                                                         <div class="col-sm-12 mb-1">
-                                                            <input id="lnameLabel" name="lname" class="form-control" value="{{ $user->lname }}" required>
+                                                            <input id="editLnameLabel" name="lname" class="form-control" value="{{ $user->lname }}" required>
                                                         </div>
 
                                                         
                                                         <!--Email-->
                                                         <div class="col-sm-3">
-                                                            <label for="emailLabel" class="col-form-label">Email</label>
+                                                            <label for="editEmailLabel" class="col-form-label">Email</label>
                                                         </div>
                                                         <div class="col-sm-12 mb-1">
-                                                            <input id="emailLabel" name="email" class="form-control" value="{{ $user->email }}" required>
+                                                            <input id="editEmailLabel" name="email" class="form-control" value="{{ $user->email }}" required>
                                                         </div>
 
                                                         <!--Password-->
                                                         <div class="col-sm-3">
-                                                            <label for="passwordLabel" class="col-form-label">Password</label>
+                                                            <label for="editPasswordLabel" class="col-form-label">Password</label>
                                                         </div>
                                                         <div class="col-sm-12 mb-1">
-                                                            <input id="passwordLabel" name="password" class="form-control" value="{{ $user->password }}" required >
+                                                            <input id="editPasswordLabel" name="password" class="form-control" value="{{ $user->password }}" required >
                                                         </div>
                                                         
                                                         <!--Roles-->
                                                         <div class="col-sm-12">
-                                                            <label for="rolesLabel" class="col-form-label">Roles</label>
+                                                            <label for="editRolesLabel" class="col-form-label">Roles</label>
                                                         </div>
                                                         <div class="col-sm-4">        
-                                                            <select id="rolesLabel" class="form-select" name="roles">
+                                                            <select id="editRolesLabel" class="form-select" name="roles">
                                                                 @if (strcmp($user->role_name,"Admin")==0 )
                                                                     <option value="1">Owner</option>
                                                                     <option value="2" selected>Admin</option>  
@@ -295,6 +315,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <script type="text/javascript">
+                                @if (count($errors) > 0)
+                                $(function() {
+                                    $('#editUserForm').modal('show');
+                                });
+                                @endif
+                            </script>
                             <!--Edit Modal-->
 
                             <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteUserForm-{{ $user->id }}">Delete</button>
@@ -350,26 +377,16 @@
                             <!--Delete Modal-->
                         </td>
                     </tr>
-
-                    
-
                 @endforeach
+                
                 </tbody>
+                
             </table>
-            
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="row">
+                <div class="col-sm-7 offset-sm-5">
+                    {{ $users->links() }}
+                </div>    
+            </div>
         </div>
 
     </main>

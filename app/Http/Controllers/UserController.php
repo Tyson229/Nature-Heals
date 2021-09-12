@@ -21,7 +21,9 @@ class UserController extends Controller
         $users = DB::table('users')
                     ->join('roles','role_ID','=','roles.id')
                     ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
-                    ->get();   
+                    ->orderBy('users.id','desc')
+                    ->paginate(7); 
+
         return view('AdminSide.userManagement')
                     ->with('users', $users);         
     }
@@ -35,23 +37,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validate =$request->validate([
-            'email' => 'bail|email:rfc|unique:users|required',
-            'fname' => 'string',
-            'lname' => 'string',
-
+            'fname' => 'alpha',
+            'lname' => 'alpha',
+            'email' => 'email:rfc|unique:users|required',
+            
         ]);
 
-        $fname = $request->input('fname');
-        $lname = $request->input('lname');
-        $email = $request->input('email');
-        $password = $request -> input('password');
-        $role = $request->input('roles');
+        $user = new User;
+        $user->fname = $request->fname;
+        $user->lname = $request->lname;
+        $user->email = $request->email;
+        $user->password = $request -> password;
+        $user->role_ID = $request->roles;
 
-        $data = array('fname'=>$fname, 'lname'=>$lname, 'email'=>$email, 'password'=>$password, 'role_ID' => $role, 'created_at' => now(), 'updated_at' => now());
+        $user->save();
 
-        DB::table('users')->insert($data);
-
-        return redirect('/login/user');
+        return redirect('/login/user')->with('message', 'Successfully Created User!');
     }
 
     /**
@@ -64,14 +65,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validate =$request->validate([
+            'fname' => 'required|alpha',
+            'lname' => 'required|alpha',
             'email' => [
-                'bail',
                 'required',
                 'email:rfc',
                 Rule::unique('users')->ignore($id,'users.id')
             ],
-            'fname' => 'string',
-            'lname' => 'string',
+            
         ]);
 
         $user = User::find($id);
@@ -83,7 +84,7 @@ class UserController extends Controller
         $user->updated_at = now();
 
         $user->save();
-        return redirect('login/user');
+        return redirect('login/user')->with('message', 'Successfully Updated User!');
 
 
     }
@@ -98,6 +99,21 @@ class UserController extends Controller
     {
         $user =User::find($id);
         $user->delete();
-        return redirect('login/user');
+        return redirect('login/user')->with('message', 'Successfully Deleted User!');
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'fname.required' => 'First Name is required',
+            'lname.required' => 'Last Name is required',
+            'fname.alpha' => 'First Name must be alphabetic only',
+            'lname.alpha' => 'Last Name must be alphabetic only',
+        ];
     }
 }
