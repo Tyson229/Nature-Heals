@@ -3,8 +3,8 @@
 @section('style')
     <style>
         .btn-squared-default{
-            width: 20vh !important;
-            height: 28vh !important;
+            width: 10rem !important;
+            height: 10rem !important;
         }
         html{
             font-size: 1.2rem;
@@ -28,7 +28,7 @@
     </a> 
     <a class="nav-link" href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Pending Tool Request
+        Tool Request
     </a>
     <a class="nav-link" href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
@@ -45,19 +45,27 @@
 @endsection
 
 @section('content')
-    <h1 class="display-5"> Hello Admin</h1>
-    <a class="btn btn-primary btn-squared-default btn-lg m-2" href="/login/user" role="button">
-        <i class="fa fa-user-circle fa-6x mb-3"></i> User Management</a>
+    <h1 class="display-5"> Hello Admin</h1>  
+    <div class="d-flex justify-content-center ">
+        <div class="row mt-5 text-center">
+              
+            <a class="btn btn-primary btn-squared-default btn-lg m-2 " href="/login/user" role="button">
+                <i class="fa fa-user-circle fa-3x mb-3"></i><br> User Management</a>
 
-    <a class="btn btn-success btn-squared-default btn-lg m-2" href="/login/tools" role="button"> 
-        <i class="fa fa-suitcase fa-6x mb-3"></i> Assessment Tools</a>
+            <a class="btn btn-success btn-squared-default btn-lg m-2" href="/login/tools" role="button"> 
+                <i class="fa fa-suitcase fa-3x mb-3"></i><br> Assessment Tools</a>
 
-    <a class="btn btn-warning btn-squared-default btn-lg m-2" href="/login/request" role="button"> 
-        <i class="fa fa-paper-plane fa-6x mb-3"></i>Pending Tool Request </a>
+            <a class="btn btn-warning btn-squared-default btn-lg m-2" href="/login/request" role="button"> 
+                <i class="fa fa-paper-plane fa-3x mb-3"></i><br>Tool Request </a>
 
-    <a class="btn btn-danger btn-squared-default btn-lg m-2" href="/login/todolist" role="button">
-        <i class="fa fa-server fa-6x mb-3"></i><br>To-do List</a>
+            <a class="btn btn-danger btn-squared-default btn-lg m-2" href="/login/todolist" role="button">
+                <i class="fa fa-server fa-3x mb-3"></i><br>To-do List</a>
+                
+            <a class="btn btn-dark btn-squared-default btn-lg m-2 " href="/login/feedback" role="button">
+                <i class="fa fa-life-ring fa-3x mb-3"></i><br> Feeback</a>
 
-    <a class="btn btn-dark btn-squared-default btn-lg m-2 " href="/login/feedback" role="button"><i class="fa fa-life-ring fa-6x mb-3"></i><br> Feeback</a>
-    <a class="btn btn-secondary btn-squared-default btn-lg m-2" href="/login/draft" role="button"><p><i class="fab fa-firstdraft fa-6x mb-1"></i></p> Draft</a>
+            <a class="btn btn-secondary btn-squared-default btn-lg m-2" href="/login/draft" role="button">
+                <i class="fab fa-firstdraft fa-3x mb-3"></i><br> Draft</a>
+        </div>
+    </div>
 @endsection
