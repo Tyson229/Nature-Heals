@@ -40,8 +40,18 @@ class UserController extends Controller
             'fname' => 'alpha',
             'lname' => 'alpha',
             'email' => 'email:rfc|unique:users|required',
-            
-        ]);
+        ],
+        [
+            'fname.required' => 'First Name is required',
+            'lname.required' => 'Last Name is required',
+            'fname.alpha' => 'First Name must be alphabetic only',
+            'lname.alpha' => 'Last Name must be alphabetic only',
+            'email.email' => 'Email is invalid',
+            'email.required' => 'Email is required',
+            'email.unique' => 'Email has already been taken'
+        ]
+        
+        );
 
         $user = new User;
         $user->fname = $request->fname;
@@ -100,20 +110,5 @@ class UserController extends Controller
         $user =User::find($id);
         $user->delete();
         return redirect('login/user')->with('message', 'Successfully Deleted User!');
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'fname.required' => 'First Name is required',
-            'lname.required' => 'Last Name is required',
-            'fname.alpha' => 'First Name must be alphabetic only',
-            'lname.alpha' => 'Last Name must be alphabetic only',
-        ];
     }
 }

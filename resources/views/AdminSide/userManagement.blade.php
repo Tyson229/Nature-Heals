@@ -48,6 +48,7 @@
                 <button class=" btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createUserForm"><i class="fas fa-plus"></i> Add New Admin</button>
             </div>
             <div class="col-sm-4"></div>
+            
             <!--Search Bar-->
             <div class="col-sm-5">
                 <div class="input-group rounded">
@@ -102,7 +103,7 @@
                                     </div>
 
                                     
-                                    <!--Last Name-->
+                                    <!--Email-->
                                     <div class="col-sm-3">
                                         <label for="createEmailLabel" class="col-form-label">Email</label>
                                     </div>
