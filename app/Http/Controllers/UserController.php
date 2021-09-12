@@ -81,8 +81,16 @@ class UserController extends Controller
                 'required',
                 'email:rfc',
                 Rule::unique('users')->ignore($id,'users.id')
-            ],
-            
+            ],   
+        ],
+        [
+            'fname.required' => 'First Name is required',
+            'lname.required' => 'Last Name is required',
+            'fname.alpha' => 'First Name must be alphabetic only',
+            'lname.alpha' => 'Last Name must be alphabetic only',
+            'email.email' => 'Email is invalid',
+            'email.required' => 'Email is required',
+            'email.unique' => 'Email has already been taken'
         ]);
 
         $user = User::find($id);
