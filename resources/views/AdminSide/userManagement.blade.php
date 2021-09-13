@@ -51,13 +51,14 @@
             
             <!--Search Bar-->
             <div class="col-sm-5">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                      aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                      <i class="fas fa-search"></i>
-                    </span>
-                </div>
+                <form action="/login/user" method="GET" role="search">
+                    <div class="input-group rounded">
+                        <input type="text" class="form-control rounded" name="term" id="term" placeholder="Search"  />
+                        <button class="btn btn-secondary" type="submit" title="Search user">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
         

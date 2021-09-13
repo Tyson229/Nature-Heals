@@ -15,14 +15,25 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $users = DB::table('users')
                     ->join('roles','role_ID','=','roles.id')
                     ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
+                    ->where([
+                        [ function ($query) use ($request){
+                            if(($term = $request->term)){
+                                $query->orWhere('fname','LIKE','%' . $term . '%')
+                                      ->orWhere('lname','LIKE','%' . $term . '%')
+                                      ->orWhere('email','LIKE','%' . $term . '%')
+                                      ->get();
+                            }
+                        }]
+                    ])
                     ->orderBy('users.id','desc')
                     ->paginate(7); 
+
 
         return view('AdminSide.userManagement')
                     ->with('users', $users);         
@@ -102,8 +113,8 @@ class UserController extends Controller
         $user->updated_at = now();
 
         $user->save();
-        return redirect('login/user')->with('message', 'Successfully Updated User!');
-
+        //return redirect('login/user')->with('message', 'Successfully Updated User!');
+        return back()->with('message', 'Successfully Updated User!');
 
     }
 
