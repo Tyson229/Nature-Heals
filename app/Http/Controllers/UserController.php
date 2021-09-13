@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
+use \Illuminate\Foundation\Validation\ValidatesRequests;
 class UserController extends Controller
 {
     /**
@@ -47,12 +47,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validate =$request->validate([
+        $validator = Validator::make($request->all(),[
             'fname' => 'alpha',
             'lname' => 'alpha',
             'email' => 'email:rfc|unique:users|required',
-        ],
-        [
+        ],[
             'fname.required' => 'First Name is required',
             'lname.required' => 'Last Name is required',
             'fname.alpha' => 'First Name must be alphabetic only',
@@ -60,9 +59,12 @@ class UserController extends Controller
             'email.email' => 'Email is invalid',
             'email.required' => 'Email is required',
             'email.unique' => 'Email has already been taken'
-        ]
-        
-        );
+        ]);
+
+        if($validator->fails()){
+            return redirect('login/user')->withErrors($validator,'store')->withInput();
+        }
+
 
         $user = new User;
         $user->fname = $request->fname;
@@ -85,16 +87,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate =$request->validate([
-            'fname' => 'required|alpha',
-            'lname' => 'required|alpha',
-            'email' => [
-                'required',
-                'email:rfc',
-                Rule::unique('users')->ignore($id,'users.id')
-            ],   
-        ],
-        [
+
+        $validator = Validator::make($request->all(),[
+            'fname' => 'alpha',
+            'lname' => 'alpha',
+            'email' => 'email:rfc|unique:users|required',
+        ],[
             'fname.required' => 'First Name is required',
             'lname.required' => 'Last Name is required',
             'fname.alpha' => 'First Name must be alphabetic only',
@@ -103,6 +101,10 @@ class UserController extends Controller
             'email.required' => 'Email is required',
             'email.unique' => 'Email has already been taken'
         ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator,'update')->with('id',$id);
+        }
 
         $user = User::find($id);
         $user->fname = $request->input('fname');

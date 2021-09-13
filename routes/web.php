@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ToolsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +42,9 @@ Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']
 
 Route::get('/login/home', [PagesController::class,'adminHome']);
 
-//Route::get('/login/user', [UserController::class, 'index']);
-//Route::post('/login/user/store', [UserController::class, 'store']);
 Route::resource('login/user',UserController::class);
+Route::resource('login/tools',ToolsController::class);
+
 
 Route::get('/login/tools', [PagesController::class,'adminTools']);
 Route::get('/login/request', [PagesController::class,'adminRequest']);
