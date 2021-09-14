@@ -44,7 +44,7 @@
         <h1 class="display-5">Assessment Tools</h1>
         <div class="row">
             <!--Add new tool button-->
-            <div class="col-sm-3">
+            <div class="col-sm-3 mb-2">
             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                 data-bs-target="#createToolForm"><i class="fas fa-plus"></i> Add new tool</button>
             </div>
@@ -62,6 +62,7 @@
             </div>
         </div>
 
+
         <!--Create Modal-->
         <div class="modal fade" id="createToolForm" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="createToolFormLabel" aria-hidden="true">
@@ -76,7 +77,15 @@
                         @csrf
                         <div class="modal-body">
                             <div class="container bg-white">
-                                
+                                    @if ($errors->hasBag('store'))
+                                        <div class="alert alert-danger">
+                                            @foreach ($errors->store->all() as $error)
+                                            <ul>
+                                                <li>{{ $error }}</li>
+                                            </ul>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <div class="main">
                                         <h2>Tool Details</h2> 
                                         <!--Tool Name-->
@@ -95,37 +104,39 @@
                                                 <label for="createDescription" class="col-form-label">Description</label>
                                             </div>
                                             <div class="col">
-                                                <textarea id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..." required></textarea>
+                                                <textarea id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..."></textarea>
                                             </div>
                                         </div>   
                                         <!--Health Domain & Age Group-->
                                         <div class="row mb-3">
                                             <div class="col-sm-2">
-                                                <label for="createHealthDomainLabel" class="col-form-label">Health Domain</label>
+                                                <label for="createHealthDomain" class="col-form-label">Health Domain</label>
                                             </div>
                                             <div class="col-sm-3">
-                                                <select id="createHealthDomainLabel" name="createHealthDomainLabel"  class="form-select" required>
+                                                <select id="createHealthDomain" name="createHealthDomain"  class="form-select" required>
                                                     <option>Choose...</option>
-                                                    <option value="1">Emotional</option>
-                                                    <option value="2">Social</option>
-                                                    <option value="3">Physical</option>
-                                                    <option value="4">Cognitive</option>
-                                                    <option value="5">Spiritual</option>
-                                                    <option value="6">Employment</option>
+                                                    <option value="Emotional">Emotional</option>
+                                                    <option value="Social">Social</option>
+                                                    <option value="Physical">Physical</option>
+                                                    <option value="Cognitive">Cognitive</option>
+                                                    <option value="Spiritual">Spiritual</option>
+                                                    <option value="Employment">Employment</option>
                                                 </select>    
                                             </div>
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-2">
-                                                <label for="createAgeGroupLabel" class="col-form-label">Age Group</label>
+                                                <label for="createAgeGroup" class="col-form-label">Age Group</label>
                                             </div>
                                             <div class="col-sm-3">
-                                                <select id="createAgeGroupLabel" name="createAgeGroupLabel" class="form-select" required>
+                                                <select id="createAgeGroup" name="createAgeGroup" class="form-select" required>
                                                     <option>Choose...</option>
-                                                    <option value="1">Child 0-11</option>
-                                                    <option value="2">Youth 12-17</option>
-                                                    <option value="3">Young Adult 18-25</option>
-                                                    <option value="4">Senior 55 and over</option>
-                                                    <option value="5">All</option>
+                                                    <option value="All" selected>All</option>
+                                                    <option value="0-10 years">0-10 years</option>
+                                                    <option value="11-19 years">11-19 years</option>
+                                                    <option value="20-29 years">20-29 years</option>
+                                                    <option value="30-39 years">30-39 years</option>
+                                                    <option value="40-49 years">40-49 years</option>
+                                                    <option value="+50 years">+50 years</option>
                                                 </select>    
                                             </div>
                                         </div>
@@ -133,28 +144,34 @@
                                         <!--Notes-->
                                         <div class="row mb-3">
                                             <div class="col-sm-2">
-                                                <label for="createNotesLabel" class="col-form-label">Notes</label>
+                                                <label for="createNotes" class="col-form-label">Notes</label>
                                             </div>     
                                             <div class="col-sm-10">
-                                                <textarea id="createNotesLabel" name="createNotesLabel" class="form-control" rows="3" placeholder="Write your note here..."></textarea>
+                                                <textarea id="createNotes" name="createNotes" class="form-control" rows="3" placeholder="Write your note here..."></textarea>
                                             </div>
                                         </div>
                     
                                         <!--Link-->
                                         <div class="row mb-3">     
                                             <div class="col-sm-2">
-                                                <label for="createLinkLabel" class="col-form-label">Link</label>
+                                                <label class="col-form-label">Study(s) has used this tool</label>
                                             </div>
-                                            <div class="col-sm-10 links">
-                                                <div class="row">
-                                                    <div class="col-sm-7">
+                                            <div class="col-sm-10" id="studies">
+                                                <div class="row mb-2">
+                                                    <div class="col-sm-6">
+                                                        <input id="createStudyLabel" name="createStudyLabel" class="form-control" placeholder="Type the study name">
+                                                    </div>
+                                                    <div class="col-sm-4">
                                                         <input id="createLinkLabel" name="createLinkLabel" class="form-control" placeholder="Upload your link here...">
                                                     </div>
                                                     <div class="col-sm-1">
-                                                        <button name="addLink" id="addLink" class="btn btn-outline-primary" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                        <button type="button" name="addLink" id="addLink" class="btn btn-primary plus" title="Add more links"><i class="fas fa-plus"></i></button>
                                                     </div>
-                                                    
+                                                    <div class="col-sm-1">
+                                                        <button type="button" name="minusLink" id="minusLink" class="btn btn-danger minus" title="Delete link" disabled><i class="fas fa-minus"></i></button>
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
                                             
                                         </div>
@@ -192,10 +209,10 @@
                                                         <!--Gender-->
                                                         <div class="row mb-3">
                                                             <div class="col-sm-2">
-                                                                <label for="createGenderLabel" class="col-form-label">Gender</label>
+                                                                <label for="createGender" class="col-form-label">Gender</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input id="createGenderLabel" name="createGenderLabel" class="form-control" placeholder="Gender">
+                                                                <input id="createGender" name="createGender" class="form-control" placeholder="Gender">
                                                             </div>
                                                         </div>
                     
@@ -208,10 +225,10 @@
                                                             <div class="col-sm-3">
                                                                 <select id="createCondition" name="createCondition" class="form-select">
                                                                     <option selected>Choose...</option>
-                                                                    <option value="1">PTSD</option>
-                                                                    <option value="2">Mental Health Disorders</option>
-                                                                    <option value="3">Physical/Development disabilities</option>
-                                                                    <option value="4">Substance misuse</option>
+                                                                    <option value="PTSD">PTSD</option>
+                                                                    <option value="Mental Health Disorders">Mental Health Disorders</option>
+                                                                    <option value="Physical/Development disabilities">Physical/Development disabilities</option>
+                                                                    <option value="Substance misuse">Substance misuse</option>
                                                                 </select>    
                                                             </div>
                                                             
@@ -223,11 +240,11 @@
                                                             <div class="col-sm-3">
                                                                 <select id="createModality" name="createModality" class="form-select">
                                                                     <option selected>Choose...</option>
-                                                                    <option value="1">Horticulture</option>
-                                                                    <option value="2">Equin Therapy</option>
-                                                                    <option value="3">Bush Therapy</option>
-                                                                    <option value="4">Therapeutic Recreation</option>
-                                                                    <option value="5">Outdoor Adventure</option>
+                                                                    <option value="Horticulture">Horticulture</option>
+                                                                    <option value="Equin Therapy">Equin Therapy</option>
+                                                                    <option value="Bush Therapy">Bush Therapy</option>
+                                                                    <option value="Therapeutic Recreation">Therapeutic Recreation</option>
+                                                                    <option value="Outdoor Adventure">Outdoor Adventure</option>
                                                                 </select>    
                                                             </div>
                                                         </div>
@@ -239,25 +256,25 @@
                                                                 <label for="createSpecificNB" class="col-form-label">Specific for Nature Base</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <select id="createspecificNB" name="createspecificNB" class="form-select">
+                                                                <select id="createSpecificNB" name="createSpecificNB" class="form-select">
                                                                     <option >Choose...</option>
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="0">No</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
                                                                 </select>   
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                             <!--Settings-->
                                                             <div class="col-sm-2">
-                                                                <label for="createSettingLabel" class="col-form-label"> Nature Settings</label>
+                                                                <label for="createSetting" class="col-form-label" id="createSettingLabel" style="display: none"> Nature Settings</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <select id="createSettingLabel" name="createSettingLabel" class="form-select">
+                                                                <select id="createSetting" name="createSetting" class="form-select" style="display: none">
                                                                     <option >Choose...</option>
-                                                                    <option value="1">Bluespace</option>
-                                                                    <option value="2">Greenspace</option>
-                                                                    <option value="3">Wild Nature</option>
-                                                                    <option value="4">Camp/Residential</option>
-                                                                    <option value="5">Urban Nature</option>
+                                                                    <option value="Bluespace">Bluespace</option>
+                                                                    <option value="Greenspace">Greenspace</option>
+                                                                    <option value="Wild Nature">Wild Nature</option>
+                                                                    <option value="Camp/Residential">Camp/Residential</option>
+                                                                    <option value="Urban Nature">Urban Nature</option>
                                                                 </select>    
                                                             </div>
                                                         </div>    
@@ -279,8 +296,8 @@
                                                             <div class="col-sm-3">
                                                                 <select id="createValidity" name="createValidity" class="form-select">
                                                                     <option >Choose...</option>
-                                                                    <option value="1">Validate</option>
-                                                                    <option value="0">Not Validated</option>
+                                                                    <option value="Validated">Validated</option>
+                                                                    <option value="Not Validated">Not Validated</option>
                                                                 </select>    
                                                             </div>
                                                         </div>
@@ -300,52 +317,52 @@
                                                         <div class="row">
                                                             <!--Author-->
                                                             <div class="col-sm-2">
-                                                                <label for="createAuthorLabel" class="col-form-label">Author</label>
+                                                                <label for="createAuthor" class="col-form-label">Author</label>
                                                             </div>
                                                             <div class="col-sm-10 mb-3">
-                                                                <input id="createAuthorLabel" name="createAuthorLabel" class="form-control" placeholder="Author">
+                                                                <input id="createAuthor" name="createAuthor" class="form-control" placeholder="Author">
                                                             </div>
                                                             <!--Title-->
                                                             <div class="col-sm-2">
-                                                                <label for="createTitleLabel" class="col-form-label">Article Title</label>
+                                                                <label for="createTitle" class="col-form-label">Article Title</label>
                                                             </div>
                                                             <div class="col-sm-10 mb-3">
-                                                                <input id="createTitleLabel" name="createTitleLabel" class="form-control" placeholder="Title">
+                                                                <input id="createTitle" name="createTitle" class="form-control" placeholder="Title">
                                                             </div>
                                                             <!--Date-->
                                                             <div class="col-sm-2">
-                                                                <label for="createDateLabel" class="col-form-label">Date</label>
+                                                                <label for="createYear" class="col-form-label">Year</label>
                                                             </div>
                                                             <div class="col-sm-3 mb-3">
-                                                                <input id="createDateLabel" name="createDateLabel" class="form-control" placeholder="Date">
+                                                                <input id="createYear" name="createYear" class="form-control" placeholder="Year">
                                                             </div>
                                                             <div class="col-sm-1"></div>
                                                             <!--Country-->
                                                             <div class="col-sm-1">
-                                                                <label for="createCountryLabel" class="col-form-label">Country</label>
+                                                                <label for="createCountry" class="col-form-label">Country</label>
                                                             </div>
                                                             <div class="col-sm-3 mb-3">
-                                                                <input id="createCountryLabel" name="createCountryLabel" class="form-control" placeholder="Country">
+                                                                <input id="createCountry" name="createCountry" class="form-control" placeholder="Country">
                                                             </div>
                                                         </div>
                                     
                                                         <!--Journal-->    
                                                         <div class="row">
                                                             <div class="col-sm-2">
-                                                                <label for="createJournalLabel" class="col-form-label">Journal</label>
+                                                                <label for="createJournal" class="col-form-label">Journal</label>
                                                             </div>
                                                             <div class="col-sm-10 mb-3">
-                                                                <input id="createJournalLabel" name="createJournalLabel" class="form-control" placeholder="Journal">
+                                                                <input id="createJournal" name="createJournal" class="form-control" placeholder="Journal">
                                                             </div>
                                                         </div>
                                                         
                                                         <!--Measure-->
                                                         <div class="row mb-3">
                                                             <div class="col-sm-2">
-                                                                <label for="createMeasureLabel" class="col-form-label">Measure</label>
+                                                                <label for="createMeasure" class="col-form-label">Measure</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <select id="createMeasureLabel" name="createMeasureLabel" class="form-select">
+                                                                <select id="createMeasure" name="createMeasure" class="form-select">
                                                                     <option selected>Choose...</option>
                                                                     <option value="Wellbeing">Wellbeing</option>
                                                                     <option value="Self Determination">Self Determination</option>
@@ -356,10 +373,10 @@
                                                         <!--Program Content-->
                                                         <div class="row mb-3">
                                                             <div class="col-sm-2">
-                                                                <label for="createProgramContentLabel" class="col-form-label">Program Content</label>
+                                                                <label for="createProgramContent" class="col-form-label">Program Content</label>
                                                             </div>
                                                             <div class="col-sm-10" >
-                                                                <textarea class="form-control" id="createProgramContentLabel" name="createProgramContentLabel" rows="2"></textarea>   
+                                                                <textarea class="form-control" id="createProgramContent" name="createProgramContent" rows="2"></textarea>   
                                                             </div>
                                                         </div>
                                                     </div>
@@ -371,9 +388,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Save as
+                            <button type="submit" name="saveDraft" value="Save" class="btn btn-secondary" data-bs-dismiss="modal">Save as
                                 Draft</button>
-                            <button type="button" class="btn btn-primary">Add</button>
+                            <button type="submit" name="add" value="Submit" class="btn btn-primary">Add</button>
                         </div>
                     </form>
                 </div>
@@ -381,8 +398,18 @@
         </div>
         <!--Create Modal-->
 
+        @if(session('message'))
+            <div class="alert alert-success mb-1" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <strong>
+                    {{ session('message')}}            
+                </strong>
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <!--Table List-->
-        <div class="container-fluid mt-2 p-0">
+        <div class="container-fluid p-0">
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -395,72 +422,39 @@
                 </thead>
 
                 <tbody class="bg-white">
-                    <tr>
-                        <th scope="row">1</th>
-                        <td class="col-sm-4">The Resilience Questionnaire</td>
-                        <td>Emotional</td>
+                @foreach ($tools as $tool)
                     
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
                     <tr>
-                        <th scope="row">2</th>
-                        <td>Resilience Scale</td>
-                        <td>Emotional</td>
+                        <th scope="row">{{ $loop ->iteration }}</th>
+                        <td class="col-sm-4">{{ $tool->tool_name }}</td>
+                        
+                        <td>{{ $tool->health_domain }}</td>
                         
                         <td>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
+                                @if (strcmp(($tool->tool_statuses.status),"Hidden"))
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                @else
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                                @endif
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
                             </div>
+                            
                         </td>
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                             data-bs-target="#createToolForm">Edit</button>
                             <button class="btn btn-danger">Delete</button>
                         </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Response to Stress Questionnaire - Outdoor Adventure Version</td>
-                        <td>Cognitve</td>
-                        
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
+                        </tr>
+                @endforeach    
                 </tbody>
             </table>
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="row">
+                <div class="col-sm-7 offset-sm-5">
+                    {{ $tools->links() }}
+                </div>    
+            </div>
         </div>
         <!--Table List-->
     </main>
@@ -469,19 +463,44 @@
 @section('script')
     <script type="text/javascript">
         $(function() {
-            $('a.pl').click(function(e) {
+            $('button.plus').click(function(e) {
+                console.log('work');
                 e.preventDefault();
-                $('#phone').append('<input type="text" value="Phone">');
+                var html = '<div class="row mb-2"><div class="col-sm-6"><input id="createMoreStudyLabel[]" name="createMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input id="createMoreLinkLabel[]" name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div>'
+                $('#studies').append(html);
+                $('button.minus').removeAttr('disabled');
             });
-            $('a.mi').click(function (e) {
+
+            $('button.minus').click(function (e) {
                 e.preventDefault();
-                if ($('#phone input').length > 1) {
-                    $('#phone').children().last().remove();
+                if ($('#studies > div').length > 1) {
+                    $('#studies').children().last().remove();
                 }
             });
+
+
+            $('#createSpecificNB').change(function(e) {
+                var selected = $(e.currentTarget).val();
+                $('#createSetting').hide();
+                $('#createSettingLabel').hide();
+                switch(selected){
+                    case "Yes":$('#createSetting').show();
+                               $('#createSettingLabel').show();
+                                break;
+                    case "No":$('#createSetting').hide();
+                              $('#createSettingLabel').hide();
+                             break;
+                    default: break;    
+                }
+            });   
         });
     </script>
-    <!--<div class="col-sm-1">
-        <button name="addLink" id="addLink" class="btn btn-outline-danger" title="Delete link"><i class="fas fa-minus"></i></button>
-    </div>-->
+    <script type="text/javascript">
+        @if (count($errors->store)>0)
+        $(function() {
+            $('#createToolForm').modal('show');
+        });
+        @endif
+    </script>
+    
 @endsection
