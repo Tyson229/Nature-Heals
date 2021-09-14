@@ -104,7 +104,7 @@
                                                 <label for="createDescription" class="col-form-label">Description</label>
                                             </div>
                                             <div class="col">
-                                                <textarea id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..."></textarea>
+                                                <textarea id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..." required></textarea>
                                             </div>
                                         </div>   
                                         <!--Health Domain & Age Group-->
@@ -114,7 +114,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <select id="createHealthDomain" name="createHealthDomain"  class="form-select" required>
-                                                    <option>Choose...</option>
+                                                    <option value="">Choose...</option>
                                                     <option value="Emotional">Emotional</option>
                                                     <option value="Social">Social</option>
                                                     <option value="Physical">Physical</option>
@@ -129,7 +129,6 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <select id="createAgeGroup" name="createAgeGroup" class="form-select" required>
-                                                    <option>Choose...</option>
                                                     <option value="All" selected>All</option>
                                                     <option value="0-10 years">0-10 years</option>
                                                     <option value="11-19 years">11-19 years</option>
@@ -212,7 +211,11 @@
                                                                 <label for="createGender" class="col-form-label">Gender</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input id="createGender" name="createGender" class="form-control" placeholder="Gender">
+                                                                <select id="createGender" name="createGender" class="form-select" placeholder="Gender">
+                                                                    <option value ="Any" selected>Any</option>
+                                                                    <option value ="Female">Female</option>
+                                                                    <option value ="Male">Male</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                     
@@ -224,7 +227,7 @@
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createCondition" name="createCondition" class="form-select">
-                                                                    <option selected>Choose...</option>
+                                                                    <option value="" selected>Choose...</option>
                                                                     <option value="PTSD">PTSD</option>
                                                                     <option value="Mental Health Disorders">Mental Health Disorders</option>
                                                                     <option value="Physical/Development disabilities">Physical/Development disabilities</option>
@@ -239,7 +242,7 @@
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createModality" name="createModality" class="form-select">
-                                                                    <option selected>Choose...</option>
+                                                                    <option value="" selected>Choose...</option>
                                                                     <option value="Horticulture">Horticulture</option>
                                                                     <option value="Equin Therapy">Equin Therapy</option>
                                                                     <option value="Bush Therapy">Bush Therapy</option>
@@ -257,9 +260,9 @@
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createSpecificNB" name="createSpecificNB" class="form-select">
-                                                                    <option >Choose...</option>
+                                                                    <option value="No" selected>No</option>
                                                                     <option value="Yes">Yes</option>
-                                                                    <option value="No">No</option>
+                                                                    
                                                                 </select>   
                                                             </div>
                                                             <div class="col-sm-1"></div>
@@ -269,7 +272,7 @@
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createSetting" name="createSetting" class="form-select" style="display: none">
-                                                                    <option >Choose...</option>
+                                                                    <option value="" selected>Choose...</option>
                                                                     <option value="Bluespace">Bluespace</option>
                                                                     <option value="Greenspace">Greenspace</option>
                                                                     <option value="Wild Nature">Wild Nature</option>
@@ -295,7 +298,7 @@
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createValidity" name="createValidity" class="form-select">
-                                                                    <option >Choose...</option>
+                                                                    <option value="" selected>Choose...</option>
                                                                     <option value="Validated">Validated</option>
                                                                     <option value="Not Validated">Not Validated</option>
                                                                 </select>    
@@ -363,7 +366,7 @@
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createMeasure" name="createMeasure" class="form-select">
-                                                                    <option selected>Choose...</option>
+                                                                    <option value="" selected>Choose...</option>
                                                                     <option value="Wellbeing">Wellbeing</option>
                                                                     <option value="Self Determination">Self Determination</option>
                                                                     <option value="Reseliance">Reseliance</option>
@@ -432,8 +435,8 @@
                         
                         <td>
                             <div class="form-check form-switch">
-                                @if (strcmp(($tool->tool_statuses.status),"Hidden"))
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                @if ($tool->status_ID == 1)
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" >
                                 @else
                                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
                                 @endif
