@@ -22,15 +22,18 @@ class ToolsController extends Controller
      */
     public function index()
     {
-        $tools = DB::table('tools')
-                ->join('tool_statuses','status_ID','=','tool_statuses.id')
-                -> select('tools.*','tool_statuses.id')
-                //->join('link_lists','tools.id','=','link_lists.tool_ID')
-                //-> select('tools.*','tool_statuses.status','link_lists.study_name','link_lists.link')
-                ->orderBy('tools.id','desc')
+        $tools = DB::table('tool_statuses')
+                ->join('tools','tools.status_ID','=','tool_statuses.id')
+                -> select('tools.*','tool_statuses.status')
+                ->orderBy('tools.created_at','desc')
                 ->paginate(7);
-        
-        return view('AdminSide.tools')->with('tools', $tools);       
+
+        $link = DB::table('tools')
+                ->leftJoin('link_lists','link_lists.tool_ID','=','tools.id')
+                -> select('tools.id','link_lists.study_name','link_lists.link')
+                ->orderBy('tools.created_at', 'desc')
+                ->get();        
+        return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);       
     }
 
     /**
@@ -57,7 +60,8 @@ class ToolsController extends Controller
             'createDescription' => 'required|string',
             'createStudyLabel' => 'nullable|string',
             'createLinkLabel' => 'nullable|url',
-            'createMoreStudyLabel' => 'arrray|min:1',
+
+            'createMoreStudyLabel' => 'array|min:1',
             'createMoreStudyLabel.*'=> 'string',
             'createMoreLinkLabel' => 'array|min:1',
             'createMoreLinkLabel.*' => 'nullable|url',
@@ -88,7 +92,7 @@ class ToolsController extends Controller
 
             'createMoreStudyLabel.*.string' => 'Study Name must be alphanumeric only',
             'createMoreStudyLabel.*.alpha_num' => 'Study Name must be alphanumeric only',
-            'createMoreLinkLabel.*.url'=>'Link must be a URL',
+            'createMoreLinkLabel.*.url'=>'Link must be an URL',
 
         ]);
 
@@ -135,7 +139,7 @@ class ToolsController extends Controller
         $temp_id = tools::orderBy('created_at','desc')->first()->id;
 
         //Add study if have
-        if(!isNull($request->createStudyLabel)){
+        if(isNull($request->createStudyLabel)){
             $linkList = new linkList;
             $linkList->study_name = $request->createStudyLabel;
             $linkList->link = $request->createLinkLabel;
@@ -144,12 +148,12 @@ class ToolsController extends Controller
             $linkList->tool_ID = $temp_id;
             $linkList->save();
         }
-        if(!isNull($request->createMoreStudyLabel)){
+        if(isNull($request->createMoreStudyLabel)){
             $studiesCount = count($request->createMoreStudyLabel);
             for( $i = 0; $i <  $studiesCount;$i++){
                 $linkList = new linkList;
                 $linkList->study_name = ($request->createMoreStudyLabel)[$i];
-                $linkList->link = ($request->createLinkLabel)[$i];
+                $linkList->link = ($request->createMoreLinkLabel)[$i];
                 $linkList->created_at= now();
                 $linkList->updated_at= now();
                 $linkList->tool_ID = $temp_id;
