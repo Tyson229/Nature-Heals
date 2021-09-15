@@ -50,7 +50,7 @@
                         <p>Phone: 000-0000</p>
                     </div>
                     <div class="col-sm-5 ">
-                        <img src="/pictures/wsu-shield.jpg" class="logo float-end border rounded-3">
+                        <img src="/pictures/wsd.jpg" class="logo float-end border rounded-2" style="width:370px; ">
                     </div>
                 </div>
                 <div class="footer-copyright text-center">© 2021 Copyright: Nature Heals </div>

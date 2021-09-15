@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
+use App\Http\Controllers\ContactController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +32,11 @@ Route::get('/tools', [PagesController::class,'tools']);
 Route::get('/detailed', [PagesController::class,'detailed']);
 
 //Contact Us
-Route::get('/contact', [PagesController::class,'contact']);
+Route::get('/contact', [PagesController::class,'contact'])->name('contact.index'); 
+
+//send information of contact us page to email
+Route::post('send-contact-us', [ContactController::class,'sendContactUs'])->name('contact.send-information'); 
+
 
 //Request page
 Route::get('/request', [PagesController::class,'request']);
