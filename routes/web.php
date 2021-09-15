@@ -51,8 +51,6 @@ Route::get('/login/home', [PagesController::class,'adminHome']);
 Route::resource('login/user',UserController::class);
 Route::resource('login/tools',ToolsController::class);
 
-
-Route::get('/login/tools', [PagesController::class,'adminTools']);
 Route::get('/login/request', [PagesController::class,'adminRequest']);
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);

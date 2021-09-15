@@ -174,7 +174,7 @@
                 <tbody class="bg-white">
                 @foreach ($users as $user)
                     <tr>
-                        <th scope="row">{{ $loop ->iteration }}</th>
+                        <th scope="row">{{ $loop->iteration + $users->firstItem() - 1 }}</th>
                         <td>{{ $user->fname }} {{ $user->lname }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role_name }}</td>

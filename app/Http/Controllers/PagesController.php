@@ -38,9 +38,6 @@ class PagesController extends Controller
         return view('AdminSide.homepage');
     }
 
-    public function adminTools(){
-        return view('AdminSide.tools');
-    }
     public function adminRequest(){
         return view('AdminSide.pendingRequest');
     }
