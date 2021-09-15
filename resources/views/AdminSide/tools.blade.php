@@ -476,25 +476,29 @@
                                                                     
                                                                 </div>
                                                             </div>-->
-                                                            <label for="createToolName" class="col-form-label"><strong>Tool Name:</strong></label>
-                                                            {{ $tool->tool_name }}
+                                                            <div class="row">
+                                                                <label for="createToolName" class="col-form-label"><strong>Tool Name: </strong> {{ $tool->tool_name }}</label>
+                                                            </div>
+                                                            <div class="row">
+                                                            <label for="createDescription" class="col-form-label"><strong>Description:</strong> {{ $tool->tool_description }}</label>
+                                                            
+                                                            </div>
                                                             <!--Description-->  
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-2">
-                                                                    <label for="createDescription" class="col-form-label"><strong>Description:</strong></label>
+                                                                    
                                                                 </div>
                                                                 <div class="col">
-                                                                    {{ $tool->tool_description }}
+                                                                    
                                                                 </div>
-                                                            </div>   
+                                                            </div>  
+
                                                             <!--Health Domain & Age Group-->
                                                             <div class="row mb-3">
-                                                                <div class="col-sm-2">
-                                                                    <label for="createHealthDomain" class="col-form-label"><strong>Health Domain:</strong></label>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    {{ $tool->health_domain }}  
-                                                                </div>
+                                                                
+                                                                    <label for="createHealthDomain" class="col-form-label"><strong>Health Domain:</strong>{{ $tool->health_domain }}</label>
+                                                                
+
                                                             </div>
 
                                                             <div class="row mb-3">
