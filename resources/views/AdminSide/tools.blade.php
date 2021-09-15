@@ -468,15 +468,16 @@
                                                         <div class="main">
                                                             <h2>Tool Details</h2> 
                                                             <!--Tool Name-->
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-2">
+                                                            <!--<div class="row mb-3">
+                                                                <div class="col-sm-12">
                                                                     <label for="createToolName" class="col-form-label"><strong>Tool Name:</strong></label>
                                                                 </div>
                                                                 <div class="col-sm">
-                                                                    {{ $tool->tool_name }}
+                                                                    
                                                                 </div>
-                                                            </div>
-                                                            
+                                                            </div>-->
+                                                            <label for="createToolName" class="col-form-label"><strong>Tool Name:</strong></label>
+                                                            {{ $tool->tool_name }}
                                                             <!--Description-->  
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-2">
@@ -664,16 +665,17 @@
                                                                                 <div class="col-sm-3 mb-3">
                                                                                     {{ $tool->year }}
                                                                                 </div>
-                                                                                </div
-                                                                                <div class="col-sm-1"></div>
+                                                                            </div>
+                                                                            <div class="row">
                                                                                 <!--Country-->
                                                                                 <div class="col-sm-1">
-                                                                                    <label for="createCountry" class="col-form-label">Country: </label>
+                                                                                    <label for="createCountry" class="col-form-label"><strong>Country:<strong></label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
                                                                                     {{ $tool->country }}
                                                                                 </div>
                                                                             </div>
+                                                                        
                                                         
                                                                             <!--Journal-->    
                                                                             <div class="row">
