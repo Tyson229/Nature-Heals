@@ -139,7 +139,7 @@ class ToolsController extends Controller
         $temp_id = tools::orderBy('created_at','desc')->first()->id;
 
         //Add study if have
-        if(isNull($request->createStudyLabel)){
+        if(!is_null($request->createStudyLabel)){
             $linkList = new linkList;
             $linkList->study_name = $request->createStudyLabel;
             $linkList->link = $request->createLinkLabel;
@@ -148,7 +148,7 @@ class ToolsController extends Controller
             $linkList->tool_ID = $temp_id;
             $linkList->save();
         }
-        if(isNull($request->createMoreStudyLabel)){
+        if(!is_null($request->createMoreStudyLabel)){
             $studiesCount = count($request->createMoreStudyLabel);
             for( $i = 0; $i <  $studiesCount;$i++){
                 $linkList = new linkList;
