@@ -167,9 +167,7 @@
                                                     <div class="col-sm-1">
                                                         <button type="button" name="addLink" id="addLink" class="btn btn-primary plus" title="Add more links"><i class="fas fa-plus"></i></button>
                                                     </div>
-                                                    <div class="col-sm-1">
-                                                        <button type="button" name="minusLink" id="minusLink" class="btn btn-danger minus" title="Delete link" disabled><i class="fas fa-minus"></i></button>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                             <input type="hidden" value="1" id="total">
@@ -673,7 +671,7 @@
                                                                             <div class="row">
                                                                                 <!--Country-->
                                                                                 <div class="col-sm-1">
-                                                                                    <label for="createCountry" class="col-form-label"><strong>Country:<strong></label>
+                                                                                    <label for="createCountry" class="col-form-label"><strong>Country:</strong></label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
                                                                                     {{ $tool->country }}
@@ -723,23 +721,24 @@
                             <!--Details Modal-->
 
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#editToolForm">Edit</button>
+                            data-bs-target="#editToolForm-{{ $tool->id }}">Edit</button>
 
-                            <!--Create Modal-->
-                            <div class="modal fade" id="editToolForm" data-bs-backdrop="static" tabindex="-1"
-                            aria-labelledby="createToolFormLabel" aria-hidden="true">
+                            <!--Edit Modal-->
+                            <div class="modal fade" id="editToolForm-{{ $tool->id }}" data-bs-backdrop="static" tabindex="-1"
+                            aria-labelledby="editToolFormLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header bg-dark">
-                                            <h1 class="text-white">Add new tool</h1>
+                                            <h1 class="text-white">Edit Current Tool</h1>
                                             <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="/login/tools" method="POST">
+                                        <form action="/login/tools/{{ $tool->id }}" method="POST">
                                             @csrf
+                                            @method('PUT')
                                             <div class="modal-body">
                                                 <div class="container bg-white">
-                                                        @if ($errors->hasBag('store'))
+                                                        @if ($errors->hasBag('update'))
                                                             <div class="alert alert-danger">
                                                                 @foreach ($errors->store->all() as $error)
                                                                 <ul>
@@ -753,51 +752,162 @@
                                                             <!--Tool Name-->
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-2">
-                                                                    <label for="createToolName" class="col-form-label">Tool Name *</label>
+                                                                    <label for="editToolName" class="col-form-label">Tool Name *</label>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <input id="createToolName" name="createToolName" class="form-control" placeholder="Enter your tool name here..." required>
+                                                                    <input id="editToolName" name="editToolName" class="form-control" value="{{ $tool->tool_name }}" required>
                                                                 </div>
                                                             </div>
                                                             
                                                             <!--Description-->  
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-2">
-                                                                    <label for="createDescription" class="col-form-label">Description *</label>
+                                                                    <label for="editDescription" class="col-form-label">Description *</label>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <textarea id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..." required></textarea>
+                                                                    <textarea id="editDescription" name="editDescription" class="form-control" value="{{ $tool->tool_description }}" required></textarea>
                                                                 </div>
                                                             </div>   
                                                             <!--Health Domain & Age Group-->
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-2">
-                                                                    <label for="createHealthDomain" class="col-form-label">Health Domain *</label>
+                                                                    <label for="editHealthDomain" class="col-form-label">Health Domain *</label>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <select id="createHealthDomain" name="createHealthDomain"  class="form-select" required>
-                                                                        <option value="">Choose...</option>
-                                                                        <option value="Emotional">Emotional</option>
-                                                                        <option value="Social">Social</option>
-                                                                        <option value="Physical">Physical</option>
-                                                                        <option value="Cognitive">Cognitive</option>
-                                                                        <option value="Spiritual">Spiritual</option>
-                                                                        <option value="Employment">Employment</option>
+                                                                    <select id="editHealthDomain" name="editHealthDomain"  class="form-select" required>
+                                                                        @switch($tool->health_domain)
+                                                                            @case("Emotional")
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="Emotional" selected>Emotional</option>
+                                                                                <option value="Social">Social</option>
+                                                                                <option value="Physical">Physical</option>
+                                                                                <option value="Cognitive">Cognitive</option>
+                                                                                <option value="Spiritual">Spiritual</option>
+                                                                                <option value="Employment">Employment</option>
+                                                                                @break
+                                                                            @case("Social")
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="Emotional">Emotional</option>
+                                                                                <option value="Social" selected>Social</option>
+                                                                                <option value="Physical">Physical</option>
+                                                                                <option value="Cognitive">Cognitive</option>
+                                                                                <option value="Spiritual">Spiritual</option>
+                                                                                <option value="Employment">Employment</option>
+                                                                                @break
+                                                                            @case("Physical")
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="Emotional">Emotional</option>
+                                                                                <option value="Social" selected>Social</option>
+                                                                                <option value="Physical" selected>Physical</option>
+                                                                                <option value="Cognitive">Cognitive</option>
+                                                                                <option value="Spiritual">Spiritual</option>
+                                                                                <option value="Employment">Employment</option>
+                                                                                @break   
+                                                                            @case("Cognitive")
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="Emotional">Emotional</option>
+                                                                                <option value="Social" selected>Social</option>
+                                                                                <option value="Physical">Physical</option>
+                                                                                <option value="Cognitive" selected>Cognitive</option>
+                                                                                <option value="Spiritual">Spiritual</option>
+                                                                                <option value="Employment">Employment</option>
+                                                                                @break
+                                                                            @case("Spiritual")
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="Emotional">Emotional</option>
+                                                                                <option value="Social" selected>Social</option>
+                                                                                <option value="Physical">Physical</option>
+                                                                                <option value="Cognitive">Cognitive</option>
+                                                                                <option value="Spiritual" selected>Spiritual</option>
+                                                                                <option value="Employment">Employment</option>
+                                                                                @break
+                                                                            @case("Employment")
+                                                                                <option value="">Choose...</option>
+                                                                                <option value="Emotional">Emotional</option>
+                                                                                <option value="Social" selected>Social</option>
+                                                                                <option value="Physical">Physical</option>
+                                                                                <option value="Cognitive">Cognitive</option>
+                                                                                <option value="Spiritual">Spiritual</option>
+                                                                                <option value="Employment" selected>Employment</option>
+                                                                                @break     
+                                                                        
+                                                                            @default                                                                                    
+                                                                        @endswitch
                                                                     </select>    
                                                                 </div>
                                                                 <div class="col-sm-1"></div>
                                                                 <div class="col-sm-2">
-                                                                    <label for="createAgeGroup" class="col-form-label">Age Group</label>
+                                                                    <label for="editAgeGroup" class="col-form-label">Age Group</label>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <select id="createAgeGroup" name="createAgeGroup" class="form-select" required>
-                                                                        <option value="All" selected>All</option>
-                                                                        <option value="0-10 years">0-10 years</option>
-                                                                        <option value="11-19 years">11-19 years</option>
-                                                                        <option value="20-29 years">20-29 years</option>
-                                                                        <option value="30-39 years">30-39 years</option>
-                                                                        <option value="40-49 years">40-49 years</option>
-                                                                        <option value="+50 years">+50 years</option>
+                                                                    <select id="editAgeGroup" name="editAgeGroup" class="form-select" required>
+                                                                        @switch($tool->age_group)
+                                                                            @case("All")
+                                                                                <option value="All" selected>All</option>
+                                                                                <option value="0-10 years">0-10 years</option>
+                                                                                <option value="11-19 years">11-19 years</option>
+                                                                                <option value="20-29 years">20-29 years</option>
+                                                                                <option value="30-39 years">30-39 years</option>
+                                                                                <option value="40-49 years">40-49 years</option>
+                                                                                <option value="+50 years">+50 years</option>
+                                                                                @break
+                                                                            @case("0-10 years")
+                                                                                <option value="All" selected>All</option>
+                                                                                <option value="0-10 years" selected>0-10 years</option>
+                                                                                <option value="11-19 years">11-19 years</option>
+                                                                                <option value="20-29 years">20-29 years</option>
+                                                                                <option value="30-39 years">30-39 years</option>
+                                                                                <option value="40-49 years">40-49 years</option>
+                                                                                <option value="+50 years">+50 years</option>
+                                                                                @break
+                                                                            @case("11-19 years")
+                                                                                <option value="All">All</option>
+                                                                                <option value="0-10 years">0-10 years</option>
+                                                                                <option value="11-19 years" selected>11-19 years</option>
+                                                                                <option value="20-29 years">20-29 years</option>
+                                                                                <option value="30-39 years">30-39 years</option>
+                                                                                <option value="40-49 years">40-49 years</option>
+                                                                                <option value="+50 years">+50 years</option>
+                                                                                @break
+                                                                            @case("20-29 years")
+                                                                                <option value="All">All</option>
+                                                                                <option value="0-10 years">0-10 years</option>
+                                                                                <option value="11-19 years">11-19 years</option>
+                                                                                <option value="20-29 years" selected>20-29 years</option>
+                                                                                <option value="30-39 years">30-39 years</option>
+                                                                                <option value="40-49 years">40-49 years</option>
+                                                                                <option value="+50 years">+50 years</option>
+                                                                                @break
+                                                                            @case("30-39 years")
+                                                                                <option value="All">All</option>
+                                                                                <option value="0-10 years">0-10 years</option>
+                                                                                <option value="11-19 years">11-19 years</option>
+                                                                                <option value="20-29 years">20-29 years</option>
+                                                                                <option value="30-39 years" selected>30-39 years</option>
+                                                                                <option value="40-49 years">40-49 years</option>
+                                                                                <option value="+50 years">+50 years</option>
+                                                                                @break
+                                                                            @case("40-49 years")
+                                                                                <option value="All" >All</option>
+                                                                                <option value="0-10 years">0-10 years</option>
+                                                                                <option value="11-19 years">11-19 years</option>
+                                                                                <option value="20-29 years">20-29 years</option>
+                                                                                <option value="30-39 years">30-39 years</option>
+                                                                                <option value="40-49 years" selected>40-49 years</option>
+                                                                                <option value="+50 years">+50 years</option>
+                                                                                @break
+                                                                            @case("+50 years")
+                                                                                <option value="All" >All</option>
+                                                                                <option value="0-10 years">0-10 years</option>
+                                                                                <option value="11-19 years">11-19 years</option>
+                                                                                <option value="20-29 years">20-29 years</option>
+                                                                                <option value="30-39 years">30-39 years</option>
+                                                                                <option value="40-49 years">40-49 years</option>
+                                                                                <option value="+50 years" selected>+50 years</option>
+                                                                                @break
+                                                                            @default            
+                                                                        @endswitch
+                                                                        
                                                                     </select>    
                                                                 </div>
                                                             </div>
@@ -805,10 +915,10 @@
                                                             <!--Notes-->
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-2">
-                                                                    <label for="createNotes" class="col-form-label">Notes</label>
+                                                                    <label for="editNotes" class="col-form-label">Notes</label>
                                                                 </div>     
                                                                 <div class="col-sm-10">
-                                                                    <textarea id="createNotes" name="createNotes" class="form-control" rows="3" placeholder="Write your note here..."></textarea>
+                                                                    <textarea id="editNotes" name="editNotes" class="form-control" rows="3" value="{{ $tool->notes }}"></textarea>
                                                                 </div>
                                                             </div>
                                         
@@ -817,33 +927,69 @@
                                                                 <div class="col-sm-2">
                                                                     <label class="col-form-label">Study(s) has used this tool</label>
                                                                 </div>
-                                                                <div class="col-sm-10" id="studies">
-                                                                    <div class="row mb-2">
+                                                                <div class="col-sm-10" id="retrieved_studies">
+                                                                    @php
+                                                                        $counter_link = 0;
+                                                                        $found_link = 0;
+                                                                    @endphp
+                                                                    @foreach ($link_lists as $link)
+                                                                            @if($link->id == $tool->id)
+                                                                                @php
+                                                                                    $counter_link++;
+                                                                                    $found_link = 1;
+                                                                                @endphp
+                                                                                @if ($counter_link == 1)
+                                                                                    <div class="row mb-2" >
+                                                                                        <div class="col-sm-6">
+                                                                                            <input id="editStudyLabel" name="editStudyLabel" class="form-control" value="{{ $link->study_name }}">
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <input id="editLinkLabel" name="editLinkLabel" class="form-control" value="{{ $link->link }}">
+                                                                                        </div>
+                                                                                        <div class="col-sm-1">
+                                                                                            <button type="button" name="addLink" id="editAddLink" class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                                        </div> 
+                                                                                    </div>
+                                                                                @else
+                                                                                    <div class="row mb-2">
+                                                                                        <div class="col-sm-6">
+                                                                                            <input name="createMoreStudyLabel[]" class="form-control" value="{{ $link->study_name }}">
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <input name="createMoreLinkLabel[]" class="form-control" value="{{ $link->link }}">
+                                                                                        </div>
+                                                                                        <div class="col-sm-1">
+                                                                                            <button type="button" name="minusLink" id="editMinusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                @endif      
+                                                                            @endif    
+                                                                    @endforeach
+                                                                    @if($found_link == 0)
+                                                                    <div class="row mb-2" >
                                                                         <div class="col-sm-6">
-                                                                            <input id="createStudyLabel" name="createStudyLabel" class="form-control" placeholder="Type the study name">
+                                                                            <input id="editStudyLabel" name="editStudyLabel" class="form-control" placeholder="Type the study name">
                                                                         </div>
                                                                         <div class="col-sm-4">
-                                                                            <input id="createLinkLabel" name="createLinkLabel" class="form-control" placeholder="Upload your link here...">
+                                                                            <input id="editLinkLabel" name="editLinkLabel" class="form-control" placeholder="Upload the link here...">
                                                                         </div>
                                                                         <div class="col-sm-1">
-                                                                            <button type="button" name="addLink" id="addLink" class="btn btn-primary plus" title="Add more links"><i class="fas fa-plus"></i></button>
-                                                                        </div>
-                                                                        <div class="col-sm-1">
-                                                                            <button type="button" name="minusLink" id="minusLink" class="btn btn-danger minus" title="Delete link" disabled><i class="fas fa-minus"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                    
+                                                                            <button type="button" name="addLink" id="editAddLink" class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                        </div> 
+                                                                    </div>          
+                                                                    @endif
                                                                 </div>
+                                                                <input type="hidden" value={{ $counter_link }} id="edit_total">
                                                                 
                                                             </div>
                                         
                                                             <!--Attachment-->
                                                             <div class="row mb-3">     
                                                                 <div class="col-sm-2">
-                                                                    <label for="createAttachmentLabel" class="col-form-label">Attachment</label>
+                                                                    <label for="editAttachmentLabel" class="col-form-label">Attachment</label>
                                                                 </div>
                                                                 <div class="col-sm-10">
-                                                                    <input type="file" id="createAttachmentLabel" name="createAttachmentLabel" class="form-control">
+                                                                    <input type="file" id="editAttachmentLabel" name="editAttachmentLabel" class="form-control">
                                                                 </div>
                                                             </div>
                                         
@@ -1061,7 +1207,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Create Modal-->
+                            <!--Edit Modal-->
 
 
                             <button class="btn btn-danger">Delete</button>
@@ -1086,21 +1232,20 @@
         $(function() {
             $('button.plus').click(function(e) {
                 e.preventDefault();
-                var html = '<div class="row mb-2"><div class="col-sm-6"><input id="createMoreStudyLabel[]" name="createMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input id="createMoreLinkLabel[]" name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div>'
-                $('#studies').append(html);
 
-                $('button.minus').removeAttr('disabled');
-                
                 var counter = parseInt($('#total').val()) + 1;
                 $('#total').val(counter);
-                
+
+                var html = '<div class="row mb-2" id="more_'+counter+'" ><div class="col-sm-6"><input name="createMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="minusLink" id="MinusLink" class="btn btn-danger minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
+                $('#studies').append(html);
             });
 
-            $('button.minus').click(function (e) {
+            $(document).on('click','.minus',function(e){ 
                 e.preventDefault();
                 var counter = $('#total').val();
                 if (counter > 1) {
-                    $('#studies').children().last().remove();
+                    console.log("work");
+                    $('#more_'+counter).remove();
                     $('#total').val(counter-1);
                 }
             });
@@ -1128,6 +1273,30 @@
             $('#createToolForm').modal('show');
         });
         @endif
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('button.edit-plus').click(function(e) {
+                e.preventDefault();
+
+                var counter = parseInt($('#edit_total').val()) + 1;
+                $('#edit_total').val(counter);
+
+                var html = '<div class="row mb-2" id="editMore_'+counter+'" ><div class="col-sm-6"><input name="editMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="editMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="editMinusLink" id="editMinusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
+                $('#retrieved_studies').append(html);
+            });
+
+            $(document).on('click','.edit-minus',function(e){ 
+                e.preventDefault();
+                var counter = $('#edit_total').val();
+                if (counter > 1) {
+                    console.log("work");
+                    $('#editMore_'+counter).remove();
+                    $('#edi_total').val(counter-1);
+                }
+            });
+        });
     </script>
     
 @endsection

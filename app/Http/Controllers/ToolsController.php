@@ -29,22 +29,12 @@ class ToolsController extends Controller
                 ->paginate(7);
 
         $link = DB::table('tools')
-                ->leftJoin('link_lists','link_lists.tool_ID','=','tools.id')
+                ->join('link_lists','link_lists.tool_ID','=','tools.id')
                 -> select('tools.id','link_lists.study_name','link_lists.link')
-                ->orderBy('tools.created_at', 'desc')
                 ->get();        
         return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -170,27 +160,6 @@ class ToolsController extends Controller
         return redirect('login/tools')->with('message','Successfully Created Tool!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
