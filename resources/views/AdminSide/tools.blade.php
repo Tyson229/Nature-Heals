@@ -755,7 +755,7 @@
                                                                     <label for="editToolName" class="col-form-label">Tool Name *</label>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <input id="editToolName" name="editToolName" class="form-control" value="{{ $tool->tool_name }}" required>
+                                                                    <input name="editToolName" class="form-control" value="{{ $tool->tool_name }}" required>
                                                                 </div>
                                                             </div>
                                                             
@@ -765,7 +765,7 @@
                                                                     <label for="editDescription" class="col-form-label">Description *</label>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <textarea id="editDescription" name="editDescription" class="form-control" value="{{ $tool->tool_description }}" required></textarea>
+                                                                    <textarea name="editDescription" class="form-control" value="{{ $tool->tool_description }}" required></textarea>
                                                                 </div>
                                                             </div>   
                                                             <!--Health Domain & Age Group-->
@@ -774,7 +774,7 @@
                                                                     <label for="editHealthDomain" class="col-form-label">Health Domain *</label>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <select id="editHealthDomain" name="editHealthDomain"  class="form-select" required>
+                                                                    <select  name="editHealthDomain"  class="form-select" required>
                                                                         @switch($tool->health_domain)
                                                                             @case("Emotional")
                                                                                 <option value="">Choose...</option>
@@ -840,7 +840,7 @@
                                                                     <label for="editAgeGroup" class="col-form-label">Age Group</label>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <select id="editAgeGroup" name="editAgeGroup" class="form-select" required>
+                                                                    <select name="editAgeGroup" class="form-select" required>
                                                                         @switch($tool->age_group)
                                                                             @case("All")
                                                                                 <option value="All" selected>All</option>
@@ -918,7 +918,7 @@
                                                                     <label for="editNotes" class="col-form-label">Notes</label>
                                                                 </div>     
                                                                 <div class="col-sm-10">
-                                                                    <textarea id="editNotes" name="editNotes" class="form-control" rows="3" value="{{ $tool->notes }}"></textarea>
+                                                                    <textarea name="editNotes" class="form-control" rows="3" value="{{ $tool->notes }}"></textarea>
                                                                 </div>
                                                             </div>
                                         
@@ -941,17 +941,17 @@
                                                                                 @if ($counter_link == 1)
                                                                                     <div class="row mb-2" >
                                                                                         <div class="col-sm-6">
-                                                                                            <input id="editStudyLabel" name="editStudyLabel" class="form-control" value="{{ $link->study_name }}">
+                                                                                            <input name="editStudyLabel" class="form-control" value="{{ $link->study_name }}">
                                                                                         </div>
                                                                                         <div class="col-sm-4">
-                                                                                            <input id="editLinkLabel" name="editLinkLabel" class="form-control" value="{{ $link->link }}">
+                                                                                            <input name="editLinkLabel" class="form-control" value="{{ $link->link }}">
                                                                                         </div>
                                                                                         <div class="col-sm-1">
-                                                                                            <button type="button" name="addLink" id="editAddLink" class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                                            <button type="button" name="addLink" class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
                                                                                         </div> 
                                                                                     </div>
                                                                                 @else
-                                                                                    <div class="row mb-2">
+                                                                                    <div class="row mb-2" id="editMore_{{ $counter_link }}">
                                                                                         <div class="col-sm-6">
                                                                                             <input name="createMoreStudyLabel[]" class="form-control" value="{{ $link->study_name }}">
                                                                                         </div>
@@ -959,7 +959,7 @@
                                                                                             <input name="createMoreLinkLabel[]" class="form-control" value="{{ $link->link }}">
                                                                                         </div>
                                                                                         <div class="col-sm-1">
-                                                                                            <button type="button" name="minusLink" id="editMinusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button>
+                                                                                            <button type="button" name="minusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button>
                                                                                         </div>
                                                                                     </div>
                                                                                 @endif      
@@ -968,18 +968,18 @@
                                                                     @if($found_link == 0)
                                                                     <div class="row mb-2" >
                                                                         <div class="col-sm-6">
-                                                                            <input id="editStudyLabel" name="editStudyLabel" class="form-control" placeholder="Type the study name">
+                                                                            <input  name="editStudyLabel" class="form-control" placeholder="Type the study name">
                                                                         </div>
                                                                         <div class="col-sm-4">
-                                                                            <input id="editLinkLabel" name="editLinkLabel" class="form-control" placeholder="Upload the link here...">
+                                                                            <input name="editLinkLabel" class="form-control" placeholder="Upload the link here...">
                                                                         </div>
                                                                         <div class="col-sm-1">
-                                                                            <button type="button" name="addLink" id="editAddLink" class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                            <button type="button" name="addLink"  class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
                                                                         </div> 
                                                                     </div>          
                                                                     @endif
                                                                 </div>
-                                                                <input type="hidden" value={{ $counter_link }} id="edit_total">
+                                                                <input type="hidden" value="{{ $counter_link }}" id="edit_total">
                                                                 
                                                             </div>
                                         
@@ -989,7 +989,7 @@
                                                                     <label for="editAttachmentLabel" class="col-form-label">Attachment</label>
                                                                 </div>
                                                                 <div class="col-sm-10">
-                                                                    <input type="file" id="editAttachmentLabel" name="editAttachmentLabel" class="form-control">
+                                                                    <input type="file" name="editAttachmentLabel" class="form-control">
                                                                 </div>
                                                             </div>
                                         
@@ -1006,20 +1006,20 @@
                                                                             <!--Outcome-->
                                                                             <div class="row mb-3">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createOutcome" class="col-form-label">Outcome</label>
+                                                                                    <label for="editOutcome" class="col-form-label">Outcome</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10">    
-                                                                                    <textarea class="form-control" id="createOutcome" name="createOutcome" rows="2"></textarea>   
+                                                                                    <textarea class="form-control" name="editOutcome" rows="2"></textarea>   
                                                                                 </div>
                                                                             </div>
                                         
                                                                             <!--Gender-->
                                                                             <div class="row mb-3">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createGender" class="col-form-label">Gender</label>
+                                                                                    <label for="editGender" class="col-form-label">Gender</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createGender" name="createGender" class="form-select" placeholder="Gender">
+                                                                                    <select name="editGender" class="form-select">
                                                                                         <option value ="Any" selected>Any</option>
                                                                                         <option value ="Female">Female</option>
                                                                                         <option value ="Male">Male</option>
@@ -1031,10 +1031,10 @@
                                                                             <div class="row mb-2">
                                                                                 <!--Condition-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createCondition" class="col-form-label"> Health Condition</label>
+                                                                                    <label for="editCondition" class="col-form-label"> Health Condition</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createCondition" name="createCondition" class="form-select">
+                                                                                    <select name="editCondition" class="form-select">
                                                                                         <option value="" selected>Choose...</option>
                                                                                         <option value="PTSD">PTSD</option>
                                                                                         <option value="Mental Health Disorders">Mental Health Disorders</option>
@@ -1046,10 +1046,10 @@
                                                                                 <!--Modality-->
                                                                                 <div class="col-sm-1"></div>
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createModality" class="col-form-label">Recreation Modality</label>
+                                                                                    <label for="editModality" class="col-form-label">Recreation Modality</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createModality" name="createModality" class="form-select">
+                                                                                    <select name="editModality" class="form-select">
                                                                                         <option value="" selected>Choose...</option>
                                                                                         <option value="Horticulture">Horticulture</option>
                                                                                         <option value="Equin Therapy">Equin Therapy</option>
@@ -1064,10 +1064,10 @@
                                                                             <div class="row mb-2">
                                                                                 <!--Specific NB-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createSpecificNB" class="col-form-label">Specific for Nature Base</label>
+                                                                                    <label for="editSpecificNB" class="col-form-label">Specific for Nature Base</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createSpecificNB" name="createSpecificNB" class="form-select">
+                                                                                    <select name="editSpecificNB" class="form-select">
                                                                                         <option value="No" selected>No</option>
                                                                                         <option value="Yes">Yes</option>
                                                                                         
@@ -1079,7 +1079,7 @@
                                                                                     <label for="createSetting" class="col-form-label" id="createSettingLabel" style="display: none"> Nature Settings</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createSetting" name="createSetting" class="form-select" style="display: none">
+                                                                                    <select name="editSetting" class="form-select" style="display: none">
                                                                                         <option value="" selected>Choose...</option>
                                                                                         <option value="Bluespace">Bluespace</option>
                                                                                         <option value="Greenspace">Greenspace</option>
@@ -1094,18 +1094,18 @@
                                                                             <div class="row mb-3">
                                                                                 <!--Reliability-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createReliability" class="col-form-label">Reliability</label>
+                                                                                    <label for="editReliability" class="col-form-label">Reliability</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <input id="createReliability" name="createReliability" class="form-control" placeholder="Reliability">
+                                                                                    <input name="editReliability" class="form-control" placeholder="Reliability">
                                                                                 </div> 
                                                                                 <!--Validity-->
                                                                                 <div class="col-sm-1"></div>
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createValidity" class="col-form-label">Validity</label>
+                                                                                    <label for="editValidity" class="col-form-label">Validity</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createValidity" name="createValidity" class="form-select">
+                                                                                    <select name="editValidity" class="form-select">
                                                                                         <option value="" selected>Choose...</option>
                                                                                         <option value="Validated">Validated</option>
                                                                                         <option value="Not Validated">Not Validated</option>
@@ -1128,52 +1128,52 @@
                                                                             <div class="row">
                                                                                 <!--Author-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createAuthor" class="col-form-label">Author</label>
+                                                                                    <label for="editAuthor" class="col-form-label">Author</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
-                                                                                    <input id="createAuthor" name="createAuthor" class="form-control" placeholder="Author">
+                                                                                    <input name="editAuthor" class="form-control" placeholder="Author">
                                                                                 </div>
                                                                                 <!--Title-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createTitle" class="col-form-label">Article Title</label>
+                                                                                    <label for="editTitle" class="col-form-label">Article Title</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
-                                                                                    <input id="createTitle" name="createTitle" class="form-control" placeholder="Title">
+                                                                                    <input name="editTitle" class="form-control" placeholder="Title">
                                                                                 </div>
                                                                                 <!--Date-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createYear" class="col-form-label">Year</label>
+                                                                                    <label for="editYear" class="col-form-label">Year</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
-                                                                                    <input id="createYear" name="createYear" class="form-control" placeholder="Year">
+                                                                                    <input name="editYear" class="form-control" placeholder="Year">
                                                                                 </div>
                                                                                 <div class="col-sm-1"></div>
                                                                                 <!--Country-->
                                                                                 <div class="col-sm-1">
-                                                                                    <label for="createCountry" class="col-form-label">Country</label>
+                                                                                    <label for="editCountry" class="col-form-label">Country</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
-                                                                                    <input id="createCountry" name="createCountry" class="form-control" placeholder="Country">
+                                                                                    <input name="editCountry" class="form-control" placeholder="Country">
                                                                                 </div>
                                                                             </div>
                                                         
                                                                             <!--Journal-->    
                                                                             <div class="row">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createJournal" class="col-form-label">Journal</label>
+                                                                                    <label for="editJournal" class="col-form-label">Journal</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
-                                                                                    <input id="createJournal" name="createJournal" class="form-control" placeholder="Journal">
+                                                                                    <input name="editJournal" class="form-control" placeholder="Journal">
                                                                                 </div>
                                                                             </div>
                                                                             
                                                                             <!--Measure-->
                                                                             <div class="row mb-3">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createMeasure" class="col-form-label">Measure</label>
+                                                                                    <label for="editMeasure" class="col-form-label">Measure</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select id="createMeasure" name="createMeasure" class="form-select">
+                                                                                    <select name="editMeasure" class="form-select">
                                                                                         <option value="" selected>Choose...</option>
                                                                                         <option value="Wellbeing">Wellbeing</option>
                                                                                         <option value="Self Determination">Self Determination</option>
@@ -1184,10 +1184,10 @@
                                                                             <!--Program Content-->
                                                                             <div class="row mb-3">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="createProgramContent" class="col-form-label">Program Content</label>
+                                                                                    <label for="editProgramContent" class="col-form-label">Program Content</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10" >
-                                                                                    <textarea class="form-control" id="createProgramContent" name="createProgramContent" rows="2"></textarea>   
+                                                                                    <textarea class="form-control" name="editProgramContent" rows="2"></textarea>   
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1274,29 +1274,31 @@
         });
         @endif
     </script>
+<script type="text/javascript">
+    $(function() {
+        $(document).on('click','.edit-plus',function(e) {
+            e.preventDefault();
 
-    <script type="text/javascript">
-        $(function() {
-            $('button.edit-plus').click(function(e) {
-                e.preventDefault();
-
-                var counter = parseInt($('#edit_total').val()) + 1;
-                $('#edit_total').val(counter);
-
-                var html = '<div class="row mb-2" id="editMore_'+counter+'" ><div class="col-sm-6"><input name="editMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="editMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="editMinusLink" id="editMinusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
-                $('#retrieved_studies').append(html);
-            });
-
-            $(document).on('click','.edit-minus',function(e){ 
-                e.preventDefault();
-                var counter = $('#edit_total').val();
-                if (counter > 1) {
-                    console.log("work");
-                    $('#editMore_'+counter).remove();
-                    $('#edi_total').val(counter-1);
-                }
-            });
+            var counter = parseInt($('#edit_total').val()) + 1;
+            $('#edit_total').val(counter);
+            console.log($('#edit_total').val());
+            
+            var html = '<div class="row mb-2" id="editMore_'+counter+'" ><div class="col-sm-6"><input name="editMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="editMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="editMinusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
+            $('#retrieved_studies').append(html);
+            console.log($('#edit_total').val());
         });
-    </script>
+
+        $(document).on('click','.edit-minus',function(e){ 
+            e.preventDefault();
+            var counter = $('#edit_total').val();
+            if (counter > 1) {
+                console.log("work");
+                $('#editMore_'+counter).remove();
+                $('#edit_total').val(counter-1);
+            }
+        });
+    });
+</script>
+    
     
 @endsection
