@@ -765,7 +765,7 @@
                                                                     <label for="editDescription" class="col-form-label">Description *</label>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <textarea name="editDescription" class="form-control" value="{{ $tool->tool_description }}" required></textarea>
+                                                                    <textarea name="editDescription" class="form-control" required>{{ $tool->tool_description }}</textarea>
                                                                 </div>
                                                             </div>   
                                                             <!--Health Domain & Age Group-->
@@ -918,7 +918,7 @@
                                                                     <label for="editNotes" class="col-form-label">Notes</label>
                                                                 </div>     
                                                                 <div class="col-sm-10">
-                                                                    <textarea name="editNotes" class="form-control" rows="3" value="{{ $tool->notes }}"></textarea>
+                                                                    <textarea name="editNotes" class="form-control" rows="3">{{ $tool->notes }}</textarea>
                                                                 </div>
                                                             </div>
                                         
@@ -1009,7 +1009,7 @@
                                                                                     <label for="editOutcome" class="col-form-label">Outcome</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10">    
-                                                                                    <textarea class="form-control" name="editOutcome" rows="2"></textarea>   
+                                                                                    <textarea class="form-control" name="editOutcome" rows="2">{{ $tool->outcome }}</textarea>   
                                                                                 </div>
                                                                             </div>
                                         
@@ -1019,11 +1019,30 @@
                                                                                     <label for="editGender" class="col-form-label">Gender</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select name="editGender" class="form-select">
-                                                                                        <option value ="Any" selected>Any</option>
-                                                                                        <option value ="Female">Female</option>
-                                                                                        <option value ="Male">Male</option>
-                                                                                    </select>
+                                                                                    @switch($tool->gender)
+                                                                                        @case("Any")
+                                                                                            <select name="editGender" class="form-select">
+                                                                                                <option value ="Any" selected>Any</option>
+                                                                                                <option value ="Female">Female</option>
+                                                                                                <option value ="Male">Male</option>
+                                                                                            </select>
+                                                                                            @break
+                                                                                        @case("Female")
+                                                                                            <select name="editGender" class="form-select">
+                                                                                                <option value ="Any" >Any</option>
+                                                                                                <option value ="Female" selected>Female</option>
+                                                                                                <option value ="Male">Male</option>
+                                                                                            </select>    
+                                                                                            @break
+                                                                                        @case("Male")
+                                                                                            <select name="editGender" class="form-select">
+                                                                                                <option value ="Any" >Any</option>
+                                                                                                <option value ="Female" >Female</option>
+                                                                                                <option value ="Male" selected>Male</option>
+                                                                                            </select>       
+                                                                                        @default     
+                                                                                    @endswitch
+                                                                                    
                                                                                 </div>
                                                                             </div>
                                         
@@ -1034,14 +1053,56 @@
                                                                                     <label for="editCondition" class="col-form-label"> Health Condition</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select name="editCondition" class="form-select">
-                                                                                        <option value="" selected>Choose...</option>
-                                                                                        <option value="PTSD">PTSD</option>
-                                                                                        <option value="Mental Health Disorders">Mental Health Disorders</option>
-                                                                                        <option value="Physical/Development disabilities">Physical/Development disabilities</option>
-                                                                                        <option value="Substance misuse">Substance misuse</option>
-                                                                                    </select>    
-                                                                                </div>
+                                                                                    @switch($tool->health_condition)
+                                                                                        @case(Null)
+                                                                                            <select name="editCondition" class="form-select">
+                                                                                                <option value="" selected>Choose...</option>
+                                                                                                <option value="PTSD">PTSD</option>
+                                                                                                <option value="Mental Health Disorders">Mental Health Disorders</option>
+                                                                                                <option value="Physical/Development disabilities">Physical/Development disabilities</option>
+                                                                                                <option value="Substance misuse">Substance misuse</option>
+                                                                                            </select>    
+                                                                                            @break
+                                                                                        @case("PTSD")
+                                                                                        <select name="editCondition" class="form-select">
+                                                                                            <option value="" >Choose...</option>
+                                                                                            <option value="PTSD" selected>PTSD</option>
+                                                                                            <option value="Mental Health Disorders">Mental Health Disorders</option>
+                                                                                            <option value="Physical/Development disabilities">Physical/Development disabilities</option>
+                                                                                            <option value="Substance misuse">Substance misuse</option>
+                                                                                        </select>
+                                                                                        @break    
+                                                                                        @case("Mental Health Disorders")
+                                                                                        <select name="editCondition" class="form-select">
+                                                                                            <option value="" >Choose...</option>
+                                                                                            <option value="PTSD">PTSD</option>
+                                                                                            <option value="Mental Health Disorders" selected>Mental Health Disorders</option>
+                                                                                            <option value="Physical/Development disabilities">Physical/Development disabilities</option>
+                                                                                            <option value="Substance misuse">Substance misuse</option>
+                                                                                        </select>
+                                                                                        @break
+                                                                                        @case("Physical/Development disabilities")
+                                                                                        <select name="editCondition" class="form-select">
+                                                                                            <option value="" >Choose...</option>
+                                                                                            <option value="PTSD">PTSD</option>
+                                                                                            <option value="Mental Health Disorders">Mental Health Disorders</option>
+                                                                                            <option value="Physical/Development disabilities" selected>Physical/Development disabilities</option>
+                                                                                            <option value="Substance misuse">Substance misuse</option>
+                                                                                        </select>
+                                                                                        @break
+                                                                                        @case("Substance misuse")
+                                                                                        <select name="editCondition" class="form-select">
+                                                                                            <option value="" >Choose...</option>
+                                                                                            <option value="PTSD">PTSD</option>
+                                                                                            <option value="Mental Health Disorders">Mental Health Disorders</option>
+                                                                                            <option value="Physical/Development disabilities">Physical/Development disabilities</option>
+                                                                                            <option value="Substance misuse" selected>Substance misuse</option>
+                                                                                        </select>
+                                                                                        @break
+                                                                                        @default
+                                                                                            
+                                                                                    @endswitch
+                                                                                </div>    
                                                                                 
                                                                                 <!--Modality-->
                                                                                 <div class="col-sm-1"></div>
@@ -1049,14 +1110,71 @@
                                                                                     <label for="editModality" class="col-form-label">Recreation Modality</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <select name="editModality" class="form-select">
-                                                                                        <option value="" selected>Choose...</option>
-                                                                                        <option value="Horticulture">Horticulture</option>
-                                                                                        <option value="Equin Therapy">Equin Therapy</option>
-                                                                                        <option value="Bush Therapy">Bush Therapy</option>
-                                                                                        <option value="Therapeutic Recreation">Therapeutic Recreation</option>
-                                                                                        <option value="Outdoor Adventure">Outdoor Adventure</option>
-                                                                                    </select>    
+                                                                                    @switch($tool->modality)
+                                                                                        @case(Null)
+                                                                                            <select name="editModality" class="form-select">
+                                                                                                <option value="" selected>Choose...</option>
+                                                                                                <option value="Horticulture">Horticulture</option>
+                                                                                                <option value="Equin Therapy">Equin Therapy</option>
+                                                                                                <option value="Bush Therapy">Bush Therapy</option>
+                                                                                                <option value="Therapeutic Recreation">Therapeutic Recreation</option>
+                                                                                                <option value="Outdoor Adventure">Outdoor Adventure</option>
+                                                                                            </select>
+                                                                                            @break
+                                                                                        @case("Horticulture")
+                                                                                            <select name="editModality" class="form-select">
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Horticulture" selected>Horticulture</option>
+                                                                                                <option value="Equin Therapy">Equin Therapy</option>
+                                                                                                <option value="Bush Therapy">Bush Therapy</option>
+                                                                                                <option value="Therapeutic Recreation">Therapeutic Recreation</option>
+                                                                                                <option value="Outdoor Adventure">Outdoor Adventure</option>
+                                                                                            </select>
+                                                                                            @break
+                                                                                        @case("Equin Therapy")
+                                                                                            <select name="editModality" class="form-select">
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Horticulture">Horticulture</option>
+                                                                                                <option value="Equin Therapy" selected>Equin Therapy</option>
+                                                                                                <option value="Bush Therapy">Bush Therapy</option>
+                                                                                                <option value="Therapeutic Recreation">Therapeutic Recreation</option>
+                                                                                                <option value="Outdoor Adventure">Outdoor Adventure</option>
+                                                                                            </select>
+                                                                                            @break
+                                                                                        @case("Bush Therapy")
+                                                                                            <select name="editModality" class="form-select">
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Horticulture">Horticulture</option>
+                                                                                                <option value="Equin Therapy">Equin Therapy</option>
+                                                                                                <option value="Bush Therapy" selected>Bush Therapy</option>
+                                                                                                <option value="Therapeutic Recreation">Therapeutic Recreation</option>
+                                                                                                <option value="Outdoor Adventure">Outdoor Adventure</option>
+                                                                                            </select>
+                                                                                            @break
+                                                                                        @case("Therapeutic Recreation")
+                                                                                            <select name="editModality" class="form-select">
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Horticulture">Horticulture</option>
+                                                                                                <option value="Equin Therapy">Equin Therapy</option>
+                                                                                                <option value="Bush Therapy">Bush Therapy</option>
+                                                                                                <option value="Therapeutic Recreation" selected>Therapeutic Recreation</option>
+                                                                                                <option value="Outdoor Adventure">Outdoor Adventure</option>
+                                                                                            </select>
+                                                                                            @break
+                                                                                        @case("Outdoor Adventure")
+                                                                                            <select name="editModality" class="form-select">
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Horticulture">Horticulture</option>
+                                                                                                <option value="Equin Therapy">Equin Therapy</option>
+                                                                                                <option value="Bush Therapy">Bush Therapy</option>
+                                                                                                <option value="Therapeutic Recreation">Therapeutic Recreation</option>
+                                                                                                <option value="Outdoor Adventure" selected>Outdoor Adventure</option>
+                                                                                            </select>
+                                                                                            @break        
+                                                                                        @default
+                                                                                            
+                                                                                    @endswitch
+                                                                                        
                                                                                 </div>
                                                                             </div>
                                         
@@ -1068,26 +1186,96 @@
                                                                                 </div>
                                                                                 <div class="col-sm-3">
                                                                                     <select name="editSpecificNB" class="form-select">
-                                                                                        <option value="No" selected>No</option>
-                                                                                        <option value="Yes">Yes</option>
-                                                                                        
+                                                                                        @switch($tool->specific_NB)
+                                                                                            @case("Yes")
+                                                                                                <option value="No">No</option>
+                                                                                                <option value="Yes" selected>Yes</option>
+                                                                                                @break
+
+                                                                                            @default
+                                                                                                <option value="No" selected>No</option>
+                                                                                                <option value="Yes">Yes</option>
+                                                                                        @endswitch  
                                                                                     </select>   
                                                                                 </div>
                                                                                 <div class="col-sm-1"></div>
                                                                                 <!--Settings-->
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createSetting" class="col-form-label" id="createSettingLabel" style="display: none"> Nature Settings</label>
-                                                                                </div>
-                                                                                <div class="col-sm-3">
-                                                                                    <select name="editSetting" class="form-select" style="display: none">
-                                                                                        <option value="" selected>Choose...</option>
-                                                                                        <option value="Bluespace">Bluespace</option>
-                                                                                        <option value="Greenspace">Greenspace</option>
-                                                                                        <option value="Wild Nature">Wild Nature</option>
-                                                                                        <option value="Camp/Residential">Camp/Residential</option>
-                                                                                        <option value="Urban Nature">Urban Nature</option>
-                                                                                    </select>    
-                                                                                </div>
+                                                                                @switch($tool->specific_NB)
+                                                                                    @case("Yes")
+                                                                                        <div class="col-sm-2">
+                                                                                            <label for="createSetting" class="col-form-label" id="createSettingLabel"> Nature Settings</label>
+                                                                                        </div>
+                                                                                        <div class="col-sm-3">
+                                                                                            <select name="editSetting" class="form-select">
+                                                                                                @switch($tool->settings)
+                                                                                                    @case("Bluespace")
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Bluespace" selected>Bluespace</option>
+                                                                                                        <option value="Greenspace">Greenspace</option>
+                                                                                                        <option value="Wild Nature">Wild Nature</option>
+                                                                                                        <option value="Camp/Residential">Camp/Residential</option>
+                                                                                                        <option value="Urban Nature">Urban Nature</option>
+                                                                                                        @break
+                                                                                                    @case("Greenspace")    
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Bluespace" >Bluespace</option>
+                                                                                                        <option value="Greenspace"selected>Greenspace</option>
+                                                                                                        <option value="Wild Nature">Wild Nature</option>
+                                                                                                        <option value="Camp/Residential">Camp/Residential</option>
+                                                                                                        <option value="Urban Nature">Urban Nature</option>
+                                                                                                        @break
+                                                                                                    @case("Wild Nature")    
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Bluespace" >Bluespace</option>
+                                                                                                        <option value="Greenspace">Greenspace</option>
+                                                                                                        <option value="Wild Nature" selected>Wild Nature</option>
+                                                                                                        <option value="Camp/Residential">Camp/Residential</option>
+                                                                                                        <option value="Urban Nature">Urban Nature</option>
+                                                                                                        @break
+                                                                                                    @case("Camp/Residential")    
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Bluespace" >Bluespace</option>
+                                                                                                        <option value="Greenspace">Greenspace</option>
+                                                                                                        <option value="Wild Nature">Wild Nature</option>
+                                                                                                        <option value="Camp/Residential"selected>Camp/Residential</option>
+                                                                                                        <option value="Urban Nature">Urban Nature</option>
+                                                                                                        @break
+                                                                                                    @case("Urban Nature")    
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Bluespace" >Bluespace</option>
+                                                                                                        <option value="Greenspace">Greenspace</option>
+                                                                                                        <option value="Wild Nature">Wild Nature</option>
+                                                                                                        <option value="Camp/Residential">Camp/Residential</option>
+                                                                                                        <option value="Urban Nature" selected>Urban Nature</option>
+                                                                                                        @break
+                                                                                                    @default
+                                                                                                        <option value="" selected>Choose...</option>
+                                                                                                        <option value="Bluespace">Bluespace</option>
+                                                                                                        <option value="Greenspace">Greenspace</option>
+                                                                                                        <option value="Wild Nature">Wild Nature</option>
+                                                                                                        <option value="Camp/Residential">Camp/Residential</option>
+                                                                                                        <option value="Urban Nature">Urban Nature</option> 
+                                                                                                @endswitch
+                                                                                                
+                                                                                            </select>    
+                                                                                        </div>
+                                                                                        @break
+                                                                                        
+                                                                                    @default
+                                                                                        <div class="col-sm-2">
+                                                                                            <label for="createSetting" class="col-form-label" id="createSettingLabel" style="display: none"> Nature Settings</label>
+                                                                                        </div>
+                                                                                        <div class="col-sm-3">
+                                                                                            <select name="editSetting" class="form-select" style="display: none">
+                                                                                                <option value="" selected>Choose...</option>
+                                                                                                <option value="Bluespace">Bluespace</option>
+                                                                                                <option value="Greenspace">Greenspace</option>
+                                                                                                <option value="Wild Nature">Wild Nature</option>
+                                                                                                <option value="Camp/Residential">Camp/Residential</option>
+                                                                                                <option value="Urban Nature">Urban Nature</option>
+                                                                                            </select>    
+                                                                                        </div> 
+                                                                                @endswitch
                                                                             </div>    
                                                                                     
                                                                             <!--Reliability & Validity-->
@@ -1097,7 +1285,7 @@
                                                                                     <label for="editReliability" class="col-form-label">Reliability</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <input name="editReliability" class="form-control" placeholder="Reliability">
+                                                                                    <input name="editReliability" class="form-control" value="{{ $tool->reliability }}">
                                                                                 </div> 
                                                                                 <!--Validity-->
                                                                                 <div class="col-sm-1"></div>
@@ -1106,9 +1294,23 @@
                                                                                 </div>
                                                                                 <div class="col-sm-3">
                                                                                     <select name="editValidity" class="form-select">
-                                                                                        <option value="" selected>Choose...</option>
-                                                                                        <option value="Validated">Validated</option>
-                                                                                        <option value="Not Validated">Not Validated</option>
+                                                                                        @switch($tool->validity)
+                                                                                            @case("Validated")
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Validated" selected>Validated</option>
+                                                                                                <option value="Not Validated">Not Validated</option>
+                                                                                                @break
+                                                                                            @case("Not Validated")
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Validated">Validated</option>
+                                                                                                <option value="Not Validated" selected>Not Validated</option>
+                                                                                                @break
+                                                                                            @default
+                                                                                                <option value="" selected >Choose...</option>
+                                                                                                <option value="Validated">Validated</option>
+                                                                                                <option value="Not Validated" >Not Validated</option>
+                                                                                        @endswitch
+                                                                                        
                                                                                     </select>    
                                                                                 </div>
                                                                             </div>
@@ -1131,21 +1333,21 @@
                                                                                     <label for="editAuthor" class="col-form-label">Author</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
-                                                                                    <input name="editAuthor" class="form-control" placeholder="Author">
+                                                                                    <input name="editAuthor" class="form-control" value="{{ $tool->author }}">
                                                                                 </div>
                                                                                 <!--Title-->
                                                                                 <div class="col-sm-2">
                                                                                     <label for="editTitle" class="col-form-label">Article Title</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
-                                                                                    <input name="editTitle" class="form-control" placeholder="Title">
+                                                                                    <input name="editTitle" class="form-control" value="{{ $tool->title }}">
                                                                                 </div>
                                                                                 <!--Date-->
                                                                                 <div class="col-sm-2">
                                                                                     <label for="editYear" class="col-form-label">Year</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
-                                                                                    <input name="editYear" class="form-control" placeholder="Year">
+                                                                                    <input name="editYear" class="form-control" value="{{ $tool->year }}">
                                                                                 </div>
                                                                                 <div class="col-sm-1"></div>
                                                                                 <!--Country-->
@@ -1153,7 +1355,7 @@
                                                                                     <label for="editCountry" class="col-form-label">Country</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
-                                                                                    <input name="editCountry" class="form-control" placeholder="Country">
+                                                                                    <input name="editCountry" class="form-control" value="{{ $tool->country }}">
                                                                                 </div>
                                                                             </div>
                                                         
@@ -1163,7 +1365,7 @@
                                                                                     <label for="editJournal" class="col-form-label">Journal</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
-                                                                                    <input name="editJournal" class="form-control" placeholder="Journal">
+                                                                                    <input name="editJournal" class="form-control" value="{{ $tool->article }}">
                                                                                 </div>
                                                                             </div>
                                                                             
@@ -1174,10 +1376,32 @@
                                                                                 </div>
                                                                                 <div class="col-sm-3">
                                                                                     <select name="editMeasure" class="form-select">
-                                                                                        <option value="" selected>Choose...</option>
-                                                                                        <option value="Wellbeing">Wellbeing</option>
-                                                                                        <option value="Self Determination">Self Determination</option>
-                                                                                        <option value="Reseliance">Reseliance</option>
+                                                                                        @switch($tool->measure)
+                                                                                            @case("Wellbeing")
+                                                                                                <option value="" selected>Choose...</option>
+                                                                                                <option value="Wellbeing">Wellbeing</option>
+                                                                                                <option value="Self Determination">Self Determination</option>
+                                                                                                <option value="Reseliance">Reseliance</option>
+                                                                                                @break
+                                                                                            @case("Self Determination")
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Wellbeing">Wellbeing</option>
+                                                                                                <option value="Self Determination"selected>Self Determination</option>
+                                                                                                <option value="Reseliance">Reseliance</option>
+                                                                                                @break
+                                                                                            @case("Reseliance")
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Wellbeing">Wellbeing</option>
+                                                                                                <option value="Self Determination">Self Determination</option>
+                                                                                                <option value="Reseliance" selected>Reseliance</option>
+                                                                                                @break
+                                                                                            @default
+                                                                                                <option value="" selected>Choose...</option>
+                                                                                                <option value="Wellbeing">Wellbeing</option>
+                                                                                                <option value="Self Determination">Self Determination</option>
+                                                                                                <option value="Reseliance">Reseliance</option>
+                                                                                        @endswitch
+                                                                                        
                                                                                     </select>    
                                                                                 </div>
                                                                             </div>
@@ -1187,7 +1411,7 @@
                                                                                     <label for="editProgramContent" class="col-form-label">Program Content</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10" >
-                                                                                    <textarea class="form-control" name="editProgramContent" rows="2"></textarea>   
+                                                                                    <textarea class="form-control" name="editProgramContent" rows="2">{{ $tool->program_content }}</textarea>   
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1199,9 +1423,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="saveDraft" value="Save" class="btn btn-secondary" data-bs-dismiss="modal">Save as
-                                                    Draft</button>
-                                                <button type="submit" name="add" value="Submit" class="btn btn-primary">Add</button>
+                                                <button type="submit" name="save" value="Submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
                                     </div>
@@ -1209,8 +1431,35 @@
                             </div>
                             <!--Edit Modal-->
 
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteToolForm-{{ $tool->id }}">Delete</button>
 
-                            <button class="btn btn-danger">Delete</button>
+                            <!--Delete Modal-->
+                            <div class="modal fade" id="deleteToolForm-{{ $tool->id }}" tabindex="-1" aria-labelledby="deleteToolFormLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger" >
+                                            <h1 class="text-white display-6">Are you sure?</h1>
+                                            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="/login/tools/{{ $tool->id }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                        <div class="modal-body">
+                                            <div class="container bg-white">
+                                                <div class="row">
+                                                   All information of this tool will be deleted. Are you sure?
+                                                </div>   
+                                            </div>
+                                        </div> 
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-secondary" value="Submit">Yes</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Delete Modal-->
                         </td>
                     </tr>
                     
@@ -1274,6 +1523,13 @@
         });
         @endif
     </script>
+    <script type="text/javascript">
+        @if (count($errors->update)>0)
+        $(function() {
+            $('#editToolForm-'+{{ session('id')}}).modal('show');
+        });
+        @endif
+    </script>
 <script type="text/javascript">
     $(function() {
         $(document).on('click','.edit-plus',function(e) {
@@ -1298,7 +1554,5 @@
             }
         });
     });
-</script>
-    
-    
+</script> 
 @endsection

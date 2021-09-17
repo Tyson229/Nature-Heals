@@ -25,6 +25,8 @@ class ToolsController extends Controller
         $tools = DB::table('tool_statuses')
                 ->join('tools','tools.status_ID','=','tool_statuses.id')
                 -> select('tools.*','tool_statuses.status')
+                ->where('tool_statuses.status','=','Hidden')
+                ->orWhere('tool_statuses.status','=','Published')
                 ->orderBy('tools.created_at','desc')
                 ->paginate(7);
 
@@ -120,7 +122,10 @@ class ToolsController extends Controller
         $tool->article = $request->createJournal;
         $tool->measure =$request -> createMeasure;
         $tool->program_content =$request -> createProgramContent;
-        $tool->status_ID = 1;
+        if(isset($request->saveDraft))
+            $tool->status_ID = 3;
+        elseif(isset($request->add))
+            $tool->status_ID = 1;    
         $tool->created_at = now();
         $tool->updated_at = now();
 
@@ -170,7 +175,120 @@ class ToolsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            //Tools details
+            'editToolName' => 'bail|required|string',
+            'editDescription' => 'required|string',
+            'editStudyLabel' => 'nullable|string',
+            'editLinkLabel' => 'nullable|url',
+
+            'editMoreStudyLabel' => 'array|min:1',
+            'editMoreStudyLabel.*'=> 'string',
+            'editMoreLinkLabel' => 'array|min:1',
+            'editMoreLinkLabel.*' => 'nullable|url',
+            //'createAttachmentLabel' => 'file',
+
+            //Additional details
+            'editOutcome' => 'nullable|string',
+            'editGenderLabel' => 'nullable|alpha',
+            'editReliability' => 'nullable|alpha',
+
+            //Journal details
+            'editAuthor' => 'nullable|string',
+            'editTitle' => 'nullable|string',
+            'editYear' => 'nullable|numeric',
+            'editCountry' => 'nullable|string',
+            'editJournal' => 'nullable|string',
+        ],[
+            'editToolName.required' => 'Tool Name is required',
+            'editToolName.alpha_num' => 'Tool Name must be alphanumeric only',
+            'editToolName.string' => 'Tool Name must be alphanumeric only',
+
+            'editDescription.required' => 'Tool description is required',
+            'editDescription.string' => 'Tool description must be alphanumeric only',
+
+            'editStudyLabel.string' => 'Study Name must be alphanumeric only',
+            'editStudyLabel.alpha_num' => 'Study Name must be alphanumeric only',
+            'editLinkLabel.url'=>'Link must be a URL',
+
+            'editMoreStudyLabel.*.string' => 'Study Name must be alphanumeric only',
+            'editMoreStudyLabel.*.alpha_num' => 'Study Name must be alphanumeric only',
+            'editMoreLinkLabel.*.url'=>'Link must be an URL',
+
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator,'update')->with('id',$id);
+        }
+
+        //Add Main details
+        $tool = tools::find($id);
+        $tool->tool_name = $request->editToolName;
+        $tool->tool_description= $request ->editDescription;
+        $tool->health_domain = $request ->editHealthDomain;
+        $tool ->age_group = $request->editAgeGroup;
+        $tool ->notes = $request->editNotes;
+        
+        //Add additional details
+        $tool->outcome = $request->editOutcome;
+        $tool->gender = $request->editGender;
+        $tool->health_condition = $request->editCondition;
+        $tool->modality = $request->editModality;
+        $tool->specific_NB = $request->editSpecificNB;
+        if(strcmp(($request->editSpecificNB),"Yes")==0){
+            $tool->settings = $request->editSetting;
+        }else{
+            $tool->settings = "Not Applicable";
+        }
+        $tool->reliability = $request-> editReliability;
+        $tool->validity = $request -> editValidity;
+
+        //Add author details
+        $tool->author = $request -> editAuthor;
+        $tool->title = $request -> editTitle;
+        $tool->year = $request ->editYear;
+        $tool->country = $request ->editCountry;
+        $tool->article = $request->editJournal;
+        $tool->measure =$request -> editMeasure;
+        $tool->program_content =$request -> editProgramContent;
+        $tool->status_ID = 1;
+        $tool->updated_at = now();
+
+        $tool->save();
+
+        $temp_id = tools::orderBy('created_at','desc')->first()->id;
+
+        //Add study if have
+        if(!is_null($request->editStudyLabel)){
+            $linkList = linkList::where('tool_ID',$id);
+            $linkList->delete();
+
+            $linkList = new linkList;
+            $linkList->study_name = $request->editStudyLabel;
+            $linkList->link = $request->editLinkLabel;
+            $linkList->updated_at= now();
+            $linkList->tool_ID = $temp_id;
+            $linkList->save();
+        }
+        if(!is_null($request->editMoreStudyLabel)){
+            $studiesCount = count($request->editMoreStudyLabel);
+            for( $i = 0; $i <  $studiesCount;$i++){
+                $linkList = new linkList;
+                $linkList->study_name = ($request->editMoreStudyLabel)[$i];
+                $linkList->link = ($request->editMoreLinkLabel)[$i];
+                $linkList->updated_at= now();
+                $linkList->tool_ID = $temp_id;
+                $linkList->save();
+            }
+        } 
+
+        //create connection between user and tool
+       /* $connection = new userCreatesTool;
+        $connection->user_ID = 3; // Change into id of the changer
+        $connection->tool_ID = $temp_id;
+        $connection->save();*/
+
+        return redirect('login/tools')->with('message','Successfully Created Tool!');
     }
 
     /**
@@ -181,6 +299,13 @@ class ToolsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $linkList = linkList::where('tool_ID',$id);
+        $linkList->delete();
+        $connection = userCreatesTool::where('tool_ID',$id);
+        $connection->delete();
+        $tool = tools::find($id);
+        $tool->delete();
+       
+        return redirect('login/tools')->with('message', 'Successfully Deleted User!');
     }
 }
