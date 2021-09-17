@@ -21,7 +21,7 @@
     </a> 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Pending Tool Request
+        Tool Request
     </a>
     <a class="nav-link " href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>

@@ -22,12 +22,20 @@ class PagesController extends Controller
         return view('UserSide.request');
     }
 
-    public function adminHome(){
-        return view('AdminSide.homepage');
+    public function adminlogin(){
+        return view('AdminSide.login');
+    }
+   
+    public function adminForgotPassword(){
+        return view('AdminSide.forgotPassword');
     }
 
-    public function adminUser(){
-        return view('AdminSide.userManagement');
+    public function adminResetPassword(){
+        return view('AdminSide.resetPassword');
+    }
+
+    public function adminHome(){
+        return view('AdminSide.homepage');
     }
 
     public function adminTools(){
@@ -44,9 +52,5 @@ class PagesController extends Controller
     }
     public function adminDraft(){
         return view('AdminSide.draft');
-    }
-
-    public function test(){
-        return view('UserSide.test');
     }
 }

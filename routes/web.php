@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ToolsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,12 +36,18 @@ Route::get('/contact', [PagesController::class,'contact']);
 Route::get('/request', [PagesController::class,'request']);
 
 /**Admin end**/
+Route::get('/login', [PagesController::class,'adminLogin']);
+Route::get('/login/forgotPassword', [PagesController::class,'adminForgotPassword']);
+Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']);
+
 Route::get('/login/home', [PagesController::class,'adminHome']);
-Route::get('/login/user', [PagesController::class,'adminUser']);
+
+Route::resource('login/user',UserController::class);
+Route::resource('login/tools',ToolsController::class);
+
+
 Route::get('/login/tools', [PagesController::class,'adminTools']);
 Route::get('/login/request', [PagesController::class,'adminRequest']);
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
-
-Route::get('/test', [PagesController::class,'test']);

@@ -5,6 +5,8 @@
         html{
             font-size: 1.2rem;
         }
+
+
     
     </style>
 @endsection
@@ -24,7 +26,7 @@
     </a> 
     <a class="nav-link bg-primary text-white " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Pending Tool Request
+         Tool Request
     </a>
     <a class="nav-link" href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
@@ -42,20 +44,8 @@
 
 @section('content')
     <main>
-        <h1 class="display-5"> Pending Tool Request</h1>
-        <div class="row">
-            <div class="col-sm-7"></div>
-            <!--Search Bar-->
-            <div class="col-sm-5">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                      aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                      <i class="fas fa-search"></i>
-                    </span>
-                </div>
-            </div>
-        </div>
+        <h1 class="display-5"> Tool Request</h1>
+
         <!--Modal-->
         <div class="modal fade" id="createToolForm" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="createToolFormLabel" aria-hidden="true">
@@ -365,7 +355,7 @@
         <!--Modal-->
 
         <!--Table List-->
-        <div class="container-fluid mt-2 p-0">
+        <div class="container-fluid mt-3 p-2">
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
