@@ -432,19 +432,19 @@
                         <th scope="row">{{ $loop->iteration + $tools->firstItem() - 1 }}</th>
                         <td class="col-sm-4">{{ $tool->tool_name }}</td>
                         
-                        <td>{{ $tool->health_domain }}</td>
+                        <td class="col-sm-2">{{ $tool->health_domain }}</td>
                         
-                        <td>
-                            <div class="form-check form-switch">
+                        <td class="col-sm-1">
+                                <form action="/login/tools/{{ $tool->id }}" method="POST">
+                                    @csrf 
+                                    @method('PUT')
                                 @if (!strcmp(($tool->status),'Hidden'))
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" >
+                                    <button class="btn btn-secondary" type="submit" id="flexSwitchCheckDefault" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
                                 @else
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                                    <button class="btn btn-primary" type="submit" id="flexSwitchCheckDefault" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
                                 @endif
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
+                            </form>
                             </div>
-                            
-                        </td>
                         <td>
                             <button class="btn btn-info text-white" type="button" data-bs-toggle="modal"
                             data-bs-target="#detailsToolForm-{{ $tool->id }}">Details</button>

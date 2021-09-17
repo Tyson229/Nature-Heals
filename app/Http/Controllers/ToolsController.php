@@ -175,6 +175,12 @@ class ToolsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(isset($request->publish_switch)){
+            $tool = tools::find($id);
+            $tool->status_ID = $request->publish_switch;
+            $tool->updated_at = now();
+            $tool->save(); 
+        }else{
         $validator = Validator::make($request->all(),[
             //Tools details
             'editToolName' => 'bail|required|string',
@@ -251,7 +257,6 @@ class ToolsController extends Controller
         $tool->article = $request->editJournal;
         $tool->measure =$request -> editMeasure;
         $tool->program_content =$request -> editProgramContent;
-        $tool->status_ID = 1;
         $tool->updated_at = now();
 
         $tool->save();
@@ -287,8 +292,9 @@ class ToolsController extends Controller
         $connection->user_ID = 3; // Change into id of the changer
         $connection->tool_ID = $temp_id;
         $connection->save();*/
+    }
 
-        return redirect('login/tools')->with('message','Successfully Created Tool!');
+        return redirect('login/tools')->with('message','Successfully Updated Tool!');
     }
 
     /**
