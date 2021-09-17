@@ -167,7 +167,7 @@ class ToolsController extends Controller
 
         //create connection between user and tool
         $connection = new userCreatesTool;
-        $connection->user_ID = 3;
+        $connection->user_ID = 4;
         $connection->tool_ID = $temp_id;
         $connection->save();
 
