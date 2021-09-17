@@ -20,11 +20,19 @@ class ToolsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tools = DB::table('tool_statuses')
-                ->join('tools','tools.status_ID','=','tool_statuses.id')
-                -> select('tools.*','tool_statuses.status')
+        $tools = DB::table('tools')
+                ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
+                ->select('tools.*','tool_statuses.status')
+                ->where([
+                    [ function ($query) use ($request){
+                        if(($term = $request->term)){
+                            $query->orWhere('tools.tool_name','LIKE','%'.$term.'%' )
+                                  ->orWhere('tools.health_domain','=',$term );
+                        }
+                    }]
+                ])
                 ->where('tool_statuses.status','=','Hidden')
                 ->orWhere('tool_statuses.status','=','Published')
                 ->orderBy('tools.created_at','desc')
@@ -33,7 +41,8 @@ class ToolsController extends Controller
         $link = DB::table('tools')
                 ->join('link_lists','link_lists.tool_ID','=','tools.id')
                 -> select('tools.id','link_lists.study_name','link_lists.link')
-                ->get();        
+                ->get();
+
         return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);       
     }
 
@@ -185,13 +194,14 @@ class ToolsController extends Controller
             //Tools details
             'editToolName' => 'bail|required|string',
             'editDescription' => 'required|string',
-            'editStudyLabel' => 'nullable|string',
-            'editLinkLabel' => 'nullable|url',
 
-            'editMoreStudyLabel' => 'array|min:1',
-            'editMoreStudyLabel.*'=> 'string',
-            'editMoreLinkLabel' => 'array|min:1',
-            'editMoreLinkLabel.*' => 'nullable|url',
+            'editStudyLabel-'.$id => 'nullable|string',
+            'editLinkLabel-'.$id => 'nullable|url',
+
+            'editMoreStudyLabel-'.$id => 'array|min:1',
+            'editMoreStudyLabel-'.$id.'.*'=> 'string',
+            'editMoreLinkLabel-'.$id => 'array|min:1',
+            'editMoreLinkLabel-'.$id.'.*' => 'nullable|url',
             //'createAttachmentLabel' => 'file',
 
             //Additional details
@@ -261,33 +271,36 @@ class ToolsController extends Controller
 
         $tool->save();
 
-        $temp_id = tools::orderBy('created_at','desc')->first()->id;
-
         //Add study if have
-        if(!is_null($request->editStudyLabel)){
+        $temp1 = 'editStudyLabel-'.$id;
+        $temp2 = 'editLinkLabel-'.$id;
+        if(!is_null($request->$temp1)){
             $linkList = linkList::where('tool_ID',$id);
             $linkList->delete();
 
             $linkList = new linkList;
-            $linkList->study_name = $request->editStudyLabel;
-            $linkList->link = $request->editLinkLabel;
+            $linkList->study_name = $request->$temp1;
+            $linkList->link = $request->$temp2;
             $linkList->updated_at= now();
-            $linkList->tool_ID = $temp_id;
+            $linkList->tool_ID = $id;
             $linkList->save();
         }
-        if(!is_null($request->editMoreStudyLabel)){
-            $studiesCount = count($request->editMoreStudyLabel);
-            for( $i = 0; $i <  $studiesCount;$i++){
+
+        $temp3 = 'editMoreStudyLabel-'.$id;
+        $temp4 = 'editMoreLinkLabel-'.$id;
+        if(!is_null($request->$temp3)){
+            $studiesCount = count($request->$temp3);
+            for( $i = 0; $i < $studiesCount ; $i++){
                 $linkList = new linkList;
-                $linkList->study_name = ($request->editMoreStudyLabel)[$i];
-                $linkList->link = ($request->editMoreLinkLabel)[$i];
+                $linkList->study_name = ($request->$temp3)[$i];
+                $linkList->link = ($request->$temp4)[$i];
                 $linkList->updated_at= now();
-                $linkList->tool_ID = $temp_id;
+                $linkList->tool_ID = $id;
                 $linkList->save();
             }
         } 
 
-        //create connection between user and tool
+        //When tool is edited, create another connection between the editor and the tool. If it already exists, ignore
        /* $connection = new userCreatesTool;
         $connection->user_ID = 3; // Change into id of the changer
         $connection->tool_ID = $temp_id;

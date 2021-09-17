@@ -375,18 +375,18 @@
     </main>
 @endsection
 @section('script')
-<script type="text/javascript">
-    @if (count($errors->store)>0)
-    $(function() {
-        $('#createUserForm').modal('show');
-    });
-    @endif
-</script>
-<script type="text/javascript">
-    @if (count($errors->update)>0)
-    $(function() {
-        $('#editUserForm-'+ {{ session('id')}}).modal('show');
-    });
-    @endif
-</script>
+    <script type="text/javascript">
+        @if (count($errors->store)>0)
+        $(function() {
+            $('#createUserForm').modal('show');
+        });
+        @endif
+    </script>
+    <script type="text/javascript">
+        @if (count($errors->update)>0)
+        $(function() {
+            $('#editUserForm-'+ {{ session('id')}}).modal('show');
+        });
+        @endif
+    </script>
 @endsection

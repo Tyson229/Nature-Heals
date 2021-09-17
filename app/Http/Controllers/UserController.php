@@ -26,8 +26,7 @@ class UserController extends Controller
                             if(($term = $request->term)){
                                 $query->orWhere('fname','LIKE','%' . $term . '%')
                                       ->orWhere('lname','LIKE','%' . $term . '%')
-                                      ->orWhere('email','LIKE','%' . $term . '%')
-                                      ->get();
+                                      ->orWhere('email','LIKE','%' . $term . '%');
                             }
                         }]
                     ])
