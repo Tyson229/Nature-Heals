@@ -53,3 +53,7 @@ Route::get('/login/draft', [PagesController::class,'adminDraft']);
 
 Auth::routes();
     
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
