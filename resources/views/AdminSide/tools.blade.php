@@ -52,13 +52,14 @@
             <div class="col-sm-4"></div>
             <!--Search Bar-->
             <div class="col-sm-5">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                      aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                      <i class="fas fa-search"></i>
-                    </span>
-                </div>
+                <form action="/login/tools" method="GET" role="search">
+                    <div class="input-group rounded">
+                        <input type="text" class="form-control rounded" name="term" id="term" placeholder="Search"  />
+                        <button class="btn btn-secondary" type="submit" title="Search tools">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -439,9 +440,9 @@
                                     @csrf 
                                     @method('PUT')
                                 @if (!strcmp(($tool->status),'Hidden'))
-                                    <button class="btn btn-secondary" type="submit" id="flexSwitchCheckDefault" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
+                                    <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
                                 @else
-                                    <button class="btn btn-primary" type="submit" id="flexSwitchCheckDefault" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
+                                    <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
                                 @endif
                             </form>
                             </div>
@@ -927,11 +928,12 @@
                                                                 <div class="col-sm-2">
                                                                     <label class="col-form-label">Study(s) has used this tool</label>
                                                                 </div>
-                                                                <div class="col-sm-10" id="retrieved_studies">
+                                                                <div class="col-sm-10" id="retrieved_studies-{{ $tool->id }}">
                                                                     @php
                                                                         $counter_link = 0;
                                                                         $found_link = 0;
                                                                     @endphp
+
                                                                     @foreach ($link_lists as $link)
                                                                             @if($link->id == $tool->id)
                                                                                 @php
@@ -941,25 +943,25 @@
                                                                                 @if ($counter_link == 1)
                                                                                     <div class="row mb-2" >
                                                                                         <div class="col-sm-6">
-                                                                                            <input name="editStudyLabel" class="form-control" value="{{ $link->study_name }}">
+                                                                                            <input name="editStudyLabel-{{ $tool->id }}" class="form-control" value="{{ $link->study_name }}">
                                                                                         </div>
                                                                                         <div class="col-sm-4">
-                                                                                            <input name="editLinkLabel" class="form-control" value="{{ $link->link }}">
+                                                                                            <input name="editLinkLabel-{{ $tool->id }}" class="form-control" value="{{ $link->link }}">
                                                                                         </div>
                                                                                         <div class="col-sm-1">
-                                                                                            <button type="button" name="addLink" class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                                            <button type="button" name="addLink" class="btn btn-primary edit-plus" id="editPlus-{{ $tool->id }}" onclick="editPlus(this)" title="Add more links"><i class="fas fa-plus"></i></button>
                                                                                         </div> 
                                                                                     </div>
                                                                                 @else
-                                                                                    <div class="row mb-2" id="editMore_{{ $counter_link }}">
+                                                                                    <div class="row mb-2" id="editMore_{{ $counter_link }}_{{ $tool->id }}">
                                                                                         <div class="col-sm-6">
-                                                                                            <input name="createMoreStudyLabel[]" class="form-control" value="{{ $link->study_name }}">
+                                                                                            <input name="editMoreStudyLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->study_name }}">
                                                                                         </div>
                                                                                         <div class="col-sm-4">
-                                                                                            <input name="createMoreLinkLabel[]" class="form-control" value="{{ $link->link }}">
+                                                                                            <input name="editMoreLinkLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->link }}">
                                                                                         </div>
                                                                                         <div class="col-sm-1">
-                                                                                            <button type="button" name="minusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button>
+                                                                                            <button type="button" name="minusLink" class="btn btn-danger edit-minus" id="editMinus-{{ $counter_link }}-{{ $tool->id }}" onclick="editMinus(this)" title="Delete link"><i class="fas fa-minus"></i></button>
                                                                                         </div>
                                                                                     </div>
                                                                                 @endif      
@@ -968,18 +970,18 @@
                                                                     @if($found_link == 0)
                                                                     <div class="row mb-2" >
                                                                         <div class="col-sm-6">
-                                                                            <input  name="editStudyLabel" class="form-control" placeholder="Type the study name">
+                                                                            <input  name="editStudyLabel-{{ $tool->id }}" class="form-control" placeholder="Type the study name">
                                                                         </div>
                                                                         <div class="col-sm-4">
-                                                                            <input name="editLinkLabel" class="form-control" placeholder="Upload the link here...">
+                                                                            <input name="editLinkLabel-{{ $tool->id }}" class="form-control" placeholder="Upload the link here...">
                                                                         </div>
                                                                         <div class="col-sm-1">
-                                                                            <button type="button" name="addLink"  class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                            <button type="button" name="addLink" id="editPlus-{{ $tool->id }}" onclick="editPlus(this)"  class="btn btn-primary edit-plus" title="Add more links"><i class="fas fa-plus"></i></button>
                                                                         </div> 
                                                                     </div>          
                                                                     @endif
                                                                 </div>
-                                                                <input type="hidden" value="{{ $counter_link }}" id="edit_total">
+                                                                <input type="hidden" value="{{ $counter_link }}" id="edit_total-{{  $tool->id }}">
                                                                 
                                                             </div>
                                         
@@ -1530,29 +1532,39 @@
         });
         @endif
     </script>
+
 <script type="text/javascript">
-    $(function() {
-        $(document).on('click','.edit-plus',function(e) {
-            e.preventDefault();
-
-            var counter = parseInt($('#edit_total').val()) + 1;
-            $('#edit_total').val(counter);
-            console.log($('#edit_total').val());
+        function editPlus(e) {
             
-            var html = '<div class="row mb-2" id="editMore_'+counter+'" ><div class="col-sm-6"><input name="editMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="editMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="editMinusLink" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
-            $('#retrieved_studies').append(html);
-            console.log($('#edit_total').val());
-        });
+            var button = e.id;
+            
+            var buttonID = button.split('-'); // editplus-26 by running split we have created an array [editPlus, 26]
+            
+            var editTotal = '#edit_total-'+buttonID[1]; // gotten 26 from the edit button name
+            var counter = parseInt($(editTotal).val()) + 1; // creating the name #edit_total-26
+            $(editTotal).val(counter);
 
-        $(document).on('click','.edit-minus',function(e){ 
-            e.preventDefault();
-            var counter = $('#edit_total').val();
+            var additionalLink = "editMore_"+counter+"_"+buttonID[1];
+
+            var html = '<div class="row mb-2" id="'+additionalLink+'" ><div class="col-sm-6"><input name="editMoreStudyLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="editMoreLinkLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" id="editMinus-'+counter+'-'+buttonID[1]+'" onclick="editMinus(this)" name="editMinusLink-'+buttonID[1]+'" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>';
+
+            $('#retrieved_studies-'+buttonID[1]).append(html);
+            console.log($(editTotal).val());
+        }
+    
+        function editMinus(e){
+            var button = e.id;
+            var buttonID = button.split('-');
+            var editTotal = '#edit_total-'+buttonID[2];
+
+            console.log(button);
+            var counter = $(editTotal).val();
             if (counter > 1) {
                 console.log("work");
-                $('#editMore_'+counter).remove();
-                $('#edit_total').val(counter-1);
+                $('#editMore_'+buttonID[1]+"_"+buttonID[2]).remove();
+                //$(editTotal).val(counter-1);
             }
-        });
-    });
+        }    
+
 </script> 
 @endsection
