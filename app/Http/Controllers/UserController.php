@@ -110,7 +110,7 @@ class UserController extends Controller
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+        $user->password = Hash::make($request->password);
         $user->role_ID = $request->input('roles');
         $user->updated_at = now();
 
