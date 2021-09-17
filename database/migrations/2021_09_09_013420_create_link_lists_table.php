@@ -14,10 +14,11 @@ class CreateLinkListsTable extends Migration
     public function up()
     {
         Schema::create('link_lists', function (Blueprint $table) {
-            $table->foreignId('tool_ID')->constrained('tools');
-            $table->string('link',250);
-            $table->primary(['tool_ID','link']);
+            $table->id();
+            $table->string('study_name')->nullable();
+            $table->string('link',250)->nullable();
             $table->timestamps();
+            $table->foreignId('tool_ID')->constrained('tools');
         });
     }
 

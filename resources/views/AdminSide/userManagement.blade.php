@@ -51,13 +51,14 @@
             
             <!--Search Bar-->
             <div class="col-sm-5">
-                <div class="input-group rounded">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                      aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                      <i class="fas fa-search"></i>
-                    </span>
-                </div>
+                <form action="/login/user" method="GET" role="search">
+                    <div class="input-group rounded">
+                        <input type="text" class="form-control rounded" name="term" id="term" placeholder="Search"  />
+                        <button class="btn btn-secondary" type="submit" title="Search user">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
         
@@ -76,9 +77,9 @@
                         @csrf
                     <div class="modal-body">
                         <div class="container bg-white">
-                                @if ($errors->any())
+                                @if ($errors->hasBag('store'))
                                     <div class="alert alert-danger">
-                                        @foreach ($errors->all() as $error)
+                                        @foreach ($errors->store->all() as $error)
                                         <ul>
                                             <li>{{ $error }}</li>
                                         </ul>
@@ -91,7 +92,7 @@
                                         <label for="createFnameLabel" class="col-form-label">First Name</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="createFnameLabel" name="fname" class="form-control" required>
+                                        <input id="createFnameLabel" name="fname" class="form-control" value="{{ old('fname') }}" required>
                                     </div>
 
                                     <!--Last Name-->
@@ -99,7 +100,7 @@
                                         <label for="createLnameLabel" class="col-form-label">Last Name</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="createLnameLabel" name="lname" class="form-control" required>
+                                        <input id="createLnameLabel" name="lname" class="form-control" value="{{ old('lname') }}" required>
                                     </div>
 
                                     
@@ -108,7 +109,7 @@
                                         <label for="createEmailLabel" class="col-form-label">Email</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="createEmailLabel" name="email" class="form-control" required>
+                                        <input id="createEmailLabel" name="email" class="form-control" value="{{ old('email') }}" required>
                                     </div>
 
                                     <!--Password-->
@@ -116,7 +117,7 @@
                                         <label for="createPasswordLabel" class="col-form-label">Password</label>
                                     </div>
                                     <div class="col-sm-12 mb-1">
-                                        <input id="createPasswordLabel" name="password" class="form-control" required >
+                                        <input id="createPasswordLabel" name="password" class="form-control" value="{{ old('password') }}" required >
                                     </div>
                                     
                                     <!--Roles-->
@@ -141,14 +142,7 @@
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript">
-            @if (count($errors) > 0)
-            $(function() {
-                $('#createUserForm').modal('show');
-            });
-            @endif
-        </script>
+        
         <!--Create Modal-->
 
         <!--Message-->
@@ -180,7 +174,7 @@
                 <tbody class="bg-white">
                 @foreach ($users as $user)
                     <tr>
-                        <th scope="row">{{ $loop ->iteration }}</th>
+                        <th scope="row">{{ $loop->iteration + $users->firstItem() - 1 }}</th>
                         <td>{{ $user->fname }} {{ $user->lname }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role_name }}</td>
@@ -232,28 +226,21 @@
                                             <h1 class="text-white display-6">Edit Admin</h1>
                                             <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                            @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                        <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                        </ul></div>
-                                        @endif
+                                        
                                         <form action="/login/user/{{ $user->id }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                         <div class="modal-body">
                                             <div class="container bg-white">
-                                                    @if ($errors->any())
-                                                    <div class="alert alert-danger">
-                                                        <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                        </ul>
-                                                    </div>
-                                                    @endif  
+                                                    @if ($errors->hasBag('update'))
+                                                        <div class="alert alert-danger">
+                                                            <ul>
+                                                            @foreach ($errors->update->all() as $error)
+                                                                <li>{{ $error }}</li>
+                                                            @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
                                                     <div class="row">    
                                                         <!--First Name-->
                                                         <div class="col-sm-4">
@@ -315,15 +302,10 @@
                                     </form>
                                     </div>
                                 </div>
+                                
                             </div>
-                            <script type="text/javascript">
-                                @if (count($errors) > 0)
-                                $(function() {
-                                    $('#editUserForm').modal('show');
-                                });
-                                @endif
-                            </script>
                             <!--Edit Modal-->
+                            
 
                             <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteUserForm-{{ $user->id }}">Delete</button>
                             <!--Delete Modal-->
@@ -380,8 +362,8 @@
                     </tr>
                 @endforeach
                 
-                </tbody>
                 
+                </tbody>
             </table>
             <div class="row">
                 <div class="col-sm-7 offset-sm-5">
@@ -391,4 +373,20 @@
         </div>
 
     </main>
+@endsection
+@section('script')
+    <script type="text/javascript">
+        @if (count($errors->store)>0)
+        $(function() {
+            $('#createUserForm').modal('show');
+        });
+        @endif
+    </script>
+    <script type="text/javascript">
+        @if (count($errors->update)>0)
+        $(function() {
+            $('#editUserForm-'+ {{ session('id')}}).modal('show');
+        });
+        @endif
+    </script>
 @endsection

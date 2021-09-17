@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
+use \Illuminate\Foundation\Validation\ValidatesRequests;
 class UserController extends Controller
 {
     /**
@@ -15,14 +15,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $users = DB::table('users')
                     ->join('roles','role_ID','=','roles.id')
                     ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
+                    ->where([
+                        [ function ($query) use ($request){
+                            if(($term = $request->term)){
+                                $query->orWhere('fname','LIKE','%' . $term . '%')
+                                      ->orWhere('lname','LIKE','%' . $term . '%')
+                                      ->orWhere('email','LIKE','%' . $term . '%');
+                            }
+                        }]
+                    ])
                     ->orderBy('users.id','desc')
                     ->paginate(7); 
+
 
         return view('AdminSide.userManagement')
                     ->with('users', $users);         
@@ -36,12 +46,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validate =$request->validate([
+        $validator = Validator::make($request->all(),[
             'fname' => 'alpha',
             'lname' => 'alpha',
             'email' => 'email:rfc|unique:users|required',
-        ],
-        [
+        ],[
             'fname.required' => 'First Name is required',
             'lname.required' => 'Last Name is required',
             'fname.alpha' => 'First Name must be alphabetic only',
@@ -49,15 +58,18 @@ class UserController extends Controller
             'email.email' => 'Email is invalid',
             'email.required' => 'Email is required',
             'email.unique' => 'Email has already been taken'
-        ]
-        
-        );
+        ]);
+
+        if($validator->fails()){
+            return redirect('login/user')->withErrors($validator,'store')->withInput();
+        }
+
 
         $user = new User;
         $user->fname = $request->fname;
         $user->lname = $request->lname;
         $user->email = $request->email;
-        $user->password = $request -> password;
+        $user->password = Hash::make($request->password);
         $user->role_ID = $request->roles;
 
         $user->save();
@@ -74,16 +86,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate =$request->validate([
-            'fname' => 'required|alpha',
-            'lname' => 'required|alpha',
-            'email' => [
-                'required',
-                'email:rfc',
-                Rule::unique('users')->ignore($id,'users.id')
-            ],   
-        ],
-        [
+        $validator = Validator::make($request->all(),[
+            'fname' => 'alpha',
+            'lname' => 'alpha',
+            'email' => ['email:rfc',
+                        Rule::unique('users')->ignore($id),
+                        'required'],
+        ],[
             'fname.required' => 'First Name is required',
             'lname.required' => 'Last Name is required',
             'fname.alpha' => 'First Name must be alphabetic only',
@@ -93,17 +102,21 @@ class UserController extends Controller
             'email.unique' => 'Email has already been taken'
         ]);
 
+        if($validator->fails()){
+            return back()->withErrors($validator,'update')->with('id',$id);
+        }
+
         $user = User::find($id);
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+        $user->password = Hash::make($request->password);
         $user->role_ID = $request->input('roles');
         $user->updated_at = now();
 
         $user->save();
-        return redirect('login/user')->with('message', 'Successfully Updated User!');
-
+        //return redirect('login/user')->with('message', 'Successfully Updated User!');
+        return back()->with('message', 'Successfully Updated User!');
 
     }
 

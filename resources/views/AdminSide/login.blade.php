@@ -45,23 +45,30 @@ img{
                   <img src="/pictures/Logo.jpg" class="card-img-top" width="200" height="550">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                  <form>
-                    
+                  <form method="POST" action="{{ route('login') }}">
+                    @csrf
                     <div class="log1"><p>User Log In</p></div>
                     
                     <div class="form-outline mb-md-3">
                                       <label class="form-label" for="UserName">Email address or User Name</label>
     
-                      <input type="email" id="Email address" class="form-control form-control-lg"
+                      <input name="email" type="email" id="Email address" class="form-control form-control-lg"
                         placeholder="Email Address or User Name " />
+                        @if($errors->has('email'))
+                            <span class="error" style="color:red">{{  $errors->first('email') }}</span>
+
+                        @endif
                     </div>
           
                     
                     <div class="form-outline mb-3">
                                       <label class="form-label" for="">Password</label>
     
-                      <input type="password" id="Password" class="form-control form-control-lg"
+                      <input name="password" type="password" id="Password" class="form-control form-control-lg"
                         placeholder="Enter password">
+                        @if ($errors->has('password'))
+                        <span class="error" style="color:red">{{  $errors->first('password') }}</span>
+                        @endif
                     </div>
           
                     <div class="d-flex justify-content-between align-items-center">
@@ -73,7 +80,7 @@ img{
           
                     <div>
 
-                      <button class="btn btn-primary btn-lg float-end" type="button"> Login </button>
+                      <button class="btn btn-primary btn-lg float-end" type="submit"> Login </button>
                
                       
                     </div>
