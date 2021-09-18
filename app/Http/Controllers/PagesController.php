@@ -35,19 +35,35 @@ class PagesController extends Controller
     }
 
     public function adminHome(){
+        if(auth()->user())
         return view('AdminSide.homepage');
+        else
+        return redirect()->route('login');
     }
 
     public function adminRequest(){
+        if(auth()->user())
         return view('AdminSide.pendingRequest');
+        else
+        return redirect()->route('login');
     }
     public function adminTodoList(){
+        if(auth()->user())
         return view('AdminSide.todoList');
+        else
+        return redirect()->route('login');
     }
     public function adminFeedback(){
+        if(auth()->user())
         return view('AdminSide.feedback');
+        else
+        return redirect()->route('login');
     }
     public function adminDraft(){
+        if(auth()->user())
         return view('AdminSide.draft');
+        else
+        return redirect()->route('login');
     }
+
 }

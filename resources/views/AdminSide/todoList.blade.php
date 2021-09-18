@@ -10,6 +10,8 @@
 @endsection
 
 @section('nav-bar')
+@if(auth()->user()->role->role_name == 'Owner')
+
     <a class="nav-link" href="/login/home">
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
@@ -38,6 +40,27 @@
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
     </a>
+    @else
+    <a class="nav-link" href="/login/home">
+        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+        Home
+    </a>
+
+    <a class="nav-link " href="/login/tools">
+        <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
+        Assessment Tools
+    </a> 
+
+    <a class="nav-link bg-primary text-white" href="/login/todolist">
+        <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
+        To-do List 
+    </a> 
+
+    <a class="nav-link" href="/login/draft">
+        <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
+        Draft
+    </a>
+    @endif
 @endsection
 
 @section('content')

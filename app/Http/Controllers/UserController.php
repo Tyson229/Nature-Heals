@@ -70,7 +70,7 @@ class UserController extends Controller
         $user->fname = $request->fname;
         $user->lname = $request->lname;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->password = $request->input('password');
         $user->role_ID = $request->roles;
 
         $user->save();

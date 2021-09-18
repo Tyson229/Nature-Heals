@@ -14,6 +14,8 @@
 
 @section('nav-bar')
    
+@if(auth()->user()->role->role_name == 'Owner')
+    
     <a class="nav-link bg-primary text-white" href="/login/home">
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
@@ -42,10 +44,37 @@
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
     </a>
+@else
+
+   <a class="nav-link bg-primary text-white" href="/login/home">
+    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+    Home
+   </a>
+
+   <a class="nav-link " href="/login/tools">
+    <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
+    Assessment Tools
+   </a> 
+
+   <a class="nav-link" href="/login/todolist">
+    <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
+    To-do List 
+   </a> 
+
+   <a class="nav-link" href="/login/draft">
+    <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
+    Draft
+   </a>
+
+    @endif
+
 @endsection
 
 @section('content')
+
     <h1 class="display-5"> Hello {{ auth()->user()->fname }}</h1>  
+    @if(auth()->user()->role->role_name == 'Owner')
+
     <div class="d-flex justify-content-center ">
         <div class="row mt-5 text-center">
               
@@ -68,4 +97,26 @@
                 <i class="fab fa-firstdraft fa-3x mb-3"></i><br> Draft</a>
         </div>
     </div>
+    @else
+    <div class="d-flex justify-content-center ">
+        <div class="row mt-5 text-center">
+              
+            
+
+            <a class="btn btn-success btn-squared-default btn-lg m-2" href="/login/tools" role="button"> 
+                <i class="fa fa-suitcase fa-3x mb-3"></i><br> Assessment Tools</a>
+
+            
+
+            <a class="btn btn-danger btn-squared-default btn-lg m-2" href="/login/todolist" role="button">
+                <i class="fa fa-server fa-3x mb-3"></i><br>To-do List</a>
+                
+       
+
+            <a class="btn btn-secondary btn-squared-default btn-lg m-2" href="/login/draft" role="button">
+                <i class="fab fa-firstdraft fa-3x mb-3"></i><br> Draft</a>
+        </div>
+    </div>
+    
+    @endif
 @endsection
