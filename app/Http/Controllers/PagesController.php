@@ -35,34 +35,43 @@ class PagesController extends Controller
     }
 
     public function adminHome(){
-        if(auth()->user())
-        return view('AdminSide.homepage');
+        if(Auth::user())
+            return view('AdminSide.homepage');
         else
-        return redirect()->route('login');
+            return redirect()->route('login');    
     }
 
     public function adminRequest(){
-        if(auth()->user())
-        return view('AdminSide.pendingRequest');
+        if(Auth::user()){
+            if(Auth::user()->role_ID == 1)
+                return view('AdminSide.pendingRequest');
+            else
+                return back();
+        }
         else
-        return redirect()->route('login');
+            return redirect()->route('login');     
     }
     public function adminTodoList(){
-        if(auth()->user())
-        return view('AdminSide.todoList');
+        if(Auth::user())
+            return view('AdminSide.todoList');
         else
-        return redirect()->route('login');
+            return redirect()->route('login');
     }
     public function adminFeedback(){
-        if(auth()->user())
-        return view('AdminSide.feedback');
-        else
-        return redirect()->route('login');
+        if(Auth::user()){
+            if(Auth::user()->role_ID == 1)
+                return view('AdminSide.feedback');
+            else
+                return back();
+        }
+        else{
+            return redirect()->route('login');
+        }
     }
     public function adminDraft(){
-        if(auth()->user())
-        return view('AdminSide.draft');
+        if(Auth::user())
+            return view('AdminSide.draft');
         else
-        return redirect()->route('login');
+            return redirect()->route('login');
     }
 }

@@ -20,29 +20,33 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if(Auth::user()->role_ID==2)
-            return back();
+        if(Auth::user()){
+            if(Auth::user()->role_ID==2)
+                return back();
 
-        $users = DB::table('users')
-                    ->join('roles','role_ID','=','roles.id')
-                    ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
-                    ->where([
-                        [ function ($query) use ($request){
-                            if(($term = $request->term)){
-                                $query->orWhere('fname','LIKE','%' . $term . '%')
-                                      ->orWhere('lname','LIKE','%' . $term . '%')
-                                      ->orWhere('email','LIKE','%' . $term . '%');
-                            }
-                        }]
-                    ])
-                    ->orderBy('roles.role_name','desc')
-                    ->orderBy('users.id','desc')
-                    
-                    ->paginate(7); 
+            $users = DB::table('users')
+                        ->join('roles','role_ID','=','roles.id')
+                        ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
+                        ->where([
+                            [ function ($query) use ($request){
+                                if(($term = $request->term)){
+                                    $query->orWhere('fname','LIKE','%' . $term . '%')
+                                        ->orWhere('lname','LIKE','%' . $term . '%')
+                                        ->orWhere('email','LIKE','%' . $term . '%');
+                                }
+                            }]
+                        ])
+                        ->orderBy('roles.role_name','desc')
+                        ->orderBy('users.id','desc')
+                        
+                        ->paginate(7); 
 
 
-        return view('AdminSide.userManagement')
-                    ->with('users', $users);         
+            return view('AdminSide.userManagement')
+                        ->with('users', $users);
+        }
+        else
+            return back();         
     }
 
     /**
