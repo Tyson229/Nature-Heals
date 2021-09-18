@@ -203,7 +203,7 @@
 											
 											<div class="form-group" style="margin-top: 10px;"> 
 												<label for="exampleFormControlSelect1">Select Category</label>
-												<select name="category" class="form-control" id="exampleFormControlSelect1">
+												<select name="category" class="form-control" id="exampleFormControlSelect1" required>
 													<option value=""> -------- Please choose an option ------------- </option>
 													<option value="Feedback"> Feedback </option>
 													<option value="Question"> Question </option>
@@ -268,35 +268,5 @@
 	</section>
 @endsection
 
-@section('script')
-<script>
-$(function(){
-	$('#contact-us-form').validate({
-		rules: {
-			name: {
-				required: true
-			},
-			email: {
-				email: false
-			},
-			category: {
-				required: true
-			},
-			contact_message: {
-				required: true
-			}
-		},
-		errorElement: 'span',
-		errorPlacement: function (error, element) {
-			error.addClass('invalid-feedback');
-			element.closest('.form-group').append(error);
-		},
-		submitHandler: function(form) {
-			form.submit();
-		}
-	});
-});
-</script>
-@endsection
 
 

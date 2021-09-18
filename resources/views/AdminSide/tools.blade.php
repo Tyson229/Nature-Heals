@@ -5,6 +5,27 @@
         html{
             font-size: 1.2rem;
         }
+        .cont{
+            background-color:#ADD8E6;
+            padding:10px 10px 10px 10px;
+            margin-left: 1px;
+
+        }
+        .cont1{
+         
+            margin-left: 24px;
+
+        }
+
+h2{
+    font-size: 22px; 
+    color:black;
+    margin-left: 16px;
+    
+
+}
+    
+        }
     </style>
 @endsection
 
@@ -458,15 +479,17 @@
                                     <div class="modal-content">
                                         <div class="modal-header bg-dark">
                                             <h1 class="text-white">Details</h1>
-                                            <p class="text-white">Status: {{ $tool->status }}</p>
+                                            <p class="text-white" style="font-size:33px; position:relative; top:5px;">&nbsp;(Status: {{ $tool->status }})</p>
                                             <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        
+                                        <div class="right">
                                             <div class="modal-body">
                                                 <div class="container bg-white">
                                                         <div class="main">
-                                                            <h2>Tool Details</h2> 
+                                                            <div class="cont">
+                                                            <h2><b>Tool Details</b></h2> 
+                                                            </div>
                                                             <!--Tool Name-->
                                                             <!--<div class="row mb-3">
                                                                 <div class="col-sm-12">
@@ -476,72 +499,57 @@
                                                                     
                                                                 </div>
                                                             </div>-->
+                                                            <div class="cont1">
                                                             <div class="row">
                                                                 <label for="createToolName" class="col-form-label"><strong>Tool Name: </strong> {{ $tool->tool_name }}</label>
                                                             </div>
+
                                                             <div class="row">
-                                                            <label for="createDescription" class="col-form-label"><strong>Description:</strong> {{ $tool->tool_description }}</label>
-                                                            
+                                                                 <label for="createDescription" class="col-form-label"><strong>Description: </strong> {{ $tool->tool_description }}</label>
                                                             </div>
-                                                            <!--Description-->  
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-2">
-                                                                    
-                                                                </div>
-                                                                <div class="col">
-                                                                    
-                                                                </div>
-                                                            </div>  
 
                                                             <!--Health Domain & Age Group-->
-                                                            <div class="row mb-3">
-                                                                
-                                                                    <label for="createHealthDomain" class="col-form-label"><strong>Health Domain:</strong>{{ $tool->health_domain }}</label>
-                                                                
-
+                                                            <div class="row mb-12">
+                                                                <label for="createHealthDomain" class="col-form-label"><strong>Health Domain: </strong>{{ $tool->health_domain }}</label>
+                                                                   
                                                             </div>
 
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-2">
-                                                                    <label for="createAgeGroup" class="col-form-label"><strong>Group:</strong> </label>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    {{ $tool->age_group }}   
-                                                                </div>
+                                                            <div class="row mb-12">
+
+                                                                <label for="createAgeGroup" class="col-form-label"><strong>Group:</strong> {{ $tool->age_group }}   </label>   
                                                             </div>
-                                                            
+
                                                             <!--Notes-->
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-2">
-                                                                    <label for="createNotes" class="col-form-label"><strong>Notes:</strong> </label>
+                                                                <div class="col-sm-12">
+                                                                    <label for="createNotes" class="col-form-label"><strong>Notes:</strong> {{ $tool->notes }} </label>
+                                                            
                                                                 </div>     
-                                                                <div class="col">
-                                                                    {{ $tool->notes }}
-                                                                </div>
+                                                            
                                                             </div>
-                                        
+                                                        </div>
                                                             <!--Link-->
-                                                            <div class="row mb-3">     
-                                                                <div class="col-sm-3">
-                                                                    <label class="col-form-label"><strong>Study(s) has used this tool</strong></label>
-                                                                </div>
+                                                            <div class="row mb-12">     
+                                                                <div class="col-sm-12" style=" margin-left: 24px; margin-top: -6px;">
+                                                                    <label class="col-form-label"><strong>Study(s) has used this tool: </strong></label>
+                                                            
                                                                 <div class="col-sm-12" id="studies">
-                                                                    <div class="row mb-2">
+                                                                    <div class="row mb-12">
                                                                         @foreach ($link_lists as $link)
                                                                             @if($link->id == $tool->id)
-                                                                                <div class="col-sm-2">{{ $link->study_name }}</div>
-                                                                                <div class="col-sm-2 "><a href="{{ $link->link }}" target="_blank">{{ $link->link }}</a></div>
+                                                                                <div class="col-sm-9">{{ $link->study_name }}</div>
+                                                                                <div class="col-sm-9 "><a href="{{ $link->link }}" target="_blank">{{ $link->link }}</a></div> 
                                                                                 <div class="col-sm-8"></div>   
                                                                             @endif    
                                                                         @endforeach
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            </div>
                                         
                                                             <!--Attachment-->
-                                                            <div class="row mb-3">     
-                                                                <div class="col-sm-2">
-                                                                    <label for="createAttachmentLabel" class="col-form-label"><strong>Attachment:</strong></label>
+                                                            <div class="row mb-12">     
+                                                                <div class="col-sm-12"style=" margin-left: 24px; margin-top: -6px;">
+                                                                   <br> <label for="createAttachmentLabel" class="col-form-label"><strong>Attachment:</strong></label>
                                                                 </div>
                                                                 <div class="col">
                                                                     
@@ -549,165 +557,142 @@
                                                             </div>
                                                             
                                                             <hr>
-                                                            <!--Additional Details-->
-                                                            <h2>Additional Details</h2>
+                                                            <div class="accordion" id="accordion">
+                                                                <!--Additional Details-->
+                                                                <div class="accordion-item">
+                                                                    <h1 class="accordion-header" id="headingOne">
+                                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                        <b>Additional Details</b>
+                                                                        </button>
+                                                                    </h1>
+                                                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" >
+                                                                        <div class="accordion-body">
                                                             
                                                                 <!--Outcome-->
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createOutcome" class="col-form-label"><strong>Outcome:</strong></label>
-                                                                    </div>
-                                                                    <div class="col">    
-                                                                        {{ $tool->outcome }}   
+                                                                <div class="row mb-12">
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createOutcome" class="col-form-label"><strong>Outcome: </strong> {{ $tool->outcome }}   </label>
                                                                     </div>
                                                                 </div>
                             
                                                                 <!--Gender-->
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createGender" class="col-form-label"><strong>Gender:</strong></label>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->gender }}
+                                                                <div class="row mb-12">
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createGender" class="col-form-label"><strong>Gender:</strong>    {{ $tool->gender }} </label>
                                                                     </div>
                                                                 </div>
                             
                                                                 <!--Modality & Condition-->
-                                                                <div class="row mb-2">
+                                                                <div class="row mb-12">
                                                                     <!--Condition-->
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createCondition" class="col-form-label"><strong>Health Condition:</strong></label>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->health_condition }}   
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createCondition" class="col-form-label"><strong>Health Condition:</strong> {{ $tool->health_condition }}   </label>
                                                                     </div>
                                                                 </div>
                                                                 
                                                                 <!--Modality-->
-                                                                <div class="row mb-2">    
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createModality" class="col-form-label"><strong>Recreation Modality:</strong> </label>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->modality }}  
+                                                                <div class="row mb-12">    
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createModality" class="col-form-label"><strong>Recreation Modality:</strong>  {{ $tool->modality }}   </label>
                                                                     </div>
                                                                 </div>
                             
                                                                 <!--Specific NB & Settings-->
-                                                                <div class="row mb-2">
+                                                                <div class="row mb-12">
                                                                     <!--Specific NB-->
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createSpecificNB" class="col-form-label"><strong>Specific for Nature Base:</strong> </label>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->specific_NB }} 
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createSpecificNB" class="col-form-label"><strong>Specific for Nature Base:</strong> {{ $tool->specific_NB }}  </label>
                                                                     </div>
                                                                 </div>
 
                                                                 <!--Settings-->
-                                                                <div class="row mb-2">
+                                                                <div class="row mb-12">
                                                                     
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createSetting" class="col-form-label"><strong> Nature Settings:</strong> </label>
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createSetting" class="col-form-label"><strong> Nature Settings:</strong>   {{ $tool->settings }}    </label>
                                                                     </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->settings }}   
-                                                                    </div>
+                                                                
                                                                 </div>    
                                                                         
                                                                 <!--Reliability & Validity-->
                                                                 <div class="row mb-3">
                                                                     <!--Reliability-->
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createReliability" class="col-form-label"><strong>Reliability:</strong> </label>
+                                                                    <div class="col-sm-12">
+                                                                        <label for="createReliability" class="col-form-label"><strong>Reliability:</strong>     {{ $tool->reliability }} </label>
                                                                     </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->reliability }}
-                                                                    </div>
+                                                            
                                                                 </div>
-                                                                <div class="row mb-3">     
+                                                                <div class="row mb-12">     
                                                                     <!--Validity-->
                                                                     
-                                                                    <div class="col-sm-2">
-                                                                        <label for="createValidity" class="col-form-label"><strong>Validity:</strong> </label>
+                                                                    <div class="col-sm-12" style="position:relative;top:-22px">
+                                                                        <label for="createValidity" class="col-form-label"><strong>Validity:</strong>  {{ $tool->validity }}  </label>
                                                                     </div>
-                                                                    <div class="col-sm-3">
-                                                                        {{ $tool->validity }}    
-                                                                    </div>
+                                                                    
                                                                 </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div> <br>
+                                             
                                                             <!--Additional Details-->
 
                                                             <div class="accordion" id="accordion">
                                                                 <!--Journal Details-->
                                                                 <div class="accordion-item">
-                                                                    <h1 class="accordion-header" id="headingOne">
-                                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                        Additional Details
+                                                                    <h1 class="accordion-header" id="headingTwo">
+                                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                                     <b> Journal Details </b>
                                                                         </button>
                                                                     </h1>
-                                                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" >
+                                                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
                                                                         <div class="accordion-body">
                                                                             <div class="row">
                                                                                 <!--Author-->
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createAuthor" class="col-form-label"><strong>Author:</strong> </label>
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createAuthor" class="col-form-label"><strong>Author:</strong>  {{ $tool->author }}</label>
                                                                                 </div>
-                                                                                <div class="col-sm-10 mb-3">
-                                                                                    {{ $tool->author }}
-                                                                                </div>
+                                                                             
                                                                                 <!--Title-->
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createTitle" class="col-form-label"><strong>Article Title:</strong> </label>
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createTitle" class="col-form-label"><strong>Article Title:</strong>  {{ $tool->title }}</label>
                                                                                 </div>
-                                                                                <div class="col-sm-10 mb-3">
-                                                                                    {{ $tool->title }}
-                                                                                </div>
+                                                                            
                                                                                 <!--Year-->
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createYear" class="col-form-label"><strong>Year:</strong></label>
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createYear" class="col-form-label"><strong>Year:</strong>   {{ $tool->year }}</label>
                                                                                 </div>
-                                                                                <div class="col-sm-3 mb-3">
-                                                                                    {{ $tool->year }}
-                                                                                </div>
+                                                                            
                                                                             </div>
                                                                             <div class="row">
                                                                                 <!--Country-->
-                                                                                <div class="col-sm-1">
-                                                                                    <label for="createCountry" class="col-form-label"><strong>Country:<strong></label>
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createCountry" class="col-form-label"><strong>Country:</strong>   {{ $tool->country }}</label>
                                                                                 </div>
-                                                                                <div class="col-sm-3 mb-3">
-                                                                                    {{ $tool->country }}
-                                                                                </div>
+                                                                            
                                                                             </div>
                                                                         
                                                         
                                                                             <!--Journal-->    
                                                                             <div class="row">
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createJournal" class="col-form-label">Journal: </label>
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createJournal" class="col-form-label"><strong> Journal: </strong>   {{ $tool->article }} </label>
                                                                                 </div>
-                                                                                <div class="col-sm-10 mb-3">
-                                                                                    {{ $tool->article }}
-                                                                                </div>
+                                                            
                                                                             </div>
                                                                             
                                                                             <!--Measure-->
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createMeasure" class="col-form-label">Measure: </label>
-                                                                                </div>
-                                                                                <div class="col-sm-3">
-                                                                                    {{ $tool->measure }}    
+                                                                            <div class="row mb-12">
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createMeasure" class="col-form-label"><strong> Measure:</strong> {{ $tool->measure }}   </label>
                                                                                 </div>
                                                                             </div>
                                                                             <!--Program Content-->
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="createProgramContent" class="col-form-label">Program Content: </label>
+                                                                            <div class="row mb-12">
+                                                                                <div class="col-sm-12">
+                                                                                    <label for="createProgramContent" class="col-form-label"><strong>Program Content: </strong>   {{ $tool->program_content }}  </label>
                                                                                 </div>
-                                                                                <div class="col-sm-10" >
-                                                                                    {{ $tool->program_content }}   
-                                                                                </div>
+         
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -716,7 +701,7 @@
                                                         </div>
                                                 </div>
                                             </div>
-                                            
+                                        </div>  
                                     </div>
                                 </div>
                             </div>
@@ -969,7 +954,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+                                                           
                                                                 <!--Journal Details-->
                                                                 <div class="accordion-item">
                                                                     <h1 class="accordion-header" id="headingTwo">
@@ -981,29 +966,29 @@
                                                                         <div class="accordion-body">
                                                                             <div class="row">
                                                                                 <!--Author-->
-                                                                                <div class="col-sm-2">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createAuthor" class="col-form-label">Author</label>
                                                                                 </div>
-                                                                                <div class="col-sm-10 mb-3">
+                                                                                <div class="col-sm-12 mb-12">
                                                                                     <input id="createAuthor" name="createAuthor" class="form-control" placeholder="Author">
                                                                                 </div>
                                                                                 <!--Title-->
-                                                                                <div class="col-sm-2">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createTitle" class="col-form-label">Article Title</label>
                                                                                 </div>
-                                                                                <div class="col-sm-10 mb-3">
+                                                                                <div class="col-sm-12 mb-12">
                                                                                     <input id="createTitle" name="createTitle" class="form-control" placeholder="Title">
                                                                                 </div>
                                                                                 <!--Date-->
-                                                                                <div class="col-sm-2">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createYear" class="col-form-label">Year</label>
                                                                                 </div>
-                                                                                <div class="col-sm-3 mb-3">
+                                                                                <div class="col-sm-12 mb-12">
                                                                                     <input id="createYear" name="createYear" class="form-control" placeholder="Year">
                                                                                 </div>
-                                                                                <div class="col-sm-1"></div>
+                                                                                <div class="col-sm-12"></div>
                                                                                 <!--Country-->
-                                                                                <div class="col-sm-1">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createCountry" class="col-form-label">Country</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3 mb-3">
@@ -1013,20 +998,20 @@
                                                         
                                                                             <!--Journal-->    
                                                                             <div class="row">
-                                                                                <div class="col-sm-2">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createJournal" class="col-form-label">Journal</label>
                                                                                 </div>
-                                                                                <div class="col-sm-10 mb-3">
+                                                                                <div class="col-sm-10 mb-12">
                                                                                     <input id="createJournal" name="createJournal" class="form-control" placeholder="Journal">
                                                                                 </div>
                                                                             </div>
                                                                             
                                                                             <!--Measure-->
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-2">
+                                                                            <div class="row mb-12">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createMeasure" class="col-form-label">Measure</label>
                                                                                 </div>
-                                                                                <div class="col-sm-3">
+                                                                                <div class="col-sm-12">
                                                                                     <select id="createMeasure" name="createMeasure" class="form-select">
                                                                                         <option value="" selected>Choose...</option>
                                                                                         <option value="Wellbeing">Wellbeing</option>
@@ -1036,8 +1021,8 @@
                                                                                 </div>
                                                                             </div>
                                                                             <!--Program Content-->
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-2">
+                                                                            <div class="row mb-12">
+                                                                                <div class="col-sm-12">
                                                                                     <label for="createProgramContent" class="col-form-label">Program Content</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10" >

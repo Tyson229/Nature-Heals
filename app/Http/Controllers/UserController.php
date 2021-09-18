@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use \Illuminate\Foundation\Validation\ValidatesRequests;
+
 class UserController extends Controller
 {
     /**
@@ -26,8 +27,7 @@ class UserController extends Controller
                             if(($term = $request->term)){
                                 $query->orWhere('fname','LIKE','%' . $term . '%')
                                       ->orWhere('lname','LIKE','%' . $term . '%')
-                                      ->orWhere('email','LIKE','%' . $term . '%')
-                                      ->get();
+                                      ->orWhere('email','LIKE','%' . $term . '%');
                             }
                         }]
                     ])
@@ -70,7 +70,7 @@ class UserController extends Controller
         $user->fname = $request->fname;
         $user->lname = $request->lname;
         $user->email = $request->email;
-        $user->password = $request -> password;
+        $user->password = Hash::make($request->password);
         $user->role_ID = $request->roles;
 
         $user->save();

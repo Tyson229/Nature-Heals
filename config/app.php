@@ -230,15 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
- /*
-    |--------------------------------------------------------------------------
-    | Send contact form information to this email
-    |--------------------------------------------------------------------------
-    |
-    | This email is used to receive the contact form information submitted by 
-    | the users in contact form. if you want to recieve the message(Contact Us form) in a different 
-    |
-    */
+
     
     'receive_contact_form_email' => 'NatureHeals.21@gmail.com',
 
