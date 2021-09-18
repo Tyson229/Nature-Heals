@@ -24,28 +24,32 @@ class ToolsController extends Controller
      */
     public function index(Request $request)
     {
-        $tools = DB::table('tools')
-                ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
-                ->select('tools.*','tool_statuses.status')
-                ->where([
-                    [ function ($query) use ($request){
-                        if(($term = $request->term)){
-                            $query->orWhere('tools.tool_name','LIKE','%'.$term.'%' )
-                                  ->orWhere('tools.health_domain','=',$term );
-                        }
-                    }]
-                ])
-                ->where('tool_statuses.status','=','Hidden')
-                ->orWhere('tool_statuses.status','=','Published')
-                ->orderBy('tools.created_at','desc')
-                ->paginate(7);
+        if(Auth::user()){
+            $tools = DB::table('tools')
+                    ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
+                    ->select('tools.*','tool_statuses.status')
+                    ->where([
+                        [ function ($query) use ($request){
+                            if(($term = $request->term)){
+                                $query->orWhere('tools.tool_name','LIKE','%'.$term.'%' )
+                                    ->orWhere('tools.health_domain','=',$term );
+                            }
+                        }]
+                    ])
+                    ->where('tool_statuses.status','=','Hidden')
+                    ->orWhere('tool_statuses.status','=','Published')
+                    ->orderBy('tools.created_at','desc')
+                    ->paginate(7);
 
-        $link = DB::table('tools')
-                ->join('link_lists','link_lists.tool_ID','=','tools.id')
-                -> select('tools.id','link_lists.study_name','link_lists.link')
-                ->get();
+            $link = DB::table('tools')
+                    ->join('link_lists','link_lists.tool_ID','=','tools.id')
+                    -> select('tools.id','link_lists.study_name','link_lists.link')
+                    ->get();
 
-        return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);       
+            return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);
+        }
+        else
+            return back();       
     }
 
 
@@ -220,6 +224,7 @@ class ToolsController extends Controller
             $tool->status_ID = $request->publish_switch;
             $tool->updated_at = now();
             $tool->save(); 
+            $message = 'Successfully Updated Tool!';
         }else{
             $validator = Validator::make($request->all(),[
                 //Tools details

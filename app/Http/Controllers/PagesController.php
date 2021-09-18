@@ -35,25 +35,43 @@ class PagesController extends Controller
     }
 
     public function adminHome(){
-        return view('AdminSide.homepage');
+        if(Auth::user())
+            return view('AdminSide.homepage');
+        else
+            return redirect()->route('login');    
     }
 
     public function adminRequest(){
-        if(Auth::user()->role_ID == 1)
-            return view('AdminSide.pendingRequest');
+        if(Auth::user()){
+            if(Auth::user()->role_ID == 1)
+                return view('AdminSide.pendingRequest');
+            else
+                return back();
+        }
         else
-            return back();    
+            return redirect()->route('login');     
     }
     public function adminTodoList(){
-        return view('AdminSide.todoList');
+        if(Auth::user())
+            return view('AdminSide.todoList');
+        else
+            return redirect()->route('login');
     }
     public function adminFeedback(){
-        if(Auth::user()->role_ID == 1)
-            return view('AdminSide.feedback');
-        else
-            return back();
+        if(Auth::user()){
+            if(Auth::user()->role_ID == 1)
+                return view('AdminSide.feedback');
+            else
+                return back();
+        }
+        else{
+            return redirect()->route('login');
+        }
     }
     public function adminDraft(){
-        return view('AdminSide.draft');
+        if(Auth::user())
+            return view('AdminSide.draft');
+        else
+            return redirect()->route('login');
     }
 }
