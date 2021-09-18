@@ -41,6 +41,7 @@ Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']
 Route::get('/login/home', [PagesController::class,'adminHome'])->name('admin.home');
 
 Route::resource('login/user',UserController::class);
+
 Route::resource('login/tools',ToolsController::class);
 
 

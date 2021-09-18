@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class PagesController extends Controller
 {
     public function homepage(){
@@ -39,13 +39,19 @@ class PagesController extends Controller
     }
 
     public function adminRequest(){
-        return view('AdminSide.pendingRequest');
+        if(Auth::user()->role_ID == 1)
+            return view('AdminSide.pendingRequest');
+        else
+            return back();    
     }
     public function adminTodoList(){
         return view('AdminSide.todoList');
     }
     public function adminFeedback(){
-        return view('AdminSide.feedback');
+        if(Auth::user()->role_ID == 1)
+            return view('AdminSide.feedback');
+        else
+            return back();
     }
     public function adminDraft(){
         return view('AdminSide.draft');

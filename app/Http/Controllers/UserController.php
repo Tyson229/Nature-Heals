@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use \Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -19,7 +20,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        if(Auth::user()->role_ID==2)
+            return back();
+
         $users = DB::table('users')
                     ->join('roles','role_ID','=','roles.id')
                     ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')

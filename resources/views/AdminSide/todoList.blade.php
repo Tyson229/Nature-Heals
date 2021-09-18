@@ -14,26 +14,32 @@
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
     </a>
+    @if(Auth::user()->role_ID == 1)
     <a class="nav-link  " href="/login/user">
         <div class="sb-nav-link-icon"><i class="fa fa-user-circle"></i></div>
         User Management
     </a> 
+    @endif
     <a class="nav-link " href="/login/tools">
         <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
         Assessment Tools
-    </a> 
+    </a>
+    @if(Auth::user()->role_ID == 1) 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
       Tool Request
     </a>
+    @endif
     <a class="nav-link bg-primary text-white" href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
         To-do List 
     </a> 
+    @if(Auth::user()->role_ID == 1)
     <a class="nav-link" href="/login/feedback">
         <div class="sb-nav-link-icon"><i class="fa fa-life-ring"></i></div>
         Feedback
     </a> 
+    @endif
     <a class="nav-link" href="/login/draft">
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
