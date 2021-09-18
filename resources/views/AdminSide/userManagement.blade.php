@@ -197,11 +197,6 @@
                                                         <div class="col-sm-12">
                                                             <b>Email: </b>{{ $user->email }}
                                                         </div> 
-
-                                                        <!--Password-->
-                                                        <div class="col-sm-12">
-                                                            <b>Password: </b>{{ $user->password }}
-                                                        </div>
                                                         
                                                         <!--Roles-->
                                                         <div class="col-sm-12">
@@ -215,9 +210,9 @@
                             </div>
                             <!-- Show Modal-->
 
-
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editUserForm-{{ $user->id }}">Edit</button>
-                            
+                            @if(strcmp($user->role_name,"Admin")==0)
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editUserForm-{{ $user->id }}">Edit</button>
+                            @endif
                             <!--Edit Modal-->
                             <div class="modal fade" id="editUserForm-{{ $user->id }}" tabindex="-1" aria-labelledby="editUserFormLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -266,14 +261,6 @@
                                                         <div class="col-sm-12 mb-1">
                                                             <input id="editEmailLabel" name="email" class="form-control" value="{{ $user->email }}" required>
                                                         </div>
-
-                                                        <!--Password-->
-                                                        <div class="col-sm-3">
-                                                            <label for="editPasswordLabel" class="col-form-label">Password</label>
-                                                        </div>
-                                                        <div class="col-sm-12 mb-1">
-                                                            <input id="editPasswordLabel" name="password" class="form-control" value="{{ $user->password }}" required >
-                                                        </div>
                                                         
                                                         <!--Roles-->
                                                         <div class="col-sm-12">
@@ -306,8 +293,9 @@
                             </div>
                             <!--Edit Modal-->
                             
-
-                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteUserForm-{{ $user->id }}">Delete</button>
+                            @if(strcmp($user->role_name,"Admin")==0)
+                                <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteUserForm-{{ $user->id }}">Delete</button>
+                            @endif
                             <!--Delete Modal-->
                             <div class="modal fade" id="deleteUserForm-{{ $user->id }}" tabindex="-1" aria-labelledby="deleteUserFormLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -336,11 +324,6 @@
                                                     <div class="col-sm-12">
                                                         <b>Email: </b>{{ $user->email }}
                                                     </div> 
-
-                                                    <!--Password-->
-                                                    <div class="col-sm-12">
-                                                        <b>Password: </b>{{ $user->password }}
-                                                    </div>
                                                     
                                                     <!--Roles-->
                                                     <div class="col-sm-12">
@@ -358,6 +341,7 @@
                                 </div>
                             </div>
                             <!--Delete Modal-->
+                            
                         </td>
                     </tr>
                 @endforeach

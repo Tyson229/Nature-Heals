@@ -47,13 +47,12 @@ img{
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                   <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <div class="log1"><p>User Log In</p></div>
+                    <div class="log1"><p>Log In</p></div>
                     
                     <div class="form-outline mb-md-3">
-                                      <label class="form-label" for="UserName">Email address or User Name</label>
+                                      <label class="form-label" for="UserName">Email address</label>
     
-                      <input name="email" type="email" id="Email address" class="form-control form-control-lg"
-                        placeholder="Email Address or User Name " />
+                      <input name="email" type="email" id="Email address" class="form-control form-control-lg" />
                         @if($errors->has('email'))
                             <span class="error" style="color:red">{{  $errors->first('email') }}</span>
 
@@ -64,8 +63,7 @@ img{
                     <div class="form-outline mb-3">
                                       <label class="form-label" for="">Password</label>
     
-                      <input name="password" type="password" id="Password" class="form-control form-control-lg"
-                        placeholder="Enter password">
+                      <input name="password" type="password" id="Password" class="form-control form-control-lg">
                         @if ($errors->has('password'))
                         <span class="error" style="color:red">{{  $errors->first('password') }}</span>
                         @endif

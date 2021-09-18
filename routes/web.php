@@ -5,6 +5,8 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\Tools_feedback;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +19,6 @@ use App\Http\Controllers\Tools_feedback;
 |
 */
 /*User end*/
-
-/*Route::get('/', function () {
-    return view('UserSide.welcome');    
-});*/
 //Homepage
 Route::get('/', [PagesController::class, 'homepage']);
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use \Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -31,7 +32,9 @@ class UserController extends Controller
                             }
                         }]
                     ])
+                    ->orderBy('roles.role_name','desc')
                     ->orderBy('users.id','desc')
+                    
                     ->paginate(7); 
 
 
@@ -111,7 +114,6 @@ class UserController extends Controller
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
         $user->role_ID = $request->input('roles');
         $user->updated_at = now();
 
