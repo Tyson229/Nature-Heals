@@ -52,8 +52,8 @@
 
 @section('content')
     <h1 class="display-5"> Hello {{ auth()->user()->fname }}</h1>  
-    <div class="d-flex justify-content-center ">
-        <div class="row mt-5 text-center">
+    <div class="d-flex justify-content-center">
+        <div class="row mt-5 text-center ">
             @if(Auth::user()->role_ID == 1)  
             <a class="btn btn-primary btn-squared-default btn-lg m-2 " href="/login/user" role="button">
                 <i class="fa fa-user-circle fa-3x mb-3"></i><br> User Management</a>
