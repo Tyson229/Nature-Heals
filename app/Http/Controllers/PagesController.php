@@ -65,5 +65,4 @@ class PagesController extends Controller
         else
         return redirect()->route('login');
     }
-
 }

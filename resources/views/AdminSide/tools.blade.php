@@ -36,26 +36,32 @@ margin-left: 16px;
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
     </a>
+    @if(Auth::user()->role_ID == 1)
     <a class="nav-link  " href="/login/user">
         <div class="sb-nav-link-icon"><i class="fa fa-user-circle"></i></div>
         User Management
     </a> 
+    @endif
     <a class="nav-link bg-primary text-white " href="/login/tools">
         <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
         Assessment Tools
     </a> 
+    @if(Auth::user()->role_ID == 1)
     <a class="nav-link" href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
         Tool Request
     </a>
+    @endif
     <a class="nav-link" href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
         To-do List 
-    </a> 
+    </a>
+    @if(Auth::user()->role_ID == 1) 
     <a class="nav-link" href="/login/feedback">
         <div class="sb-nav-link-icon"><i class="fa fa-life-ring"></i></div>
         Feedback
-    </a> 
+    </a>
+    @endif 
     <a class="nav-link" href="/login/draft">
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
@@ -437,7 +443,13 @@ margin-left: 16px;
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" name="saveDraft" value="Save" class="btn btn-secondary" data-bs-dismiss="modal">Save as
                                 Draft</button>
-                            <button type="submit" name="add" value="Submit" class="btn btn-primary">Add</button>
+                            <button type="submit" name="add" value="Submit" class="btn btn-primary">
+                                @if(Auth::user()->role_ID == 2)
+                                    Submit
+                                @else
+                                    Save
+                                @endif
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -463,7 +475,9 @@ margin-left: 16px;
                         <th scope="col">#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Health Domain</th>
-                        <th scope="col">Status</th>
+                        @if (Auth::user()->role_ID == 1)
+                            <th scope="col">Status</th>
+                        @endif
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -478,265 +492,245 @@ margin-left: 16px;
                         <td class="col-sm-4">{{ $tool->tool_name }}</td>
                         
                         <td class="col-sm-2">{{ $tool->health_domain }}</td>
-                        
-                        <td class="col-sm-1">
-                                <form action="/login/tools/{{ $tool->id }}" method="POST">
-                                    @csrf 
-                                    @method('PUT')
-                                @if (!strcmp(($tool->status),'Hidden'))
-                                    <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
-                                @else
-                                    <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
-                                @endif
-                            </form>
-                            </div>
+                        @if(Auth::user()->role_ID == 1)
+                            <td class="col-sm-1">
+                                    <form action="/login/tools/{{ $tool->id }}" method="POST">
+                                        @csrf 
+                                        @method('PUT')
+                                    @if (!strcmp(($tool->status),'Hidden'))
+                                        <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
+                                    @else
+                                        <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
+                                    @endif
+                                </form>
+                                
+                            </td>
+                        @endif
                         <td>
                             <button class="btn btn-info text-white" type="button" data-bs-toggle="modal"
                             data-bs-target="#detailsToolForm-{{ $tool->id }}">Details</button>
 
                             <!--Details Modal-->
                             <div class="modal fade" id="detailsToolForm-{{ $tool->id }}" data-bs-backdrop="static" tabindex="-1"
-                            aria-labelledby="detailsToolFormLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-xl">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-dark">
-                                            <h1 class="text-white">Details</h1>
-                                            <p class="text-white" style="font-size:33px; position:relative; top:5px;">&nbsp;(Status: {{ $tool->status }})</p>
-                                            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        
+                                aria-labelledby="detailsToolFormLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-dark">
+                                                <h1 class="text-white">Details</h1>
+                                                <p class="text-white" style="font-size:33px; position:relative; top:5px;">&nbsp;(Status: {{ $tool->status }})</p>
+                                                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                                                <!--Description-->  
+                                                                <div class="right">
+                                                                    <div class="modal-body">
+                                                                        <div class="container bg-white">
+                                                                                <div class="main">
+                                                                                    <div class="cont">
+                                                                                        <h2><b>Tool Details</b></h2> 
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="cont1">
+                                                                                        <div class="row">
+                                                                                            <label for="createToolName" class="col-form-label"><strong>Tool Name: </strong> {{ $tool->tool_name }}</label>
+                                                                                        </div>
                             
-                                                            <!--Description-->  
-                                                            <div class="right">
-                                                                <div class="modal-body">
-                                                                    <div class="container bg-white">
-                                                                            <div class="main">
-                                                                                <div class="cont">
-                                                                                <h2><b>Tool Details</b></h2> 
-                                                                                </div>
-                                                                                <!--Tool Name-->
-                                                                                <!--<div class="row mb-3">
-                                                                                    <div class="col-sm-12">
-                                                                                        <label for="createToolName" class="col-form-label"><strong>Tool Name:</strong></label>
-                                                                                    </div>
-                                                                                    <div class="col-sm">
+                                                                                        <div class="row">
+                                                                                            <label for="createDescription" class="col-form-label"><strong>Description: </strong> {{ $tool->tool_description }}</label>
+                                                                                        </div>
+                            
+                                                                                        <!--Health Domain & Age Group-->
+                                                                                        <div class="row">
+                                                                                            <label for="createHealthDomain" class="col-form-label"><strong>Health Domain: </strong>{{ $tool->health_domain }}</label>
+                                                                                        </div>
+                            
+                                                                                        <div class="row">
+                                                                                            <label for="createAgeGroup" class="col-form-label"><strong>Group:</strong> {{ $tool->age_group }}   </label>   
+                                                                                        </div>
+                            
+                                                                                        <!--Notes-->
+                                                                                        <div class="row">
+                                                                                            <label for="createNotes" class="col-form-label"><strong>Notes:</strong> {{ $tool->notes }} </label>
+                                                                                        </div> 
                                                                                         
-                                                                                    </div>
-                                                                                </div>-->
-                                                                                <div class="cont1">
-                                                                                <div class="row">
-                                                                                    <label for="createToolName" class="col-form-label"><strong>Tool Name: </strong> {{ $tool->tool_name }}</label>
-                                                                                </div>
-                    
-                                                                                <div class="row">
-                                                                                     <label for="createDescription" class="col-form-label"><strong>Description: </strong> {{ $tool->tool_description }}</label>
-                                                                                </div>
-                    
-                                                                                <!--Health Domain & Age Group-->
-                                                                                <div class="row mb-12">
-                                                                                    <label for="createHealthDomain" class="col-form-label"><strong>Health Domain: </strong>{{ $tool->health_domain }}</label>
-                                                                                       
-                                                                                </div>
-                    
-                                                                                <div class="row mb-12">
-                    
-                                                                                    <label for="createAgeGroup" class="col-form-label"><strong>Group:</strong> {{ $tool->age_group }}   </label>   
-                                                                                </div>
-                    
-                                                                                <!--Notes-->
-                                                                                    <div class="col-sm-12">
-                                                                                        <label for="createNotes" class="col-form-label"><strong>Notes:</strong> {{ $tool->notes }} </label>
-                                                                                
-                                                                                    </div>     
-                                                                                
-                                                                                </div>
-                                                                            </div>
-                                                                                <!--Link-->
-                                                                                <div class="row mb-12">     
-                                                                                    <div class="col-sm-12" style=" margin-left: 24px; margin-top: -6px;">
-                                                                                        <label class="col-form-label"><strong>Study(s) has used this tool: </strong></label>
-                                                                                
-                                                                                    <div class="col-sm-12" id="studies">
-                                                                                        <div class="row mb-12">
-                                                                                            @foreach ($link_lists as $link)
-                                                                                                @if($link->id == $tool->id)
-                                                                                                    <div class="col-sm-9">{{ $link->study_name }}</div>
-                                                                                                    <div class="col-sm-9 "><a href="{{ $link->link }}" target="_blank">{{ $link->link }}</a></div> 
-                                                                                                    <div class="col-sm-8"></div>   
-                                                                                                @endif    
-                                                                                            @endforeach
+                                                                                         <!--Link-->
+                                                                                        <div class="row">     
+                                                                                            <div class="col-sm-12">
+                                                                                                <label class="col-form-label"><strong>Study(s) has used this tool: </strong></label>
+                                                                                            </div>
+                                                                                            <div class="col-sm-12" id="studies">
+                                                                                                    @foreach ($link_lists as $link)
+                                                                                                        @if($link->id == $tool->id)
+                                                                                                        <div class="row">
+                                                                                                            <a href="{{ $link->link }}" title="{{ $link->study_name }}">{{ $link->study_name }}</a> 
+                                                                                                        </div>    
+                                                                                                        @endif    
+                                                                                                    @endforeach
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                </div>
-                                                            
-                                                                                <!--Attachment-->
-                                                                                <div class="row mb-12">     
-                                                                                    <div class="col-sm-12"style=" margin-left: 24px; margin-top: -6px;">
-                                                                                       <br> <label for="createAttachmentLabel" class="col-form-label"><strong>Attachment:</strong></label>
-                                                                                    </div>
-                                                                                    <div class="col">
                                                                                         
-                                                                                    </div>
-                                                                                </div>
-                                                                                
-                                                                                <hr>
-                                                                                <div class="accordion" id="accordion">
-                                                                                    <!--Additional Details-->
-                                                                                    <div class="accordion-item">
-                                                                                        <h1 class="accordion-header" id="headingOne">
-                                                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                                            <b>Additional Details</b>
-                                                                                            </button>
-                                                                                        </h1>
-                                                                                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" >
-                                                                                            <div class="accordion-body">
-                                                                                
-                                                                                    <!--Outcome-->
-                                                                                    <div class="row mb-12">
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createOutcome" class="col-form-label"><strong>Outcome: </strong> {{ $tool->outcome }}   </label>
+                                                                                        <!--Attachment-->
+                                                                                        <div class="row mb-12">     
+                                                                                            <div class="col-sm-12">
+                                                                                                <label for="createAttachmentLabel" class="col-form-label"><strong>Attachment:</strong></label>
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                
-                                                                                    <!--Gender-->
-                                                                                    <div class="row mb-12">
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createGender" class="col-form-label"><strong>Gender:</strong>    {{ $tool->gender }} </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                
-                                                                                    <!--Modality & Condition-->
-                                                                                    <div class="row mb-12">
-                                                                                        <!--Condition-->
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createCondition" class="col-form-label"><strong>Health Condition:</strong> {{ $tool->health_condition }}   </label>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    </div><hr>
+
+                                                                                   
+                                                                
+                                                                                   
                                                                                     
-                                                                                    <!--Modality-->
-                                                                                    <div class="row mb-12">    
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createModality" class="col-form-label"><strong>Recreation Modality:</strong>  {{ $tool->modality }}   </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                
-                                                                                    <!--Specific NB & Settings-->
-                                                                                    <div class="row mb-12">
-                                                                                        <!--Specific NB-->
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createSpecificNB" class="col-form-label"><strong>Specific for Nature Base:</strong> {{ $tool->specific_NB }}  </label>
-                                                                                        </div>
-                                                                                    </div>
-                    
-                                                                                    <!--Settings-->
-                                                                                    <div class="row mb-12">
-                                                                                        
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createSetting" class="col-form-label"><strong> Nature Settings:</strong>   {{ $tool->settings }}    </label>
-                                                                                        </div>
+                                                                                    <div class="accordion" id="accordion">
+                                                                                        <!--Additional Details-->
+                                                                                        <div class="accordion-item">
+                                                                                            <h1 class="accordion-header" id="headingOne">
+                                                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                                                <b>Additional Details</b>
+                                                                                                </button>
+                                                                                            </h1>
+                                                                                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" >
+                                                                                                <div class="accordion-body">
                                                                                     
-                                                                                    </div>    
-                                                                                            
-                                                                                    <!--Reliability & Validity-->
-                                                                                    <div class="row mb-3">
-                                                                                        <!--Reliability-->
-                                                                                        <div class="col-sm-12">
-                                                                                            <label for="createReliability" class="col-form-label"><strong>Reliability:</strong>     {{ $tool->reliability }} </label>
-                                                                                        </div>
+                                                                                                    <!--Outcome-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createOutcome" class="col-form-label"><strong>Outcome: </strong> {{ $tool->outcome }}   </label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                
+                                                                                                    <!--Gender-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createGender" class="col-form-label"><strong>Gender:</strong>    {{ $tool->gender }} </label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                
+                                                                                                    <!--Modality & Condition-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        <!--Condition-->
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createCondition" class="col-form-label"><strong>Health Condition:</strong> {{ $tool->health_condition }}   </label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    
+                                                                                                    <!--Modality-->
+                                                                                                    <div class="row mb-12">    
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createModality" class="col-form-label"><strong>Recreation Modality:</strong>  {{ $tool->modality }}   </label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                
+                                                                                                    <!--Specific NB & Settings-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        <!--Specific NB-->
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createSpecificNB" class="col-form-label"><strong>Specific for Nature Base:</strong> {{ $tool->specific_NB }}  </label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                    
+                                                                                                    <!--Settings-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createSetting" class="col-form-label"><strong> Nature Settings:</strong>   {{ $tool->settings }}    </label>
+                                                                                                        </div>
+                                                                                                    
+                                                                                                    </div>    
+                                                                                                            
+                                                                                                    <!--Reliability & Validity-->
+                                                                                                    <div class="row mb-3">
+                                                                                                        <!--Reliability-->
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createReliability" class="col-form-label"><strong>Reliability:</strong>     {{ $tool->reliability }} </label>
+                                                                                                        </div>
+                                                                                                
+                                                                                                    </div>
+                                                                                                    <div class="row mb-12">     
+                                                                                                        <!--Validity-->
+                                                                                                        
+                                                                                                        <div class="col-sm-12" style="position:relative;top:-22px">
+                                                                                                            <label for="createValidity" class="col-form-label"><strong>Validity:</strong>  {{ $tool->validity }}  </label>
+                                                                                                        </div>
+                                                                                                        
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div> 
+
+                                                                                        <!--Journal Details-->
+                                                                                        <div class="accordion-item">
+                                                                                            <h1 class="accordion-header" id="headingTwo">
+                                                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                                                                <b> Journal Details </b>
+                                                                                                </button>
+                                                                                            </h1>
+                                                                                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
+                                                                                                <div class="accordion-body">
+                                                                                                    <div class="row">
+                                                                                                        <!--Author-->
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createAuthor" class="col-form-label"><strong>Author:</strong>  {{ $tool->author }}</label>
+                                                                                                        </div>
+                                                                                                     
+                                                                                                        <!--Title-->
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createTitle" class="col-form-label"><strong>Article Title:</strong>  {{ $tool->title }}</label>
+                                                                                                        </div>
+                                                                                                    
+                                                                                                        <!--Year-->
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createYear" class="col-form-label"><strong>Year:</strong>   {{ $tool->year }}</label>
+                                                                                                        </div>
+                                                                                                    
+                                                                                                    </div>
+                                                                                                    <div class="row">
+                                                                                                        <!--Country-->
+                        
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createCountry" class="col-form-label"><strong>Country:</strong>   {{ $tool->country }}</label>
+                                                                                                        </div>
+                                                                                                    </div>    
+                                                                                                
                                                                                 
-                                                                                    </div>
-                                                                                    <div class="row mb-12">     
-                                                                                        <!--Validity-->
-                                                                                        
-                                                                                        <div class="col-sm-12" style="position:relative;top:-22px">
-                                                                                            <label for="createValidity" class="col-form-label"><strong>Validity:</strong>  {{ $tool->validity }}  </label>
-                                                                                        </div>
-                                                                                        
-                                                                                    </div>
-                                                                                </div>
-                                                                                </div>
-                                                                                
-                                                                                </div> <br>
-                                                                 
-                                                                                <!--Additional Details-->
-                    
-                                                                                <div class="accordion" id="accordion">
-                                                                                    <!--Journal Details-->
-                                                                                    <div class="accordion-item">
-                                                                                        <h1 class="accordion-header" id="headingTwo">
-                                                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                                                                         <b> Journal Details </b>
-                                                                                            </button>
-                                                                                        </h1>
-                                                                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
-                                                                                            <div class="accordion-body">
-                                                                                                <div class="row">
-                                                                                                    <!--Author-->
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createAuthor" class="col-form-label"><strong>Author:</strong>  {{ $tool->author }}</label>
+                                                                                                    <!--Journal-->    
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createJournal" class="col-form-label"><strong> Journal: </strong>   {{ $tool->article }} </label>
+                                                                                                        </div>
+                                                                                    
                                                                                                     </div>
-                                                                                                 
-                                                                                                    <!--Title-->
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createTitle" class="col-form-label"><strong>Article Title:</strong>  {{ $tool->title }}</label>
+                                                                                                    
+                                                                                                    <!--Measure-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createMeasure" class="col-form-label"><strong> Measure:</strong> {{ $tool->measure }}   </label>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                
-                                                                                                    <!--Year-->
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createYear" class="col-form-label"><strong>Year:</strong>   {{ $tool->year }}</label>
+                                                                                                    <!--Program Content-->
+                                                                                                    <div class="row mb-12">
+                                                                                                        <div class="col-sm-12">
+                                                                                                            <label for="createProgramContent" class="col-form-label"><strong>Program Content: </strong>   {{ $tool->program_content }}  </label>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                
-                                                                                                </div>
-                                                                                                <div class="row">
-                                                                                                    <!--Country-->
-                    
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createCountry" class="col-form-label"><strong>Country:</strong>   {{ $tool->country }}</label>
-                    
-                                                                                                  
-                                                                                                
-                                                                                                </div>
-                                                                                            
-                                                                            
-                                                                                                <!--Journal-->    
-                                                                                                <div class="row">
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createJournal" class="col-form-label"><strong> Journal: </strong>   {{ $tool->article }} </label>
-                                                                                                    </div>
-                                                                                
-                                                                                                </div>
-                                                                                                
-                                                                                                <!--Measure-->
-                                                                                                <div class="row mb-12">
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createMeasure" class="col-form-label"><strong> Measure:</strong> {{ $tool->measure }}   </label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <!--Program Content-->
-                                                                                                <div class="row mb-12">
-                                                                                                    <div class="col-sm-12">
-                                                                                                        <label for="createProgramContent" class="col-form-label"><strong>Program Content: </strong>   {{ $tool->program_content }}  </label>
-                                                                                                    </div>
-                             
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
+                                                                                    
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>  
+                                                                </div>  
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                             <!--Details Modal-->
+    
 
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                             data-bs-target="#editToolForm-{{ $tool->id }}">Edit</button>
@@ -749,7 +743,7 @@ margin-left: 16px;
                                         <div class="modal-header bg-dark">
                                             <h1 class="text-white">Edit Current Tool</h1>
                                             <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                                aria-label="Close" onclick="window.location.reload();"></button>
                                         </div>
                                         <form action="/login/tools/{{ $tool->id }}" method="POST">
                                             @csrf
@@ -1441,8 +1435,15 @@ margin-left: 16px;
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="save" value="Submit" class="btn btn-primary">Save</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload();">Cancel</button>
+
+                                                <button type="submit" name="save" value="Submit" class="btn btn-primary">
+                                                    @if(Auth::user()->role_ID == 2)
+                                                    Submit changes
+                                                    @else
+                                                    Save
+                                                    @endif
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -1450,7 +1451,9 @@ margin-left: 16px;
                             </div>
                             <!--Edit Modal-->
 
+                            @if(Auth::user()->role_ID == 1)
                             <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteToolForm-{{ $tool->id }}">Delete</button>
+                            @endif
 
                             <!--Delete Modal-->
                             <div class="modal fade" id="deleteToolForm-{{ $tool->id }}" tabindex="-1" aria-labelledby="deleteToolFormLabel" aria-hidden="true">

@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory()->count(5)->create();
 
+        
+
         DB::table('tool_statuses')->insert([
             'status' => 'Hidden',
             'created_at'=> now(),
