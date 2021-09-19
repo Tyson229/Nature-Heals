@@ -16,8 +16,9 @@ class CreateTodolistsTable extends Migration
         Schema::create('todolists', function (Blueprint $table) {
             $table->id();
             $table->string('task_name');
-            $table->integer('priority');
+            $table->string('priority', 10);
             $table->boolean('completed');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
