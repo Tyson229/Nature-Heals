@@ -48,9 +48,9 @@
 @section('content')
     <main>
         <h1 class="display-5">User Management</h1>
-        <div class="row">
+        <div class="row mb-2">
             <!--Add new tool button-->
-            <div class="col-sm-3 mb-2">
+            <div class="col-sm-3 ">
                 <button class=" btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createUserForm"><i class="fas fa-plus"></i> Add New Admin</button>
             </div>
             <div class="col-sm-4"></div>
@@ -168,11 +168,11 @@
             <table class="table table-hover">
                 <thead class="table-dark">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Roles</th>
-                    <th scope="col">Action</th>
+                    <th scope="col"class="align-middle">#</th>
+                    <th scope="col"class="align-middle">Name</th>
+                    <th scope="col"class="align-middle">Email</th>
+                    <th scope="col"class="align-middle">Roles</th>
+                    <th scope="col"class="align-middle">Action</th>
                 </tr>
                 </thead>
 

@@ -48,9 +48,9 @@
 @section('content')
     <main>
         <h1 class="display-5">Assessment Tools</h1>
-        <div class="row">
+        <div class="row mb-2">
             <!--Add new tool button-->
-            <div class="col-sm-3 mb-2">
+            <div class="col-sm-3 ">
             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                 data-bs-target="#createToolForm"><i class="fas fa-plus"></i> Add new tool</button>
             </div>
@@ -111,7 +111,7 @@
                                                 <label for="createDescription" class="col-form-label">Description *</label>
                                             </div>
                                             <div class="col">
-                                                <textarea id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..." required></textarea>
+                                                <textarea rows="5" id="createDescription" name="createDescription" class="form-control" placeholder="Enter your description here..." required></textarea>
                                             </div>
                                         </div>   
                                         <!--Health Domain & Age Group-->
@@ -428,21 +428,20 @@
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Health Domain</th>
+                        <th scope="col" class="align-middle">#</th>
+                        <th scope="col" class="align-middle">Tool Name</th>
+                        <th scope="col" class="align-middle">Health Domain</th>
                         @if (Auth::user()->role_ID == 1)
-                            <th scope="col">Status</th>
+                            <th scope="col" class="align-middle">Status</th>
                         @endif
-                        <th scope="col">Action</th>
+                        <th scope="col" class="align-middle">Action</th>
                     </tr>
                 </thead>
 
                 <tbody class="bg-white">
                    
                
-                @foreach ($tools as $tool)
-                     
+                @forelse ($tools as $tool)  
                     <tr>
                         <th scope="row">{{ $loop->iteration + $tools->firstItem() - 1 }}</th>
                         <td class="col-sm-4">{{ $tool->tool_name }}</td>
@@ -733,7 +732,7 @@
                                                                     <label for="editDescription" class="col-form-label">Description *</label>
                                                                 </div>
                                                                 <div class="col">
-                                                                    <textarea name="editDescription" class="form-control" required>{{ $tool->tool_description }}</textarea>
+                                                                    <textarea rows="5" name="editDescription" class="form-control" required>{{ $tool->tool_description }}</textarea>
                                                                 </div>
                                                             </div>   
                                                             <!--Health Domain & Age Group-->
@@ -1440,8 +1439,14 @@
                             <!--Delete Modal-->
                         </td>
                     </tr>
-                    
-                @endforeach
+                @empty
+                    @if(Auth::user()->role_ID == 1)
+                        <tr><td colspan="5" class="text-center">No Records Found</td></tr>
+                    @else
+                        <tr><td colspan="4" class="tex-center">No Records Found</td></tr>
+                    @endif    
+                @endforelse
+               
                 </tbody>
             </table>
             <div class="row">

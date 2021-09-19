@@ -40,17 +40,6 @@ class PagesController extends Controller
         else
             return redirect()->route('login');    
     }
-
-    public function adminRequest(){
-        if(Auth::user()){
-            if(Auth::user()->role_ID == 1)
-                return view('AdminSide.pendingRequest');
-            else
-                return back();
-        }
-        else
-            return redirect()->route('login');     
-    }
     public function adminTodoList(){
         if(Auth::user())
             return view('AdminSide.todoList');

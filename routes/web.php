@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
@@ -44,8 +45,8 @@ Route::resource('login/user',UserController::class);
 
 Route::resource('login/tools',ToolsController::class);
 
+Route::resource('login/request',AdminRequestController::class);
 
-Route::get('/login/request', [PagesController::class,'adminRequest']);
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
