@@ -5,6 +5,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\Tools_feedback;
+use App\Http\Controllers\ToDoListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ use App\Http\Controllers\Tools_feedback;
     return view('UserSide.welcome');    
 });*/
 //Homepage
+
+Auth::routes();
 Route::get('/', [PagesController::class, 'homepage']);
 
 //Assessment Tools
@@ -47,13 +50,13 @@ Route::resource('login/tools',ToolsController::class);
 
 
 Route::get('/login/request', [PagesController::class,'adminRequest']);
-Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
+/////  Route::get('/login/todolist', [PagesController::class,'adminTodoList']); //// this one might be not neecded 
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
 
-Auth::routes();
-    
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//to do list routes
+Route::get('/login/todolist', [ToDoListController::class,'index'])->name('todolist.index');
+Route::post('store-task', [ToDoListController::class, 'store'])->name('todolist.store');
+Route::put('update-task/{id}', [ToDoListController::class, 'update'])->name('todolist.update');
+Route::get('update-task-status/{id}', [ToDoListController::class, 'updateStatus'])->name('todolist.update-status');
+Route::delete('delete-task/{id}', [ToDoListController::class, 'destroy'])->name('todolist.destroy');
