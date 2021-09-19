@@ -105,26 +105,5 @@
                 <i class="fab fa-firstdraft fa-3x mb-3"></i><br> Draft</a>
         </div>
     </div>
-    @else
-    <div class="d-flex justify-content-center ">
-        <div class="row mt-5 text-center">
-              
-            
-
-            <a class="btn btn-success btn-squared-default btn-lg m-2" href="/login/tools" role="button"> 
-                <i class="fa fa-suitcase fa-3x mb-3"></i><br> Assessment Tools</a>
-
-            
-
-            <a class="btn btn-danger btn-squared-default btn-lg m-2" href="/login/todolist" role="button">
-                <i class="fa fa-server fa-3x mb-3"></i><br>To-do List</a>
-                
-       
-
-            <a class="btn btn-secondary btn-squared-default btn-lg m-2" href="/login/draft" role="button">
-                <i class="fab fa-firstdraft fa-3x mb-3"></i><br> Draft</a>
-        </div>
-    </div>
     
-    @endif
 @endsection
