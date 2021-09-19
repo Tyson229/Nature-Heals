@@ -99,7 +99,7 @@
                     @forelse ($tools as $tool)
                         <tr>
                             <th scope="row">{{ $loop->iteration + $tools->firstItem() - 1 }}</th>
-                            <td class="col-sm-4">{{ $tool->tool_name }} {{ $tool->tool_ID }}</td>
+                            <td class="col-sm-4">{{ $tool->tool_name }}</td>
                             <td class="col-sm-2">{{ $tool->health_domain }}</td>
                             <td class="col-sm-1">{{ $tool->visitor_name }}</td>
                             <td class="col-sm-1 text-center">

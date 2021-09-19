@@ -28,6 +28,7 @@ class ToolsController extends Controller
             $tools = DB::table('tools')
                     ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
                     ->select('tools.*','tool_statuses.status')
+                   
                     ->where([
                         [ function ($query) use ($request){
                             if(($term = $request->term)){
@@ -36,8 +37,8 @@ class ToolsController extends Controller
                             }
                         }]
                     ])
-                    ->where('tool_statuses.status','=','Hidden')
-                    ->orWhere('tool_statuses.status','=','Published')
+                    ->where('tool_statuses.status','<>','Draft')
+                    ->where('tool_statuses.status','<>','Request')
                     ->orderBy('tools.created_at','desc')
                     ->paginate(7);
 

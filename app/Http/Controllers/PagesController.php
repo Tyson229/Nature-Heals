@@ -57,10 +57,4 @@ class PagesController extends Controller
             return redirect()->route('login');
         }
     }
-    public function adminDraft(){
-        if(Auth::user())
-            return view('AdminSide.draft');
-        else
-            return redirect()->route('login');
-    }
 }

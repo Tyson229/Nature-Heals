@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminRequestController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
+use App\Http\Controllers\AdminRequestController;
+use App\Http\Controllers\DraftController;
 use App\Http\Controllers\Tools_feedback;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,9 +49,10 @@ Route::resource('login/tools',ToolsController::class);
 
 Route::resource('login/request',AdminRequestController::class);
 
+Route::resource('login/draft', DraftController::class);
+
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
-Route::get('/login/draft', [PagesController::class,'adminDraft']);
 
 Auth::routes();
     
