@@ -169,7 +169,6 @@ class ToolsController extends Controller
             $admin_request->visitor_email = Auth::user()->email;
             $admin_request->date = now();
             $admin_request->tool_ID = $temp_id;
-            $admin_request->status_ID = 4;
             $admin_request->internal_request = TRUE;
             $admin_request->copy_of = Null;
             $admin_request->created_at = now();
@@ -330,7 +329,6 @@ class ToolsController extends Controller
                 $admin_request->visitor_email = Auth::user()->email;
                 $admin_request->date = now();
                 $admin_request->tool_ID = tools::orderBy('created_at','desc')->first()->id;
-                $admin_request->status_ID = tools::orderBy('created_at','desc')->first()->status_ID;
                 $admin_request->internal_request = TRUE;
                 $admin_request->copy_of = $id;
                 $admin_request->created_at = now();
@@ -341,11 +339,13 @@ class ToolsController extends Controller
             //Add study if have
             $temp1 = 'editStudyLabel-'.$id;
             $temp2 = 'editLinkLabel-'.$id;
+            //What if the editted version doesn't have any studies while the old one has ? 
+            //we need to delete the current first then do the overide work later
+            if(Auth::user()->role_ID==1){
+                $linkList = linkList::where('tool_ID',$id);
+                $linkList->delete();
+            }
             if(!is_null($request->$temp1)){
-                if(Auth::user()->role_ID==1){
-                    $linkList = linkList::where('tool_ID',$id);
-                    $linkList->delete();
-                }
                 $linkList = new linkList;
                 $linkList->study_name = $request->$temp1;
                 $linkList->link = $request->$temp2;
@@ -410,6 +410,6 @@ class ToolsController extends Controller
         $tool = tools::find($id);
         $tool->delete();
        
-        return redirect('login/tools')->with('message', 'Successfully Deleted User!');
+        return redirect('login/tools')->with('message', 'Successfully Deleted Tool!');
     }
 }

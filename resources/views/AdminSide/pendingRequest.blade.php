@@ -99,7 +99,7 @@
                     @forelse ($tools as $tool)
                         <tr>
                             <th scope="row">{{ $loop->iteration + $tools->firstItem() - 1 }}</th>
-                            <td class="col-sm-4">{{ $tool->tool_name }}</td>
+                            <td class="col-sm-4">{{ $tool->tool_name }} {{ $tool->tool_ID }}</td>
                             <td class="col-sm-2">{{ $tool->health_domain }}</td>
                             <td class="col-sm-1">{{ $tool->visitor_name }}</td>
                             <td class="col-sm-1 text-center">
@@ -111,10 +111,10 @@
                             </td>
                             <td>
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                data-bs-target="#requestForm-{{ $tool->id }}">Open</button>
+                                data-bs-target="#requestForm-{{ $tool->tool_ID }}">Open</button>
                                
                                 <!--Edit Modal-->
-                                <div class="modal fade" id="requestForm-{{ $tool->id }}" data-bs-backdrop="static" tabindex="-1"
+                                <div class="modal fade" id="requestForm-{{ $tool->tool_ID }}" data-bs-backdrop="static" tabindex="-1"
                                     aria-labelledby="requestFormLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
@@ -123,7 +123,7 @@
                                                     <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                                         aria-label="Close" onclick="window.location.reload();"></button>
                                                 </div>
-                                                <form action="/login/request/{{ $tool->id }}" method="POST">
+                                                <form action="/login/request/{{ $tool->tool_ID }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
@@ -146,7 +146,7 @@
                                                                             <label for="adminRequestorName" class="col-form-label">Full Name</label>
                                                                         </div>
                                                                         <div class="col">
-                                                                            <input id="adminRequestorName" class="form-control" value="{{ $tool->visitor_name }}" disabled>
+                                                                            <input  name="adminRequestorName" class="form-control" value="{{ $tool->visitor_name }}" disabled>
                                                                         </div>
                                                                     </div>
                                                                     <!--Org Name-->
@@ -155,7 +155,7 @@
                                                                             <label for="adminOrgName" class="col-form-label">Organization Name</label>
                                                                         </div>
                                                                         <div class="col">
-                                                                            <input id="adminOrgName" class="form-control" value="{{ $tool->org_name }}" disabled>
+                                                                            <input  name="adminOrgName" class="form-control" value="{{ $tool->org_name }}" disabled>
                                                                         </div>
                                                                     </div>
                                                                     <!--Email-->
@@ -164,7 +164,7 @@
                                                                             <label for="adminRequestorEmail" class="col-form-label">Email</label>
                                                                         </div>
                                                                         <div class="col">
-                                                                            <input id="adminRequestorEmail" class="form-control" value="{{ $tool->visitor_email }}" disabled>
+                                                                            <input  name="adminRequestorEmail" class="form-control" value="{{ $tool->visitor_email }}" disabled>
                                                                         </div>
                                                                     </div>
                                                                     <!--Source-->
@@ -361,14 +361,14 @@
                                                                         <div class="col-sm-2">
                                                                             <label class="col-form-label">Study(s) has used this tool</label>
                                                                         </div>
-                                                                        <div class="col-sm-10" id="retrieved_studies-{{ $tool->id }}">
+                                                                        <div class="col-sm-10" id="retrieved_studies-{{ $tool->tool_ID }}">
                                                                             @php
                                                                                 $counter_link = 0;
                                                                                 $found_link = 0;
                                                                             @endphp
         
                                                                             @foreach ($link_lists as $link)
-                                                                                    @if($link->id == $tool->id)
+                                                                                    @if($link->id == $tool->tool_ID)
                                                                                         @php
                                                                                             $counter_link++;
                                                                                             $found_link = 1;
@@ -376,25 +376,25 @@
                                                                                         @if ($counter_link == 1)
                                                                                             <div class="row mb-2" >
                                                                                                 <div class="col-sm-6">
-                                                                                                    <input name="requestStudyLabel-{{ $tool->id }}" class="form-control" value="{{ $link->study_name }}">
+                                                                                                    <input name="requestStudyLabel-{{ $tool->tool_ID }}" class="form-control" value="{{ $link->study_name }}">
                                                                                                 </div>
                                                                                                 <div class="col-sm-4">
-                                                                                                    <input name="requestLinkLabel-{{ $tool->id }}" class="form-control" value="{{ $link->link }}">
+                                                                                                    <input name="requestLinkLabel-{{ $tool->tool_ID }}" class="form-control" value="{{ $link->link }}">
                                                                                                 </div>
                                                                                                 <div class="col-sm-1">
-                                                                                                    <button type="button" name="addLink" class="btn btn-primary request-plus" id="requestPlus-{{ $tool->id }}" onclick="requestPlus(this)" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                                                    <button type="button" name="addLink" class="btn btn-primary request-plus" id="requestPlus-{{ $tool->tool_ID }}" onclick="requestPlus(this)" title="Add more links"><i class="fas fa-plus"></i></button>
                                                                                                 </div> 
                                                                                             </div>
                                                                                         @else
-                                                                                            <div class="row mb-2" id="requestMore_{{ $counter_link }}_{{ $tool->id }}">
+                                                                                            <div class="row mb-2" id="requestMore_{{ $counter_link }}_{{ $tool->tool_ID }}">
                                                                                                 <div class="col-sm-6">
-                                                                                                    <input name="requestMoreStudyLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->study_name }}">
+                                                                                                    <input name="requestMoreStudyLabel-{{ $tool->tool_ID }}[]" class="form-control" value="{{ $link->study_name }}">
                                                                                                 </div>
                                                                                                 <div class="col-sm-4">
-                                                                                                    <input name="requestMoreLinkLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->link }}">
+                                                                                                    <input name="requestMoreLinkLabel-{{ $tool->tool_ID }}[]" class="form-control" value="{{ $link->link }}">
                                                                                                 </div>
                                                                                                 <div class="col-sm-1">
-                                                                                                    <button type="button" name="minusLink" class="btn btn-danger request-minus" id="requestMinus-{{ $counter_link }}-{{ $tool->id }}" onclick="requestMinus(this)" title="Delete link"><i class="fas fa-minus"></i></button>
+                                                                                                    <button type="button" name="minusLink" class="btn btn-danger request-minus" id="requestMinus-{{ $counter_link }}-{{ $tool->tool_ID }}" onclick="requestMinus(this)" title="Delete link"><i class="fas fa-minus"></i></button>
                                                                                                 </div>
                                                                                             </div>
                                                                                         @endif      
@@ -404,18 +404,18 @@
                                                                             @if($found_link == 0)
                                                                             <div class="row mb-2" >
                                                                                 <div class="col-sm-6">
-                                                                                    <input  name="requestStudyLabel-{{ $tool->id }}" class="form-control" placeholder="Type the study name">
+                                                                                    <input  name="requestStudyLabel-{{ $tool->tool_ID }}" class="form-control" placeholder="Type the study name">
                                                                                 </div>
                                                                                 <div class="col-sm-4">
-                                                                                    <input name="requestLinkLabel-{{ $tool->id }}" class="form-control" placeholder="Upload the link here...">
+                                                                                    <input name="requestLinkLabel-{{ $tool->tool_ID }}" class="form-control" placeholder="Upload the link here...">
                                                                                 </div>
                                                                                 <div class="col-sm-1">
-                                                                                    <button type="button" name="addLink" id="requestPlus-{{ $tool->id }}" onclick="requestPlus(this)"  class="btn btn-primary request-plus" title="Add more links"><i class="fas fa-plus"></i></button>
+                                                                                    <button type="button" name="addLink" id="requestPlus-{{ $tool->tool_ID }}" onclick="requestPlus(this)"  class="btn btn-primary request-plus" title="Add more links"><i class="fas fa-plus"></i></button>
                                                                                 </div> 
                                                                             </div>          
                                                                             @endif
                                                                         </div>
-                                                                        <input type="hidden" value="{{ $counter_link }}" id="request_total-{{  $tool->id }}">
+                                                                        <input type="hidden" value="{{ $counter_link }}" id="request_total-{{  $tool->tool_ID }}">
                                                                         
                                                                     </div>
                                                 
@@ -869,16 +869,17 @@
                                 </div>
                                 <!--Edit Modal-->
 
-                                <button class="btn btn-danger">Delete</button>
+                                <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteRequestForm-{{ $tool->tool_ID }}">Delete</button>
                                 <!--Delete Modal-->
-                                <div class="modal fade" id="deleteRequestForm-{{ $tool->id }}" tabindex="-1" aria-labelledby="deleteRequestFormLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteRequestForm-{{ $tool->tool_ID }}" tabindex="-1" aria-labelledby="deleteRequestFormLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header bg-danger" >
                                                 <h1 class="text-white display-6">Are you sure?</h1>
                                                 <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="/login/request/{{ $tool->id }}" method="POST">
+                                            <form action="/login/request/{{ $tool->tool_ID }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                             <div class="modal-body">
