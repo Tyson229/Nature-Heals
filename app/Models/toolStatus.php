@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class toolStatus extends Model
 {
     use HasFactory;
+    protected $table = 'tool_statuses';
+
+    protected $fillable = [
+        'status'
+    ];
 }

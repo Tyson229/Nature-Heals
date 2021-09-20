@@ -5,7 +5,6 @@
     html{
         font-size:1.2rem;
     }
-
     ul.nav a:hover {
         color: white !important; 
         background-color: #96c0b7 !important;
@@ -16,7 +15,6 @@
         margin:auto;
         max-width: 970px;
     }
-
     .description {
         background-color: #96c0b7;
     }
@@ -40,7 +38,6 @@
         color:#96c0b7
     }
    
-
 </style>
 @endsection
 
@@ -53,15 +50,20 @@
 
 @section('content')
 <main class="flex-fill">
-        
+    @if(session('message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{session('message')}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <div class="bg-white container border rounded-3 mt-5 mb-3">
         <div class="p-5 rounded-3">
-            <h1 class="display-5"> Resilience Scale</h1>
+            <h1 class="display-5">{{$tool->tool_name}}</h1>
         </div>
         
         <div class="description p-3 m-1">
             <h4 class="fw-bold"> Description </h4>
-                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris interdum faucibus tristique. Nunc vehicula suscipit lectus vitae egestas. Integer lacus metus, iaculis vel consectetur sed, viverra a lorem. Sed nisi risus, ultrices quis faucibus quis, imperdiet tempus nisi. Suspendisse commodo eleifend tempus. Quisque in volutpat lacus. Proin convallis porta est a rhoncus. Curabitur volutpat pulvinar sodales. Pellentesque non fringilla metus. Donec rhoncus nibh ullamcorper urna bibendum, ut cursus turpis condimentum. Nam at sem imperdiet, luctus libero non, bibendum leo.</p>
+                <p>{{$tool->tool_description}}</p>
                 
         </div>
         
@@ -71,22 +73,22 @@
                     <div class="row">
                         <div class="col">
                             <ul>
-                                <li class=mb-1><b>Health Domain:</b> Emotional</li>
-                                <li class=mb-1><b>Health Condition:</b> Not Applicable</li>
-                                <li class=mb-1><b>Recreation Modality:</b> Sailing</li> 
-                                <li class=mb-1><b>Nature Setting:</b> Not Applicable</li>    
-                                <li class=mb-1><b>Age Group:</b> Youth</li>
+                                <li class=mb-1><b>Health Domain:</b> {{$tool->health_domain ?? 'N/A'}}</li>
+                                <li class=mb-1><b>Health Condition:</b> {{$tool->health_condition ?? 'N/A'}}</li>
+                                <li class=mb-1><b>Recreation Modality:</b> {{$tool->modality ?? 'N/A'}}</li> 
+                                <li class=mb-1><b>Nature Setting:</b> {{$tool->settings ?? 'N/A'}}</li>    
+                                <li class=mb-1><b>Age Group:</b> {{$tool->age_group ?? 'N/A'}}</li>
                                         
                             </ul>
                         </div>
                         
                         <div class="col">
                             <ul>
-                                <li class=mb-1><b>Gender:</b> All</li>
-                                <li class=mb-1><b>Validity:</b> Validated</li>
-                                <li class=mb-1><b>Reliability:</b> Yes</li>
-                                <li class=mb-1><b>Specific for Nature Base:</b> No</li>
-                                <li><b>Outcome:</b> Emotional Resilience, Goal Setting, Healthy Risk-taking, Locus of Control, Self-Awareness, Self-Esteem, Self-Confidence, Communication Skills, Community Engagement, and Cooperative Teamwork</li>
+                                <li class=mb-1><b>Gender:</b> {{$tool->gender ?? 'N/A'}}</li>
+                                <li class=mb-1><b>Validity:</b> {{$tool->validity ?? 'N/A'}}</li>
+                                <li class=mb-1><b>Reliability:</b> {{$tool->reliability ?? 'N/A'}}</li>
+                                <li class=mb-1><b>Specific for Nature Base:</b> {{$tool->specific_NB ?? 'N/A'}}</li>
+                                <li><b>Outcome:</b> {{$tool->outcome ?? 'N/A'}}</li>
                             </ul>
                         </div>
                     </div>
@@ -97,13 +99,15 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
+                                @if(isset($tool->linkLists) && count($tool->linkLists) > 0)
                                 <ol>
-                                    <li class="mb-1"><a href="#">Link one</a> </li>
-                                    <li class="mb-1"><a href="#">Link one</a> </li>
-                                    <li class="mb-1"><a href="#">Link one</a> </li>
-                                    <li class="mb-1"><a href="#">Link one</a> </li>
-                                    <li class="mb-1"><a href="#">Link one</a> </li>
+                                    @foreach ($tool->linkLists as $link)
+                                        <li class="mb-1"><a href="{{$link->link}}" target="_blank">{{$link->study_name}}</a> </li>
+                                    @endforeach
                                 </ol>
+                                @else
+                                No Links Found.
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -118,29 +122,30 @@
             </div>
 
             <div class="col-sm-9 feedback p-3">
-                <form>
+                <form id="feedback-form" method="POST" action="{{route('tools.store-feedback', ['id' => $tool->id])}}">
+                    @csrf
                     <div class="container p-0">
                         <div class="row">
                             <div class="col form-group">
                                 <b><label for="fname"> First name </label></b>
-                                <input type ="text" id="fname" name="fname" class="form-control">
+                                <input name="fname" type ="text" id="fname" name="fname" class="form-control" required>
                             </div>
                             
                             <div class="col form-group">
                                 <b><label for="lname"> Last name </label></b>
-                                <input type ="text" id="lname" name="lname" class="form-control">
+                                <input name="lname" type ="text" id="lname" name="lname" class="form-control" required>
                             </div>
                         </div>
                     </div>
                         
                     <div class="form-group">
                         <b><label for="email"> Email </label></b>
-                        <input type ="email" id="email" class="form-control">
+                        <input name="email" type="email" id="email" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
                         <b><label for="Comment">Comment: </label><br></b>
-                        <textarea rows="3" class="form-control" ></textarea>
+                        <textarea name="comment" rows="3" class="form-control" required></textarea>
                     </div>
                     
                     <div class="d-grid">

@@ -8,8 +8,6 @@
 @endsection
 
 @section('nav-bar')
-@if(auth()->user()->role->role_name == 'Owner')
-
     <a class="nav-link" href="/login/home">
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
@@ -24,7 +22,7 @@
     </a> 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Tool Request
+        Pending Tool Request
     </a>
     <a class="nav-link " href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
@@ -38,27 +36,6 @@
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
     </a>
-    @else
-    <a class="nav-link" href="/login/home">
-        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-        Home
-    </a>
-
-    <a class="nav-link " href="/login/tools">
-        <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
-        Assessment Tools
-    </a> 
- 
-    <a class="nav-link " href="/login/todolist">
-        <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
-        To-do List 
-    </a> 
- 
-    <a class="nav-link" href="/login/draft">
-        <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
-        Draft
-    </a>
-    @endif
 @endsection
 
 @section('content')
@@ -69,57 +46,14 @@
 
 
         </div>
-
-        <div class="modal fade" id="createToolForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createToolFormLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-dark" >
-                        <h1 class="text-white display-6">Feedback Detail</h1>
-                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container bg-white">
-                            <form>      
-                                <div class="row">    
-                                    <!--Name-->
-                                    <div class="col-sm-12">
-                                        <label for="usernameLabel" class="col-form-label">Name: John Doe</label>
-                                    </div>
-                                   
-                                    
-                                    <!--email-->
-                                    <div class="col-sm-12">
-                                        <label for="emailLabel" class="col-form-label">Email: person1@gmail.com</label>
-                                    </div>
-
-                                    <div class="col-sm-12">
-                                        <label for="toolnameLabel" class="col-form-label">Tool name: The Resilience Questionnaire</label>
-                                    </div>
-
-                                    <div class="col-sm-12">
-                                        <label for="domainnameLabel" class="col-form-label">Health Domain: Emotional</label>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="contentLabel" class="col-form-label">Feedback: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, aperiam, necessitatibus placeat dignissimos numquam deserunt, voluptatum laboriosam similique nobis dolorum ea! Laborum, molestias? Id ducimus exercitationem aut debitis sint quo?</label>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="dateLabel" class="col-form-label">Date: 2/7/2021</label>
-                                    </div>
-                                </div> 
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
         <!--Table List-->
         <div class="container-fluid mt-2 p-0">
+            @if(session('message'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{session('message')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -133,74 +67,125 @@
 
                     </tr>
                 </thead>
-
                 <tbody class="bg-white">
-                    <tr data-bs-toggle="collapse" data-bs-target="#hidden">
-                         
-                        <td>1</td>
-                        <td class="col-sm-2">John Doe</td>
-                        <td>person1@gmail.com
-                        <td class="col-sm-3">The Resilience Questionnaire</td>
-                        <td>Emotional</td>
-                        <td>2/7/2021</td>
-                        <td>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Open</button>
-                            <button class="btn btn-danger" type="button" data-bs-toggle="modal1"
-                            data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>   
-                           
-                        </td>
-                    </tr>
+                    @forelse ($feedbacks as $feedback)
+                        <tr data-bs-toggle="collapse" data-bs-target="#content-row-{{$feedback->id}}"> 
+                            <td>{{$loop->iteration}}</td>
+                            <td class="col-sm-2">{{$feedback->name}}</td>
+                            <td>{{$feedback->email}}</td>
+                            <td class="col-sm-3">{{$feedback->tool->tool_name}}</td>
+                            <td>{{$feedback->tool->health_domain}}</td>
+                            <td>{{$feedback->created_at->format('d-m-Y')}}</td>
+                            <td>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#view-feedback-{{$feedback->id}}">Open</button>
+                                <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteFeedback-{{$feedback->id}}"><i class="fas fa-trash"></i> Delete</button>   
+                            </td>
 
-                    <tr data-bs-toggle="collapse" data-bs-target="#hidden2">
-                        
-                         
-                        <td>2</td>
-                        <td class="col-sm-2">John Doe</td>
-                        <td>person2@gmail.com
-                        <td class="col-sm-3">The Resilience Questionnaire</td>
-                        <td>Emotional</td>
-                        <td>8/6/2021</td>
-                        <td>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Open</button>
-                            <button class="btn btn-danger" type="button" data-bs-toggle="modal1"
-                            data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>  
-                        </td>
-                    </tr>
+                            <!-- display information modal -->
+                            <div class="modal fade" id="view-feedback-{{$feedback->id}}" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createToolFormLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-dark" >
+                                            <h1 class="text-white display-6">Feedback Detail</h1>
+                                            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container bg-white">
+                                                <form>      
+                                                    <div class="row">    
+                                                        <!--Name-->
+                                                        <div class="col-sm-12">
+                                                            <label for="usernameLabel" class="col-form-label">Name: {{$feedback->name}}</label>
+                                                        </div>
+                                                       
+                                                        
+                                                        <!--email-->
+                                                        <div class="col-sm-12">
+                                                            <label for="emailLabel" class="col-form-label">Email: {{$feedback->email}}</label>
+                                                        </div>
                     
-                    <tr data-bs-toggle="collapse" data-bs-target="#hidden3">
-                        
-                          
-                        <td>3</td>
-                        <td class="col-sm-2">John Doe</td>
-                        <td>person3@gmail.com
-                        <td class="col-sm-3">The Resilience Questionnaire</td>
-                        <td>Emotional</td>
-                        <td>3/6/2021</td>
-                        <td>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                            data-bs-target="#createToolForm">Open</button>
-                            <button class="btn btn-danger" type="button" data-bs-toggle="modal1"
-                            data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>  
-                        </td>
-                    </tr>
+                                                        <div class="col-sm-12">
+                                                            <label for="toolnameLabel" class="col-form-label">Tool name: {{$feedback->tool->tool_name}}</label>
+                                                        </div>
+                    
+                                                        <div class="col-sm-12">
+                                                            <label for="domainnameLabel" class="col-form-label">Health Domain: {{$feedback->tool->health_domain}}</label>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label for="contentLabel" class="col-form-label">Feedback: {{$feedback->comment}}</label>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label for="dateLabel" class="col-form-label">Date: {{$feedback->created_at->format('d-m-Y')}}</label>
+                                                        </div>
+                                                    </div> 
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- display information modal-->
 
+                            <!--Delete Modal-->
+                            <div class="modal fade" id="deleteFeedback-{{$feedback->id}}" tabindex="-1" aria-labelledby="deleteUserFormLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger" >
+                                            <h1 class="text-white display-6">You want to delete this feedback?</h1>
+                                            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{route('feedback.delete', ['id' => $feedback->id])}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="modal-body">
+                                            <div class="container bg-white">
+                                                <div class="row">    
+                                                    <!--Name-->
+                                                    <div class="col-sm-12">
+                                                        <label for="usernameLabel" class="col-form-label">Name: {{$feedback->name}}</label>
+                                                    </div>
+                                                   
+                                                    
+                                                    <!--email-->
+                                                    <div class="col-sm-12">
+                                                        <label for="emailLabel" class="col-form-label">Email: {{$feedback->email}}</label>
+                                                    </div>
+                
+                                                    <div class="col-sm-12">
+                                                        <label for="toolnameLabel" class="col-form-label">Tool name: {{$feedback->tool->tool_name}}</label>
+                                                    </div>
+                
+                                                    <div class="col-sm-12">
+                                                        <label for="domainnameLabel" class="col-form-label">Health Domain: {{$feedback->tool->health_domain}}</label>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <label for="contentLabel" class="col-form-label">Feedback: {{$feedback->comment}}</label>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <label for="dateLabel" class="col-form-label">Date: {{$feedback->created_at->format('m-d-Y')}}</label>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div> 
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-secondary" value="Submit">Yes</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Delete Modal-->
+                        </tr>
+                    @empty
+                        <tr><td colspan="7">No Records Found.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            {{$feedbacks->links()}}
         </div>
         <!--Table List-->
     </main>
