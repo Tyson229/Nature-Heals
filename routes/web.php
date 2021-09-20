@@ -4,16 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
-<<<<<<< HEAD
-use App\Http\Controllers\ToDoListController;
-use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\Auth;
-=======
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserToolController;
->>>>>>> origin/HaoBranch
+use App\Http\Controllers\ToDoListController;
+
 
 
 /*
@@ -27,14 +23,6 @@ use App\Http\Controllers\UserToolController;
 |
 */
 /*User end*/
-<<<<<<< HEAD
-
-/*Route::get('/', function () {
-    return view('UserSide.welcome');    
-});*/
-
-=======
->>>>>>> origin/HaoBranch
 //Homepage
 Route::get('/', [PagesController::class, 'homepage']);
 
@@ -67,15 +55,11 @@ Route::resource('login/tools',ToolsController::class);
 
 //pending tool request
 Route::get('/login/request', [PagesController::class,'adminRequest']);
-<<<<<<< HEAD
-Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
-=======
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 
 Route::get('/login/feedback', [FeedbackController::class,'index'])->name('feedback.index');
-Route::delete('delete-task/{id}', [FeedbackController::class,'destroy'])->name('feedback.delete');
+Route::delete('delete-feedback/{id}', [FeedbackController::class,'destroy'])->name('feedback.delete');
 
->>>>>>> origin/HaoBranch
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
 
 //todolist
