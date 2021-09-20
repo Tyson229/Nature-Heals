@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
             'role_ID' => 1
         ]);
 
+        
+
         DB::table('tool_statuses')->insert([
             'status' => 'Hidden',
             'created_at'=> now(),

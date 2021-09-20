@@ -26,7 +26,7 @@ class CreateToolsTable extends Migration
             /*Additional Details */
             $table->string('outcome',250)->nullable();
             $table->string('gender',30);
-            $table->string('health_condition',30)->nullable();
+            $table->string('health_condition',150)->nullable();
             $table->string('modality',30)->nullable();
             $table->string('specific_NB',30)->nullable();
             $table->string('settings',30)->nullable();

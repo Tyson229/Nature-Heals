@@ -4,9 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
+<<<<<<< HEAD
 use App\Http\Controllers\ToDoListController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
+=======
+use Faker\Guesser\Name;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\UserToolController;
+>>>>>>> origin/HaoBranch
 
 
 /*
@@ -20,19 +27,23 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 /*User end*/
+<<<<<<< HEAD
 
 /*Route::get('/', function () {
     return view('UserSide.welcome');    
 });*/
 
+=======
+>>>>>>> origin/HaoBranch
 //Homepage
 Route::get('/', [PagesController::class, 'homepage']);
 
 //Assessment Tools
-Route::get('/tools', [PagesController::class,'tools']);
+Route::get('/tools', [UserToolController::class,'tools']);
 
 //Detailed Tool
-Route::get('/detailed', [PagesController::class,'detailed']);
+Route::get('detailed/{id}', [UserToolController::class,'detailed'])->name('tools.detailed');
+Route::post('save-feedback/{id}', [ToolsController::class, 'storeFeedback'])->name('tools.store-feedback');
 
 //Contact Us
 Route::get('/contact', [PagesController::class,'contact'])->name('contact.index'); 
@@ -51,11 +62,20 @@ Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']
 Route::get('/login/home', [PagesController::class,'adminHome'])->name('admin.home');
 
 Route::resource('login/user',UserController::class);
+
 Route::resource('login/tools',ToolsController::class);
 
 //pending tool request
 Route::get('/login/request', [PagesController::class,'adminRequest']);
+<<<<<<< HEAD
 Route::get('/login/feedback', [PagesController::class,'adminFeedback']);
+=======
+Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
+
+Route::get('/login/feedback', [FeedbackController::class,'index'])->name('feedback.index');
+Route::delete('delete-task/{id}', [FeedbackController::class,'destroy'])->name('feedback.delete');
+
+>>>>>>> origin/HaoBranch
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
 
 //todolist

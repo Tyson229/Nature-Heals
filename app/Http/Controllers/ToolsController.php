@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\tools;
+use App\Models\request as tool_request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\linkList;
 use App\Models\userCreatesTool;
 use SebastianBergmann\Environment\Console;
+use App\Models\toolsFeedback as ToolFeedbackModel;
+
 
 use function PHPUnit\Framework\isNull;
 
@@ -23,28 +26,32 @@ class ToolsController extends Controller
      */
     public function index(Request $request)
     {
-        $tools = DB::table('tools')
-                ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
-                ->select('tools.*','tool_statuses.status')
-                ->where([
-                    [ function ($query) use ($request){
-                        if(($term = $request->term)){
-                            $query->orWhere('tools.tool_name','LIKE','%'.$term.'%' )
-                                  ->orWhere('tools.health_domain','=',$term );
-                        }
-                    }]
-                ])
-                ->where('tool_statuses.status','=','Hidden')
-                ->orWhere('tool_statuses.status','=','Published')
-                ->orderBy('tools.created_at','desc')
-                ->paginate(7);
+        if(Auth::user()){
+            $tools = DB::table('tools')
+                    ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
+                    ->select('tools.*','tool_statuses.status')
+                    ->where([
+                        [ function ($query) use ($request){
+                            if(($term = $request->term)){
+                                $query->orWhere('tools.tool_name','LIKE','%'.$term.'%' )
+                                    ->orWhere('tools.health_domain','=',$term );
+                            }
+                        }]
+                    ])
+                    ->where('tool_statuses.status','=','Hidden')
+                    ->orWhere('tool_statuses.status','=','Published')
+                    ->orderBy('tools.created_at','desc')
+                    ->paginate(7);
 
-        $link = DB::table('tools')
-                ->join('link_lists','link_lists.tool_ID','=','tools.id')
-                -> select('tools.id','link_lists.study_name','link_lists.link')
-                ->get();
+            $link = DB::table('tools')
+                    ->join('link_lists','link_lists.tool_ID','=','tools.id')
+                    -> select('tools.id','link_lists.study_name','link_lists.link')
+                    ->get();
 
-        return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);       
+            return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);
+        }
+        else
+            return back();       
     }
 
 
@@ -132,18 +139,47 @@ class ToolsController extends Controller
         $tool->article = $request->createJournal;
         $tool->measure =$request -> createMeasure;
         $tool->program_content =$request -> createProgramContent;
-        if(isset($request->saveDraft))
+
+        if(isset($request->saveDraft)) {
             $tool->status_ID = 3;
-        elseif(isset($request->add))
-            $tool->status_ID = 1;    
+            $message='Save as draft successfully!';
+        }
+        elseif(isset($request->add)  ){ /*If save button is pressed, if Admin, the tool will be request. If Owner, the tool will be published*/
+            if(Auth::user()->role_ID == 1)
+            {
+                $tool->status_ID = 1; //Owner privillege
+                $message='Successfully Created Tool!';
+            }
+            else
+            {
+                $tool->status_ID = 4; //Admin privillege
+                $message = 'Successfully Submitted Tool! Please wait for the Owner approval';
+            }         
+         }          
         $tool->created_at = now();
         $tool->updated_at = now();
 
         $tool->save();
 
         $temp_id = tools::orderBy('created_at','desc')->first()->id;
-
-        //Add study if have
+        
+        //Create request table
+        if(isset($request->add) && Auth::user()->role_ID ==2){
+            $admin_request = new tool_request();
+            $admin_request->visitor_name = Auth::user()->fname ." ". Auth::user()->lname;
+            $admin_request->org_name=Null;
+            $admin_request->visitor_email = Auth::user()->email;
+            $admin_request->date = now();
+            $admin_request->tool_ID = $temp_id;
+            $admin_request->status_ID = 4;
+            $admin_request->internal_request = TRUE;
+            $admin_request->copy_of = Null;
+            $admin_request->created_at = now();
+            $admin_request->updated_at = now();
+            $admin_request->save();
+        }
+        
+        //Add study and links if have
         if(!is_null($request->createStudyLabel)){
             $linkList = new linkList;
             $linkList->study_name = $request->createStudyLabel;
@@ -172,7 +208,7 @@ class ToolsController extends Controller
         $connection->tool_ID = $temp_id;
         $connection->save();
 
-        return redirect('login/tools')->with('message','Successfully Created Tool!');
+        return redirect('login/tools')->with('message',$message);
     }
 
 
@@ -190,6 +226,7 @@ class ToolsController extends Controller
             $tool->status_ID = $request->publish_switch;
             $tool->updated_at = now();
             $tool->save(); 
+            $message = 'Successfully Updated Tool!';
         }else{
             $validator = Validator::make($request->all(),[
                 //Tools details
@@ -238,8 +275,16 @@ class ToolsController extends Controller
                 return back()->withErrors($validator,'update')->with('id',$id);
             }
 
-            //Add Main details
-            $tool = tools::find($id);
+            $tool= Null;
+            //Add/Edit Main details
+            if(Auth::user()->role_ID==1) {//Owner can edit
+                $tool = tools::find($id);
+                $message = 'Successfully Updated Tool!';
+            }    
+            else {
+                $tool = new tools;    //Admin need to make request
+                $message = 'Successfully Submitted Tool! Please wait for the Owner approval';
+            }    
             $tool->tool_name = $request->editToolName;
             $tool->tool_description= $request ->editDescription;
             $tool->health_domain = $request ->editHealthDomain;
@@ -268,22 +313,50 @@ class ToolsController extends Controller
             $tool->article = $request->editJournal;
             $tool->measure =$request -> editMeasure;
             $tool->program_content =$request -> editProgramContent;
+
+            //If admin edits, a copy will be created and move to the request
+            if(Auth::user()->role_ID==2){
+                $tool->status_ID = 4;
+                $tool->created_at = now();
+            }    
             $tool->updated_at = now();
 
             $tool->save();
+
+            //Create request table
+            if(Auth::user()->role_ID ==2){
+
+                $admin_request = new tool_request();
+                $admin_request->visitor_name = Auth::user()->fname ." " . Auth::user()->lname;
+                $admin_request->org_name=Null;
+                $admin_request->visitor_email = Auth::user()->email;
+                $admin_request->date = now();
+                $admin_request->tool_ID = tools::orderBy('created_at','desc')->first()->id;
+                $admin_request->status_ID = tools::orderBy('created_at','desc')->first()->status_ID;
+                $admin_request->internal_request = TRUE;
+                $admin_request->copy_of = $id;
+                $admin_request->created_at = now();
+                $admin_request->updated_at = now();
+                $admin_request->save();
+            }
 
             //Add study if have
             $temp1 = 'editStudyLabel-'.$id;
             $temp2 = 'editLinkLabel-'.$id;
             if(!is_null($request->$temp1)){
-                $linkList = linkList::where('tool_ID',$id);
-                $linkList->delete();
-
+                if(Auth::user()->role_ID==1){
+                    $linkList = linkList::where('tool_ID',$id);
+                    $linkList->delete();
+                }
                 $linkList = new linkList;
                 $linkList->study_name = $request->$temp1;
                 $linkList->link = $request->$temp2;
                 $linkList->updated_at= now();
-                $linkList->tool_ID = $id;
+                $linkList->created_at = now();
+                if(Auth::user()->role_ID==1)
+                    $linkList->tool_ID = $id;
+                else
+                    $linkList->tool_ID = tools::orderBy('created_at','desc')->first()->id;    
                 $linkList->save();
             }
 
@@ -296,20 +369,32 @@ class ToolsController extends Controller
                     $linkList->study_name = ($request->$temp3)[$i];
                     $linkList->link = ($request->$temp4)[$i];
                     $linkList->updated_at= now();
-                    $linkList->tool_ID = $id;
+                    $linkList->created_at = now();
+                    if(Auth::user()->role_ID==1)
+                        $linkList->tool_ID = $id;
+                    else
+                        $linkList->tool_ID = tools::orderBy('created_at','desc')->first()->id;
                     $linkList->save();
                 }
             } 
+
+            $temp_id = tools::orderBy('created_at','desc')->first()->id;
             //When tool is edited, create another connection between the editor and the tool. If it already exists, ignore
-            if(userCreatesTool::where('user_ID','=',Auth::user()->id)->where('tool_ID','=',$id)->count()==0){
+            if(userCreatesTool::where('user_ID','=',Auth::user()->id)->where('tool_ID','=',$id)->count()==0 && Auth::user()->role_ID ==1){
                 $connection = new userCreatesTool;
                 $connection->user_ID = Auth::user()->id; // Change into id of the changer
                 $connection->tool_ID = $id;
                 $connection->save();
+                
             }
-            
+            elseif(userCreatesTool::where('user_ID','=',Auth::user()->id)->where('tool_ID','=',$temp_id)->count()==0 && Auth::user()->role_ID==2){
+                $connection = new userCreatesTool;
+                $connection->user_ID = Auth::user()->id; // Change into id of the changer
+                $connection->tool_ID = $temp_id;
+                $connection->save();
+            }
         }
-        return redirect('login/tools')->with('message','Successfully Updated Tool!');
+        return redirect('login/tools')->with('message',$message);
     }
 
     /**
@@ -328,5 +413,28 @@ class ToolsController extends Controller
         $tool->delete();
        
         return redirect('login/tools')->with('message', 'Successfully Deleted User!');
+    }
+
+    /**
+     * store tool feedback in database
+     * 
+     * @param int $id i.e. toolId
+     * 
+     * @param \Illuminate\Http\Request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFeedback($id, Request $request)
+    {
+        $feedback = new ToolFeedbackModel();
+
+        $feedback->name = $request->fname . ' ' . $request->lname;
+        $feedback->email = $request->email;
+        $feedback->comment = $request->comment;
+        $feedback->tool_ID = $id;
+
+        $feedback->save();
+
+        return back()->with('message', 'Your Feedback has been submitted successfully.');
     }
 }
