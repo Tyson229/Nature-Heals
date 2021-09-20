@@ -5,7 +5,12 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\Tools_feedback;
+<<<<<<< HEAD
 use App\Http\Controllers\ToDoListController;
+=======
+use Illuminate\Support\Facades\Auth;
+
+>>>>>>> origin/HaoBranch
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +23,6 @@ use App\Http\Controllers\ToDoListController;
 |
 */
 /*User end*/
-
-/*Route::get('/', function () {
-    return view('UserSide.welcome');    
-});*/
 //Homepage
 
 Auth::routes();
@@ -46,6 +47,7 @@ Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']
 Route::get('/login/home', [PagesController::class,'adminHome'])->name('admin.home');
 
 Route::resource('login/user',UserController::class);
+
 Route::resource('login/tools',ToolsController::class);
 
 

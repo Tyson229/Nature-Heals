@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+<<<<<<< HEAD
 use \Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
+=======
+use Illuminate\Support\Facades\Hash;
+
+
+>>>>>>> origin/HaoBranch
 class UserController extends Controller
 {
     /**
@@ -18,25 +25,33 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $users = DB::table('users')
-                    ->join('roles','role_ID','=','roles.id')
-                    ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
-                    ->where([
-                        [ function ($query) use ($request){
-                            if(($term = $request->term)){
-                                $query->orWhere('fname','LIKE','%' . $term . '%')
-                                      ->orWhere('lname','LIKE','%' . $term . '%')
-                                      ->orWhere('email','LIKE','%' . $term . '%');
-                            }
-                        }]
-                    ])
-                    ->orderBy('users.id','desc')
-                    ->paginate(7); 
+        if(Auth::user()){
+            if(Auth::user()->role_ID==2)
+                return back();
+
+            $users = DB::table('users')
+                        ->join('roles','role_ID','=','roles.id')
+                        ->select('users.id','fname', 'lname' ,'email','password','roles.role_name')
+                        ->where([
+                            [ function ($query) use ($request){
+                                if(($term = $request->term)){
+                                    $query->orWhere('fname','LIKE','%' . $term . '%')
+                                        ->orWhere('lname','LIKE','%' . $term . '%')
+                                        ->orWhere('email','LIKE','%' . $term . '%');
+                                }
+                            }]
+                        ])
+                        ->orderBy('roles.role_name','desc')
+                        ->orderBy('users.id','desc')
+                        
+                        ->paginate(7); 
 
 
-        return view('AdminSide.userManagement')
-                    ->with('users', $users);         
+            return view('AdminSide.userManagement')
+                        ->with('users', $users);
+        }
+        else
+            return back();         
     }
 
     /**
@@ -111,7 +126,10 @@ class UserController extends Controller
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email');
+<<<<<<< HEAD
         $user->password = $request->input('password');
+=======
+>>>>>>> origin/HaoBranch
         $user->role_ID = $request->input('roles');
         $user->updated_at = now();
 

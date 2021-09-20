@@ -5,37 +5,11 @@
     html{ font-size: 1.2rem;}
 </style>
     
-<script type="text/javascript">
-    //When the page loads, all check boxes are unchecked
-    function checkOrCancelAll(){
-    //1.Get the element object of checkbox
-    var chElt=document.getElementById("chElt");
-    //2.Get selected state
-    var checkedElt=chElt.checked;
-    console.log(checkedElt)
-    //3.if checked=true,selected all box,checked=false,Cancel all box
-    var allCheck=document.getElementsByName("interest");
-    //4.Loop through the elements in each check box
-    //var mySpan=document.getElementById("mySpan");
-    if(checkedElt){
-    //choose all
-    for(var i=0;i<allCheck.length;i++){
-    //Set the checked state of the check box
-    allCheck[i].checked=true;
-    }
-    //mySpan.innerHTML="cancel all";
-    }else{
-    //cancel all
-    for(var i=0;i<allCheck.length;i++){
-    allCheck[i].checked=false;
-    }
-    //mySpan.innerHTML="choose all";
-    }
-    }
-</script>
 @endsection
 
 @section('nav-bar')
+@if(auth()->user()->role->role_name == 'Owner')
+
     <a class="nav-link" href="/login/home">
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
@@ -50,7 +24,7 @@
     </a> 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Pending Tool Request
+        Tool Request
     </a>
     <a class="nav-link " href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
@@ -64,20 +38,35 @@
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
     </a>
+    @else
+    <a class="nav-link" href="/login/home">
+        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+        Home
+    </a>
+
+    <a class="nav-link " href="/login/tools">
+        <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
+        Assessment Tools
+    </a> 
+ 
+    <a class="nav-link " href="/login/todolist">
+        <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
+        To-do List 
+    </a> 
+ 
+    <a class="nav-link" href="/login/draft">
+        <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
+        Draft
+    </a>
+    @endif
 @endsection
 
 @section('content')
     <main>
         <h1 class="display-5">Tool Feedback</h1>
-        <div class="row">
-            <!--Add new tool button-->
-            <div class="col-sm-4">
+       
+        <div class="row"><!--make some space between table and title-->
 
-                <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>   
-            </div>
-
-            <div class="col-sm-3"></div>
 
         </div>
 
@@ -134,7 +123,6 @@
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col"><input type="checkbox" id="chElt" onclick="checkOrCancelAll();"></th>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
@@ -148,10 +136,7 @@
 
                 <tbody class="bg-white">
                     <tr data-bs-toggle="collapse" data-bs-target="#hidden">
-                        
-                        <th scope="row" >
-                            <input type="checkbox" name="interest"/>
-                        </th>  
+                         
                         <td>1</td>
                         <td class="col-sm-2">John Doe</td>
                         <td>person1@gmail.com
@@ -161,14 +146,15 @@
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                             data-bs-target="#createToolForm">Open</button>
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal1"
+                            data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>   
+                           
                         </td>
                     </tr>
 
                     <tr data-bs-toggle="collapse" data-bs-target="#hidden2">
                         
-                        <th scope="row" >
-                            <input type="checkbox" name="interest"/>
-                        </th>  
+                         
                         <td>2</td>
                         <td class="col-sm-2">John Doe</td>
                         <td>person2@gmail.com
@@ -178,14 +164,14 @@
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                             data-bs-target="#createToolForm">Open</button>
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal1"
+                            data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>  
                         </td>
                     </tr>
                     
                     <tr data-bs-toggle="collapse" data-bs-target="#hidden3">
                         
-                        <th scope="row" >
-                            <input type="checkbox" name="interest"/>
-                        </th>  
+                          
                         <td>3</td>
                         <td class="col-sm-2">John Doe</td>
                         <td>person3@gmail.com
@@ -195,6 +181,8 @@
                         <td>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                             data-bs-target="#createToolForm">Open</button>
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal1"
+                            data-bs-target="#createToolForm"><i class="fas fa-trash"></i> Delete</button>  
                         </td>
                     </tr>
 
