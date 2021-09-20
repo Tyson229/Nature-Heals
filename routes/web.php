@@ -5,12 +5,9 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\Tools_feedback;
-<<<<<<< HEAD
-use App\Http\Controllers\ToDoListController;
-=======
 use Illuminate\Support\Facades\Auth;
 
->>>>>>> origin/HaoBranch
+
 
 /*
 |--------------------------------------------------------------------------

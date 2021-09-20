@@ -8,14 +8,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-<<<<<<< HEAD
-use \Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Hash;
-=======
 use Illuminate\Support\Facades\Hash;
 
 
->>>>>>> origin/HaoBranch
 class UserController extends Controller
 {
     /**
@@ -126,10 +121,6 @@ class UserController extends Controller
         $user->fname = $request->input('fname');
         $user->lname = $request->input('lname');
         $user->email = $request->input('email');
-<<<<<<< HEAD
-        $user->password = $request->input('password');
-=======
->>>>>>> origin/HaoBranch
         $user->role_ID = $request->input('roles');
         $user->updated_at = now();
 
