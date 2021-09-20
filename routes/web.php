@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserToolController;
 use App\Http\Controllers\ToDoListController;
+use App\Http\Controllers\ContactController;
 
 
 
