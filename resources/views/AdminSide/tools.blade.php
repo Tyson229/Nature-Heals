@@ -1506,6 +1506,7 @@
         });
         @endif
     </script>
+    
     <script type="text/javascript">
         @if (count($errors->update)>0)
         $(function() {

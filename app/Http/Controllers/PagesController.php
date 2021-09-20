@@ -18,9 +18,6 @@ class PagesController extends Controller
     public function contact(){
         return view('UserSide.contact');
     }
-    public function request(){
-        return view('UserSide.request');
-    }
 
     public function adminlogin(){
         return view('AdminSide.login');

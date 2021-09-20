@@ -8,6 +8,7 @@ use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\AdminRequestController;
 use App\Http\Controllers\DraftController;
 use App\Http\Controllers\Tools_feedback;
+use App\Http\Controllers\UserRequestController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -35,7 +36,7 @@ Route::get('/detailed', [PagesController::class,'detailed']);
 Route::get('/contact', [PagesController::class,'contact']);
 
 //Request page
-Route::get('/request', [PagesController::class,'request']);
+Route::resource('/request', UserRequestController::class);
 
 /**Admin end**/
 Route::get('/login/forgotPassword', [PagesController::class,'adminForgotPassword']);

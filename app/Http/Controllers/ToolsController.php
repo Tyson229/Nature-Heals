@@ -8,12 +8,8 @@ use App\Models\tools;
 use App\Models\request as tool_request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Models\linkList;
 use App\Models\userCreatesTool;
-use SebastianBergmann\Environment\Console;
-
-use function PHPUnit\Framework\isNull;
 
 class ToolsController extends Controller
 {
