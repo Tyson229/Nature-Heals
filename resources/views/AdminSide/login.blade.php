@@ -22,17 +22,17 @@
           <div class="offset-1 col-6 align-self-center p-2">
             <form method="POST" action="{{ route('login') }}">
               @csrf
-              <h1 class="display-4">Login</h1>
+              <h1 class="display-2" style="color: #96c0b7">Login</h1>
               <div class="form-outline mb-md-3">
-                <label class="form-label" for="UserName"><strong>Email</strong></label>
-                <input name="email" type="email" id="Email address" class="form-control form-control-lg" />
+                <label class="form-label" for="Email" style="color: #96c0b7"><strong>Email</strong></label>
+                <input name="email" type="email" id="Email" class="form-control form-control-lg" />
                   @if($errors->has('email'))
                       <span class="error" style="color:red">{{  $errors->first('email') }}</span>
                   @endif
               </div>
 
               <div class="form-outline mb-3">
-                <label class="form-label" for=""><strong>Password</strong></label>
+                <label class="form-label" for="Password" style="color: #96c0b7"><strong>Password</strong></label>
                 <input name="password" type="password" id="Password" class="form-control form-control-lg">
                   @if ($errors->has('password'))
                     <span class="error" style="color:red">{{  $errors->first('password') }}</span>
@@ -44,7 +44,7 @@
               </div>
     
               <div>
-                <button class="btn btn-success btn-lg float-end" type="submit"> Login </button>
+                <button class="btn btn-lg float-end text-white" style="background-color: #96c0b7" type="submit"> Login </button>
               </div>
             </form>
           </div>

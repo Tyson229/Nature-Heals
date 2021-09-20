@@ -31,7 +31,7 @@ class UserRequestController extends Controller
      */
     public function store(Request $request)
     {
-        /*
+        
         $validator = Validator::make($request->all(),[
             //Tools details
             'createToolName' => 'bail|required|string',
@@ -157,7 +157,7 @@ class UserRequestController extends Controller
         $connection->user_ID = User::where('role_ID',1)->first()->id;
         $connection->tool_ID = $temp_id;
         $connection->save();
-        */
+        
         return redirect('/request')->with('message','Successfully Submitted Tool! Please wait for the Owner approval');
     }
 
