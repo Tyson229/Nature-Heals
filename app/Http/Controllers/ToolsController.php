@@ -156,7 +156,7 @@ class ToolsController extends Controller
 
         $tool->save();
 
-        $temp_id = tools::orderBy('created_at','desc')->first()->id;
+        $temp_id = $tool->id;
         
         //Create request table
         if(isset($request->add) && Auth::user()->role_ID ==2){
