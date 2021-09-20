@@ -2,67 +2,52 @@
 
 @section('style')
 <style>
-body {
-    text-align: center;
-}
+  .content{
+    margin-top: 15%;
+  }
+  .image{
+    width: 50vh;
+    height: 50vh;
+  }
+</style>
 
-.container{
-    background-color:lightgrey;
-    position:relative;
-    top:240px;
-    padding: 52px;
-    width:455px;
-    border: 1px solid black;
-}
-
-.form-group1{
-    position:relative;
-    top:30px;
-}
-
-    </style>
 @endsection
 
 @section('content')
-<main>
-<div class="form-gap"></div>
 @if (session('status'))
     <div class="alert alert-success" role="alert">
         {{ session('status') }}
     </div> 
 @endif
-<div class="container h-100 d-flex justify-content-center">
-	<div class="row-md-6">
-		<div class="col-md-12 col-md-offset-12">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="text-center">
-                  <h3><i class="fa fa-lock fa-4x"></i></h3>
-                  <h2 class="text-center">Forgot Password?</h2>
-                  <p>You can reset your password here.</p>
-                  <div class="panel-body">
-                    <form id="register-form" role="form" autocomplete="off" class="form" method="post" action="{{route('password.email')}}">
+
+<body class="bg-dark text-white" >
+  <main class="container p-2" >
+    
+    <div class="row content">
+    <div class="col-4 align-self-center" text-center>
+      <img src="/pictures/Logo.jpg" class="image border rounded-3">
+    </div>
+
+    <div class="offset-1 col-6 align-self-center p-2">
+      <form id="register-form" role="form" autocomplete="off" class="form" method="post" action="{{route('password.email')}}">
                       @csrf
-                      <div class="form-group">
-                        <div class="input-group">
+                      <h1 class="display-2" style="color: #96c0b7">Forget Password?</h1>
+                      <div class="form-outline mb-md-3">
+                        <label class="form-label" for="Email" style="color: #96c0b7"><strong>Email</strong></label>
                           <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
                           <input id="email" name="email" placeholder="Email address" class="form-control"  type="email" required>
-                        </div>
                       </div>
-                      <div class="form-group1">
-                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+
+
+                      <div>
+                        <input name="recover-submit" style="background-color: #96c0b7; float:left;"  class="btn btn-lg float-end text-white" value="Reset Password" type="submit">
                       </div>
                     </form>
     
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 	</div>
-</div>
-    
-    
-      </body>
+
+</div>  
 </main>
+      </body>
+
 @endsection
