@@ -1,14 +1,37 @@
 @extends('layouts.adminLayout')
 
 @section('style')
-    <style>
-        html{
-            font-size: 1.2rem;
-        }
-    </style>
+<style>
+    html{
+        font-size: 1.2rem;
+    }
+    .cont{
+        background-color:#ADD8E6;
+        padding:10px 10px 10px 10px;
+        margin-left: 1px;
+
+    }
+    .cont1{
+     
+        margin-left: 24px;
+
+    }
+
+h2{
+font-size: 22px; 
+color:black;
+margin-left: 16px;
+
+
+}
+
+    }
+</style>
 @endsection
 
 @section('nav-bar')
+@if(auth()->user()->role->role_name == 'Owner')
+
     <a class="nav-link" href="/login/home">
         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
         Home
@@ -43,6 +66,27 @@
         <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
         Draft
     </a>
+    @else
+    <a class="nav-link" href="/login/home">
+        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+        Home
+    </a>
+ 
+    <a class="nav-link bg-primary text-white " href="/login/tools">
+        <div class="sb-nav-link-icon"><i class="fa fa-suitcase"></i></div>
+        Assessment Tools
+    </a> 
+
+    <a class="nav-link" href="/login/todolist">
+        <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
+        To-do List 
+    </a> 
+ 
+    <a class="nav-link" href="/login/draft">
+        <div class="sb-nav-link-icon"> <i class="fab fa-firstdraft"></i> </div>
+        Draft
+    </a>
+    @endif
 @endsection
 
 @section('content')
@@ -1285,7 +1329,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+                                                           
                                                                 <!--Journal Details-->
                                                                 <div class="accordion-item">
                                                                     <h1 class="accordion-header" id="headingTwo">
@@ -1317,7 +1361,7 @@
                                                                                 <div class="col-sm-3 mb-3">
                                                                                     <input name="editYear" class="form-control" value="{{ $tool->year }}">
                                                                                 </div>
-                                                                                <div class="col-sm-1"></div>
+                                                                                <div class="col-sm-12"></div>
                                                                                 <!--Country-->
                                                                                 <div class="col-sm-1">
                                                                                     <label for="editCountry" class="col-form-label">Country</label>

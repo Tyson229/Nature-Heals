@@ -264,100 +264,39 @@
                             <button class="btn btn-outline-primary" type="submit">Search</button>
                         </div>
 
+                        
+
                         <div class="table-responsive">
                             <table class="table table-hover">
-                                <tbody>
-                                    
-                                    <tr>
-                                        <td class="number text-center"><a href="Detailed Tool.html" class="link1"><strong> #1</strong></a></td>
-                                        <td class="Title"><a href="Detailed Tool.html" class="link1">Resilience</a></td>
-                                        <td class="ToolDetailed"><a href="Detailed Tool.html" class="link1"><strong> 
-                                            Enhancing resilience in youth
-                                                through a 10-days
-                                                development voyage</strong></a>
-                                            <br><a href="Detailed Tool.html" class="link1">immediate effect of a development voyage on resilience levels</a>
-                                        </td>
-                                        <td></td>
-                                        <td class="domain text-right"> <a href="Detailed Tool.html" class="link1"><strong>Domain Assessed </strong> Emotional
-                                            <br><strong>Tool Name </strong> resilience scale
-                                        </td>  </a>  
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td class="number text-center"><strong>#2</strong></td>
-                                        <td class="Title text-right"> Student activity levels</td>
-                                        <td class="Tool"><strong>System for Observing Fitness Instruction
-                                                Time</strong>
-
-                                            <br>SOFIT is comprehensive tool for assessing physical education
-                                            classes by providing for the simultaneous collection of data on
-                                            student activity levels
-                                        </td>
-                                        <td></td>
-                                        <td class="domain text-right"> <strong>Domain Assessed </strong> physical
-                                            <br><strong>Tool Name </strong> Observing Fitness Instruction Time
-
-                                        </td>
-                                    <tr>
-                                        <td class="number text-center"><strong>#3</strong></td>
-                                        <td class="Title text-right">CEI-II</td>
-                                        </td>
-                                        <td class="Tool"><strong>Curiosity and Exploration Inventory
-                                                (CEI-II)</strong>
-                                            <br>The CEI-II is a self-report instrument assessing individual
-                                            differences in the recognition, pursuit, and integration of novel
-                                            and challenging experiences and information
-                                        </td>
-                                        <td></td>
-                                        <td class="domain text-right"> <strong>Domain Assessed </strong> Quality of Life
-                                            <br><strong>Tool Name </strong> 10-item scale with two factors: the
-                                            motivation to seek out knowledge and new experiences
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="number text-center"><strong>#4</strong></td>
-                                        <td class="Title text-right">symptoms in autism</td>
-                                        <td class="Tool"><strong>Sense and Self-Regulation Checklist
-                                                (SSC)</strong>
-                                            <br>This instrument was designed as a parent/caregiver measure of
-                                            comorbid symptoms in autism
-                                        </td>
-                                        <td></td>
-                                        <td class="domain text-right"> <strong>Domain Assessed </strong> Family
-                                            <br><strong>Tool Name</strong> extensive interviews of parents
-                                        </td>
-                                    </tr>
-
-                                    <tr></tr>
-                                    <td class="number text-center"><strong>#5</strong></td>
-                                    <td class="Title text-right">SSSS</td>
-                                    </td>
-                                    <td class="Tool"><strong> Sources of Social Support Scale
-                                            (SSSS)</strong>
-                                        <br>Assesses sources of social support in a variety of health
-                                        contexts
-                                    </td>
-                                    <td></td>
-                                    <td class="domain text-right"> <strong>Domain Assessed </strong> Social
-                                        <br><strong>Tool Name </strong> Soical Scale<br>
-                                    </td>
+                                <tbody>                                    
+                                    @forelse ($tools as $tool)
+                                        <tr class="tool-description" data-href="{{route('tools.detailed', ['id' => $tool->id])}}">
+                                            <td class="number text-center" width="10%"><strong>#{{$loop->iteration}}</strong></td>
+                                            <td class="ToolDetailed" width="65%">
+                                                <strong>{{$tool->tool_name}}</strong>
+                                                <br>                                                    
+                                                @if(strlen($tool->tool_description) > 160 )
+                                                    {{substr($tool->tool_description, 0, 160)}}...
+                                                @else
+                                                    {{$tool->tool_description}}
+                                                @endif                                                    
+                                            </td>
+                                            <td class="domain text-right" width="25%">
+                                                <strong>Health Domain: </strong> {{$tool->health_domain}}
+                                                <br>
+                                                <strong>Age Group: </strong> {{$tool->age_group}}
+                                            </td> 
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="3">No Records Found.</td></tr>
+                                    @endforelse
+                                </tbody>
                             </table>
+                            {{$tools->links()}}
                         </div>
                         <br>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                    
+
                     </div>
                 </div>
             </div>
@@ -366,6 +305,14 @@
     
 @endsection
 
-
+@section('script')
+<script>
+$(function(){
+    $('body').on('click', '.tool-description', function(){
+        window.location = $(this).attr('data-href');
+    });
+});
+</script>
+@endsection
 
 

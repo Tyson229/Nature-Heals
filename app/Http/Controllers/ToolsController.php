@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\linkList;
 use App\Models\userCreatesTool;
+use App\Models\toolsFeedback as ToolFeedbackModel;
 
 class ToolsController extends Controller
 {
@@ -408,5 +409,28 @@ class ToolsController extends Controller
         $tool->delete();
        
         return redirect('login/tools')->with('message', 'Successfully Deleted Tool!');
+    }
+
+    /**
+     * store tool feedback in database
+     * 
+     * @param int $id i.e. toolId
+     * 
+     * @param \Illuminate\Http\Request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFeedback($id, Request $request)
+    {
+        $feedback = new ToolFeedbackModel();
+
+        $feedback->name = $request->fname . ' ' . $request->lname;
+        $feedback->email = $request->email;
+        $feedback->comment = $request->comment;
+        $feedback->tool_ID = $id;
+
+        $feedback->save();
+
+        return back()->with('message', 'Your Feedback has been submitted successfully.');
     }
 }

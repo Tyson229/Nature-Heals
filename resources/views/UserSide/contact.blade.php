@@ -70,6 +70,13 @@
 		top: -3px;
 		color: black;
 	}
+
+	h5{
+		color:maroon;
+		position:relative;
+		top:-25px;
+		font-size:21px;
+	}
 	
 	.msg {
 		position: relative;
@@ -131,7 +138,7 @@
 	{
 		padding-right: 0;
 	}
-	
+
 	}
 	@media (max-width:481px)  {
 	.col-md-5.align-items-stretch
@@ -163,27 +170,32 @@
 			</div>
 			<div class="row justify-content-center" >
 				<div class="col-lg-10 col-md-12">
+					<div class="alert alert-{{session('status.status_type')}} alert-dismissible fade show" role="alert">
+						{{session('status.message')}}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					  </div>
 					<div class="wrapper">
 						<div class="row no-gutters" style="margin-bottom: 100px;">
 							<div class="col-md-7 d-flex align-items-stretch" >
 								<div class="contact-wrap w-100 p-md-5 p-4  border-top border-bottom border-start rounded-3" style="border-radius: 3px;background-color:#f8f9fa;">
 									<div class="form-sub">
-										<h1 class="mb-4 display-4"> Get in touch </h3>
-										<p class="text-sub"> To get a update Please provide email address. </p>
+										<h1 class="mb-4 display-4"> Get in touch </h1>
+										<h5 class="text-sub"> To get a update Please provide email address. </h5> <hr>
 										<div id="form-message-warning" class="mb-4"></div>
 										<div id="form-message-success" class="mb-4"> </div>
-										<form>
+										<form id="contact-us-form" method="post" action="{{route('contact.send-information')}}">
+											@csrf
 											<div class="row">
-												<div class="col-md-6">
+												<div class="col-md-5">
 													<div class="form-group">
 														<label for="exampleFormControlInput1"> Name </label>
-														<input type="name" class="form-control" id="exampleFormControlInput1" placeholder="Name@example.com"> 
+														<input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name" required> 
 													</div>
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-7">
 													<div class="form-group">
 														<label for="exampleFormControlInput1"> Email address </label>
-														<input type="email" class="form-control" id="exampleFormControlInput2" placeholder="Name"> 
+														<input name="email" type="email" class="form-control" id="exampleFormControlInput2" placeholder="Name@example.com">
 													</div>
 												</div>
 											</div>
@@ -191,22 +203,22 @@
 											
 											<div class="form-group" style="margin-top: 10px;"> 
 												<label for="exampleFormControlSelect1">Select Category</label>
-												<select class="form-control" id="exampleFormControlSelect1">
-													<option value=""> ------------------ Please choose an option ------------------------- </option>
-													<option value="feedback"> Feedback </option>
-													<option value="question"> Question </option>
-													<option value="generalInquiry"> General Inquiry </option>
-													<option value="others"> Others </option>
+												<select name="category" class="form-control" id="exampleFormControlSelect1" required>
+													<option value=""> -------- Please choose an option ------------- </option>
+													<option value="Feedback"> Feedback </option>
+													<option value="Question"> Question </option>
+													<option value="General Inquiry"> General Inquiry </option>
+													<option value="Others"> Others </option>
 												</select>
 											</div>
 											<div class="form-group" style="margin-top: 10px;">
 												<label for="exampleFormControlTextarea1"> Message </label>
-												<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=" Write your Message...... " ></textarea>
-											</div>
+												<textarea type="text" name="contact_message" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=" Write your Message...... " required></textarea>
+											</div> <br><hr>
 											<div class="row mt-5 mb-8">
 												<div class="col-sm-2"></div>
 												<div class="col-sm-12">
-													<button class="btn btn-dark btn-lg float-end" type="button"> Send Request </button>
+													<button class="btn btn-dark btn-lg float-end" type="submit" id="send-contactus-button"> Send </button>
 												</div>
 											</div>
 										</form>
@@ -216,25 +228,25 @@
 							<div class="col-md-5 d-flex align-items-stretch" style="padding-left: 0;">
 								<div class="info-wrap w-130 p-lg-5 p-1  border rounded-3" style="color: white;">
 									<h3 class="mb-4 mt-md-4">  </h3>
-									<h2 style="color: #fff;font-size: 29px;margin-bottom: 30px; position:relative; top:-22px;"> Contact Us </h2>
+									<h2 style="color: #fff;font-size: 49px;margin-bottom: 30px; position:relative; top:-22px;"> Contact Us </h2>
 									<div class="dbox w-110 d-flex align-items-start">
 										<div class="icon d-flex align-items-center justify-content-center"></div>
-										<div class="text pl-4">
-											<p style="position:relative; top:-38px;"><span> Address: <span class="address-data"> Locked Bag 1797, Penrith, NSW 2751 </span></span></p>
+										<div class="text pl-6">
+											<p style="position:relative; top:-38px;"><span> <b>Address: <span class="address-data"> Locked Bag 1797, Penrith, NSW 2751 </b></span></span></p>
 										</div>
 									</div>
 									<div class="dbox w-100 d-flex align-items-center">
 										<div class="icon d-flex align-items-center justify-content-center">  </div>
-										<div class="text pl-4">
-											<p style="position:relative; top:-42px;" ><span> Telephone: </span> <span class="address-data"> +61298525222 </span>
+										<div class="text pl-6">
+											<p style="position:relative; top:-42px;" ><span><b> Telephone: </span> <span class="address-data"> +61298525222 </b></span>
 												<a href="tel://1234567920"> </a>
 											</p>
 										</div>
 									</div>
 									<div class="dbox w-100 d-flex align-items-center">
 										<div class="icon d-flex align-items-center justify-content-center">  </div>
-										<div class="text pl-4">
-											<p style="position:relative; top:-42px;"><span>Email:</span><span class="address-data">__@staff.westernsydney.edu.au</span>
+										<div class="text pl-6">
+											<p style="position:relative; top:-42px;"><span><b>Email:</span><span class="address-data">NatureHeals.21@gmail.com</b></span>
 												<a href="mailto:info@yoursite.com"></a>
 											</p>
 										</div>
@@ -255,5 +267,6 @@
 		</div>
 	</section>
 @endsection
+
 
 

@@ -231,4 +231,7 @@ return [
 
     ],
 
+    
+    'receive_contact_form_email' => 'NatureHeals.21@gmail.com',
+
 ];

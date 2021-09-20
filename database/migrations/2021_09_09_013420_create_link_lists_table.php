@@ -21,7 +21,6 @@ class CreateLinkListsTable extends Migration
             $table->foreignId('tool_ID')->constrained('tools');
         });
     }
-
     /**
      * Reverse the migrations.
      *
