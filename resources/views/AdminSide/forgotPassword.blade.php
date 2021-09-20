@@ -25,10 +25,12 @@ body {
 
 @section('content')
 <main>
-
-    
-        
- <div class="form-gap"></div>
+<div class="form-gap"></div>
+@if (session('status'))
+    <div class="alert alert-success" role="alert">
+        {{ session('status') }}
+    </div> 
+@endif
 <div class="container h-100 d-flex justify-content-center">
 	<div class="row-md-6">
 		<div class="col-md-12 col-md-offset-12">
@@ -39,9 +41,8 @@ body {
                   <h2 class="text-center">Forgot Password?</h2>
                   <p>You can reset your password here.</p>
                   <div class="panel-body">
-    
-                    <form id="register-form" role="form" autocomplete="off" class="form" method="post">
-    
+                    <form id="register-form" role="form" autocomplete="off" class="form" method="post" action="{{route('password.email')}}">
+                      @csrf
                       <div class="form-group">
                         <div class="input-group">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
@@ -51,8 +52,6 @@ body {
                       <div class="form-group1">
                         <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
                       </div>
-                      
-                      <input type="hidden" class="hide" name="token" id="token" value=""> 
                     </form>
     
                   </div>

@@ -29,8 +29,10 @@
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-               
-				<button class="btn btn-primary float-right" id="Search" type="button">Logout</button>
+               <form method="POST" action="{{ route('logout') }}">
+                @csrf
+				<button class="btn btn-primary float-right" id="Search" type="submit">Logout</button>
+               </form>
             </ul>
         </nav>
 
@@ -44,7 +46,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                       Admin
+                        {{ auth()->user()->fname }}
                     </div>
                 </nav>
             </div>

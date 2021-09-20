@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\tools;
 use Illuminate\Support\Facades\DB;
@@ -20,31 +21,32 @@ class ToolsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tools = DB::table('tool_statuses')
-                ->join('tools','tools.status_ID','=','tool_statuses.id')
-                -> select('tools.*','tool_statuses.status')
+        $tools = DB::table('tools')
+                ->join('tool_statuses','tools.status_ID','=','tool_statuses.id')
+                ->select('tools.*','tool_statuses.status')
+                ->where([
+                    [ function ($query) use ($request){
+                        if(($term = $request->term)){
+                            $query->orWhere('tools.tool_name','LIKE','%'.$term.'%' )
+                                  ->orWhere('tools.health_domain','=',$term );
+                        }
+                    }]
+                ])
+                ->where('tool_statuses.status','=','Hidden')
+                ->orWhere('tool_statuses.status','=','Published')
                 ->orderBy('tools.created_at','desc')
                 ->paginate(7);
 
         $link = DB::table('tools')
-                ->leftJoin('link_lists','link_lists.tool_ID','=','tools.id')
+                ->join('link_lists','link_lists.tool_ID','=','tools.id')
                 -> select('tools.id','link_lists.study_name','link_lists.link')
-                ->orderBy('tools.created_at', 'desc')
-                ->get();        
+                ->get();
+
         return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -130,7 +132,10 @@ class ToolsController extends Controller
         $tool->article = $request->createJournal;
         $tool->measure =$request -> createMeasure;
         $tool->program_content =$request -> createProgramContent;
-        $tool->status_ID = 1;
+        if(isset($request->saveDraft))
+            $tool->status_ID = 3;
+        elseif(isset($request->add))
+            $tool->status_ID = 1;    
         $tool->created_at = now();
         $tool->updated_at = now();
 
@@ -163,34 +168,13 @@ class ToolsController extends Controller
 
         //create connection between user and tool
         $connection = new userCreatesTool;
-        $connection->user_ID = 3;
+        $connection->user_ID = Auth::user()->id;
         $connection->tool_ID = $temp_id;
         $connection->save();
 
         return redirect('login/tools')->with('message','Successfully Created Tool!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -201,7 +185,131 @@ class ToolsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(isset($request->publish_switch)){
+            $tool = tools::find($id);
+            $tool->status_ID = $request->publish_switch;
+            $tool->updated_at = now();
+            $tool->save(); 
+        }else{
+            $validator = Validator::make($request->all(),[
+                //Tools details
+                'editToolName' => 'bail|required|string',
+                'editDescription' => 'required|string',
+
+                'editStudyLabel-'.$id => 'nullable|string',
+                'editLinkLabel-'.$id => 'nullable|url',
+
+                'editMoreStudyLabel-'.$id => 'array|min:1',
+                'editMoreStudyLabel-'.$id.'.*'=> 'string',
+                'editMoreLinkLabel-'.$id => 'array|min:1',
+                'editMoreLinkLabel-'.$id.'.*' => 'nullable|url',
+                //'createAttachmentLabel' => 'file',
+
+                //Additional details
+                'editOutcome' => 'nullable|string',
+                'editGenderLabel' => 'nullable|alpha',
+                'editReliability' => 'nullable|alpha',
+
+                //Journal details
+                'editAuthor' => 'nullable|string',
+                'editTitle' => 'nullable|string',
+                'editYear' => 'nullable|numeric',
+                'editCountry' => 'nullable|string',
+                'editJournal' => 'nullable|string',
+            ],[
+                'editToolName.required' => 'Tool Name is required',
+                'editToolName.alpha_num' => 'Tool Name must be alphanumeric only',
+                'editToolName.string' => 'Tool Name must be alphanumeric only',
+
+                'editDescription.required' => 'Tool description is required',
+                'editDescription.string' => 'Tool description must be alphanumeric only',
+
+                'editStudyLabel.string' => 'Study Name must be alphanumeric only',
+                'editStudyLabel.alpha_num' => 'Study Name must be alphanumeric only',
+                'editLinkLabel.url'=>'Link must be a URL',
+
+                'editMoreStudyLabel.*.string' => 'Study Name must be alphanumeric only',
+                'editMoreStudyLabel.*.alpha_num' => 'Study Name must be alphanumeric only',
+                'editMoreLinkLabel.*.url'=>'Link must be an URL',
+
+            ]);
+
+            if($validator->fails()){
+                return back()->withErrors($validator,'update')->with('id',$id);
+            }
+
+            //Add Main details
+            $tool = tools::find($id);
+            $tool->tool_name = $request->editToolName;
+            $tool->tool_description= $request ->editDescription;
+            $tool->health_domain = $request ->editHealthDomain;
+            $tool ->age_group = $request->editAgeGroup;
+            $tool ->notes = $request->editNotes;
+            
+            //Add additional details
+            $tool->outcome = $request->editOutcome;
+            $tool->gender = $request->editGender;
+            $tool->health_condition = $request->editCondition;
+            $tool->modality = $request->editModality;
+            $tool->specific_NB = $request->editSpecificNB;
+            if(strcmp(($request->editSpecificNB),"Yes")==0){
+                $tool->settings = $request->editSetting;
+            }else{
+                $tool->settings = "Not Applicable";
+            }
+            $tool->reliability = $request-> editReliability;
+            $tool->validity = $request -> editValidity;
+
+            //Add author details
+            $tool->author = $request -> editAuthor;
+            $tool->title = $request -> editTitle;
+            $tool->year = $request ->editYear;
+            $tool->country = $request ->editCountry;
+            $tool->article = $request->editJournal;
+            $tool->measure =$request -> editMeasure;
+            $tool->program_content =$request -> editProgramContent;
+            $tool->updated_at = now();
+
+            $tool->save();
+
+            //Add study if have
+            $temp1 = 'editStudyLabel-'.$id;
+            $temp2 = 'editLinkLabel-'.$id;
+            if(!is_null($request->$temp1)){
+                $linkList = linkList::where('tool_ID',$id);
+                $linkList->delete();
+
+                $linkList = new linkList;
+                $linkList->study_name = $request->$temp1;
+                $linkList->link = $request->$temp2;
+                $linkList->updated_at= now();
+                $linkList->tool_ID = $id;
+                $linkList->save();
+            }
+
+            $temp3 = 'editMoreStudyLabel-'.$id;
+            $temp4 = 'editMoreLinkLabel-'.$id;
+            if(!is_null($request->$temp3)){
+                $studiesCount = count($request->$temp3);
+                for( $i = 0; $i < $studiesCount ; $i++){
+                    $linkList = new linkList;
+                    $linkList->study_name = ($request->$temp3)[$i];
+                    $linkList->link = ($request->$temp4)[$i];
+                    $linkList->updated_at= now();
+                    $linkList->tool_ID = $id;
+                    $linkList->save();
+                }
+            } 
+            //When tool is edited, create another connection between the editor and the tool. If it already exists, ignore
+            if(userCreatesTool::where('user_ID','=',Auth::user()->id)->where('tool_ID','=',$id)->count()==0){
+                $connection = new userCreatesTool;
+                $connection->user_ID = Auth::user()->id; // Change into id of the changer
+                $connection->tool_ID = $id;
+                $connection->save();
+            }
+            
+        }
+        return redirect('login/tools')->with('message','Successfully Updated Tool!');
     }
 
     /**
@@ -212,6 +320,13 @@ class ToolsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $linkList = linkList::where('tool_ID',$id);
+        $linkList->delete();
+        $connection = userCreatesTool::where('tool_ID',$id);
+        $connection->delete();
+        $tool = tools::find($id);
+        $tool->delete();
+       
+        return redirect('login/tools')->with('message', 'Successfully Deleted User!');
     }
 }

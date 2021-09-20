@@ -45,7 +45,7 @@
 @endsection
 
 @section('content')
-    <h1 class="display-5"> Hello Admin</h1>  
+    <h1 class="display-5"> Hello {{ auth()->user()->fname }}</h1>  
     <div class="d-flex justify-content-center ">
         <div class="row mt-5 text-center">
               
