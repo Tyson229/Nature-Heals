@@ -51,12 +51,16 @@
 @section('content')
 <main class="flex-fill">
     @if(session('message'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
         {{session('message')}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+    @if(session('message'))
+    <div class="bg-white container border rounded-3 mt-1 mb-3">
+    @else
     <div class="bg-white container border rounded-3 mt-5 mb-3">
+    @endif    
         <div class="p-5 rounded-3">
             <h1 class="display-5">{{$tool->tool_name}}</h1>
         </div>
