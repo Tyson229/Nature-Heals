@@ -73,6 +73,10 @@
             text-decoration: none !important;
         }
 
+        .title{
+            font-size: 1.2rem;
+        }
+
     </style>
 @endsection
 
@@ -331,8 +335,8 @@
                                     data-href="{{ route('tools.detailed', ['id' => $tool->id]) }}">
                                     <td class="number text-center" width="3%"><strong>{{ $loop->iteration + $tools->firstItem() - 1 }}</strong>
                                     </td>
-                                    <td class="ToolDetailed text-center" width="67%">
-                                        <strong>{{ $tool->tool_name }}</strong>
+                                    <td class="ToolDetailed" width="67%">
+                                        <strong class="title">{{ $tool->tool_name }}</strong>
                                         <br>
                                         @if (strlen($tool->tool_description) > 100)
                                             {{ substr($tool->tool_description, 0, 100) }}...
