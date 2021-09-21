@@ -170,10 +170,14 @@
 			</div>
 			<div class="row justify-content-center" >
 				<div class="col-lg-10 col-md-12">
+					@if(session()->has('status.status_type'))
+
 					<div class="alert alert-{{session('status.status_type')}} alert-dismissible fade show" role="alert">
 						{{session('status.message')}}
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					  </div>
+
+					@endif
 					<div class="wrapper">
 						<div class="row no-gutters" style="margin-bottom: 100px;">
 							<div class="col-md-7 d-flex align-items-stretch" >
