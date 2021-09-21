@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
              'password' => Hash::make('Welcome@123'),
             'role_ID' => 1
         ]);
+        
 
         
 

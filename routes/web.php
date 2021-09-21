@@ -8,6 +8,7 @@ use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserToolController;
+use App\Http\Controllers\ToDoListController;
 
 
 
@@ -29,6 +30,7 @@ Route::get('/', [PagesController::class, 'homepage']);
 
 //Assessment Tools
 Route::get('/tools', [UserToolController::class,'tools']);
+Route::post('search-tools', [UserToolController::class,'search'])->name('tools.search');
 
 //Detailed Tool
 Route::get('detailed/{id}', [UserToolController::class,'detailed'])->name('tools.detailed');
@@ -55,7 +57,7 @@ Route::get('/login/request', [PagesController::class,'adminRequest']);
 Route::get('/login/todolist', [PagesController::class,'adminTodoList']);
 
 Route::get('/login/feedback', [FeedbackController::class,'index'])->name('feedback.index');
-Route::delete('delete-task/{id}', [FeedbackController::class,'destroy'])->name('feedback.delete');
+Route::delete('delete-feedback/{id}', [FeedbackController::class,'destroy'])->name('feedback.delete');
 
 Route::get('/login/draft', [PagesController::class,'adminDraft']);
 
