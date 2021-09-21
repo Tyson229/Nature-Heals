@@ -30,6 +30,7 @@ use App\Http\Controllers\ContactController;
 /*User end*/
 //Homepage
 Route::get('/', [PagesController::class, 'homepage']);
+Route::get('/home', [PagesController::class, 'adminHomepage']);
 
 //Assessment Tools
 Route::get('/tools', [UserToolController::class,'tools']);
@@ -64,7 +65,6 @@ Route::resource('login/draft', DraftController::class);
 
 Route::get('/login/feedback', [FeedbackController::class,'index'])->name('feedback.index');
 Route::delete('delete-feedback/{id}', [FeedbackController::class,'destroy'])->name('feedback.delete');
-
 
 //todolist
 Route::get('/login/todolist', [ToDoListController::class,'index'])->name('todolist.index');

@@ -11,6 +11,12 @@ class PagesController extends Controller
     public function homepage(){
         return view('UserSide.welcome');
     }
+    public function adminHomepage(){
+        if(Auth::user())
+            return view('AdminSide.homepage');
+        else
+            return view('UserSide.welcome');    
+    }
     public function tools(){
         return view('UserSide.tools');
     }
@@ -22,7 +28,10 @@ class PagesController extends Controller
     }
 
     public function adminlogin(){
-        return view('AdminSide.login');
+        if(Auth::user())
+            return view('AdminSide.homepage');
+        else    
+            return view('AdminSide.login');
     }
    
     public function adminForgotPassword(){
