@@ -3,7 +3,7 @@
 @section('style')
 <style>
 
-	html{
+html{
 		font-size:1.2rem;
 	}
 	
@@ -34,6 +34,11 @@
 		border-bottom-left-radius: 0.5rem;
 	}
 	
+	p{
+		position:relative;
+		top:-22px;
+		right:-4px;
+	}
 	.contact-info {
 		margin-top: 10%;
 	}
@@ -112,7 +117,6 @@
 	{
 	
 	padding: 40px 5px 5px 5px;
-	width:440px;
 	}
 	
 	
@@ -127,10 +131,15 @@
 	{
 		padding-left: 10px;
 	}
+
+
+	.no-gutters{
+		--bs-gutter-x: 0rem;
+	}
 	@media (min-width:1025px) {
 	.contact-wrap
 	{
-		padding-right: 0 !important;
+	
 		padding-top: 25px !important;
 		padding-bottom: 25px !important;
 	}
@@ -140,16 +149,27 @@
 	}
 
 	}
-	@media (max-width:481px)  {
+	@media (max-width:768px)  {
 	.col-md-5.align-items-stretch
 	{
-		padding: 1.6rem !important;
+		
 		display: block !important; 
 	}
 	.info-wrap
 	{
 		padding: 45px !important;
 	}
+	}
+
+	.break-word{
+		word-break: break-word;
+	}
+
+
+	@media (max-width: 768px) {
+		.d-flex {
+			display: block !important;
+		}
 	}
 	</style>
 @endsection

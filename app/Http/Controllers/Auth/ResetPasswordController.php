@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
+<<<<<<< HEAD
+=======
 use Illuminate\Auth\Events\PasswordReset;
+>>>>>>> origin/HaoBranch
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Password;
+<<<<<<< HEAD
+use Illuminate\Auth\Events\PasswordReset;
+=======
+>>>>>>> origin/HaoBranch
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -32,7 +39,11 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = '/login';
 
+<<<<<<< HEAD
+    /**
+=======
         /**
+>>>>>>> origin/HaoBranch
      * Display the password reset view for the given token.
      *
      * If no token is present, display the link request form.
@@ -52,6 +63,8 @@ class ResetPasswordController extends Controller
     /**
      * Reset the given user's password.
      *
+<<<<<<< HEAD
+=======
      * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
      * @param  string  $password
      * @return void
@@ -71,6 +84,7 @@ class ResetPasswordController extends Controller
     /**
      * Reset the given user's password.
      *
+>>>>>>> origin/HaoBranch
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
@@ -95,4 +109,23 @@ class ResetPasswordController extends Controller
                     : $this->sendResetFailedResponse($request, $response);
     }
 
+<<<<<<< HEAD
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $this->setUserPassword($user, $password);
+
+        $user->save();
+
+        event(new PasswordReset($user));
+    }
 }
+=======
+}
+>>>>>>> origin/HaoBranch

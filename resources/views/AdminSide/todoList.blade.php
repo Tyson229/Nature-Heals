@@ -137,7 +137,7 @@
         <!--Modal-->
 
         <!--Message-->
-       <br> @if(session('message'))
+        @if(session('message'))
             <div class="alert alert-success mb-1" role="alert">
                 <i class="fas fa-check-circle"></i>
                 <strong>

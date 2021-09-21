@@ -31,3 +31,4 @@ class CreateLinkListsTable extends Migration
         Schema::dropIfExists('link_lists');
     }
 }
+
