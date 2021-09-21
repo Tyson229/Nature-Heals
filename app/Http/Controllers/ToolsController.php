@@ -37,7 +37,8 @@ class ToolsController extends Controller
                     ->where('tool_statuses.status','<>','Draft')
                     ->where('tool_statuses.status','<>','Request')
                     ->orderBy('tools.created_at','desc')
-                    ->paginate(7);
+                    ->paginate(7)
+                    ->appends(['term'=>$request->term]);
 
             $link = DB::table('tools')
                     ->join('link_lists','link_lists.tool_ID','=','tools.id')

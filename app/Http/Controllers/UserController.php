@@ -39,8 +39,8 @@ class UserController extends Controller
                         ])
                         ->orderBy('roles.role_name','desc')
                         ->orderBy('users.id','desc')
-                        
-                        ->paginate(7); 
+                        ->paginate(7)
+                        ->appends(['term'=>$request->term]); 
 
 
             return view('AdminSide.userManagement')
