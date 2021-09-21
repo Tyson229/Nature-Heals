@@ -11,10 +11,6 @@ class UserToolController extends Controller
 {
     /**
      * get listing of published tools
-     * 
-     * @param \Illuminate\Http\Request
-     * 
-     * @return \Illuminate\Http\Response
      */
     public function tools()
     {
@@ -27,10 +23,6 @@ class UserToolController extends Controller
 
     /**
      * get detailed description of tool
-     * 
-     * @param int $id
-     * 
-     * @return \Illuminate\Http\Response
      */
     public function detailed($id)
     {
@@ -38,5 +30,40 @@ class UserToolController extends Controller
         return view('UserSide.detailed', compact('tool'));
     }
 
+    public function search(Request $request)
+    {
+        $publishedStatus = ToolStatusModel::where('status', 'Published')->first();
+
+        $tools = ToolModel::where('status_ID', $publishedStatus->id)
+        ->when(isset($request->searched_keyword) && $request->searched_keyword != '', function($query) use($request){
+            $query->where('tool_name', 'like' , '%' .$request->searched_keyword . '%')
+            ->orWhere('tool_description', 'like' , '%' .$request->searched_keyword . '%');
+        })
+        ->when(isset($request->domains) && count($request->domains) > 0, function($query) use($request){
+            $query->whereIn('health_domain', $request->domains);
+        })
+        ->when(isset($request->conditions) && count($request->conditions) > 0, function($query) use($request){
+            $query->whereIn('health_condition', $request->conditions);
+        })
+        ->when(isset($request->modalities) && count($request->modalities) > 0, function($query) use($request){
+            $query->whereIn('modality', $request->modalities);
+        })
+        ->when(isset($request->settings) && count($request->settings) > 0, function($query) use($request){
+            $query->whereIn('settings', $request->settings);
+        })
+        ->when(isset($request->ageGroups) && count($request->ageGroups) > 0, function($query) use($request){
+            $query->whereIn('age_group', $request->ageGroups);
+        })
+        ->paginate(10);
+
+        $request->session()->flash('searched_keyword', $request->searched_keyword);
+        $request->session()->flash('domains', $request->domains);
+        $request->session()->flash('conditions', $request->conditions);
+        $request->session()->flash('modalities', $request->modalities);
+        $request->session()->flash('settings', $request->settings);
+        $request->session()->flash('ageGroups', $request->ageGroups);
+        
+        return view('UserSide.tools', compact('tools'));
+    }
     
 }

@@ -17,17 +17,11 @@ class ToDoListController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = ToDoListModel::with('creator')->orderBy('id', 'DESC')->paginate(10);
+        $tasks = ToDoListModel::with('creator')->orderBy('completed', 'ASC')->paginate(10);
         return view('AdminSide.todoList', compact('tasks'));
     }
 
-    /**
-     * store a resource in the database
-     * 
-     * @param \Illuminate\Http\Request
-     * 
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {  
         $validator = Validator::make($request->all(),[
@@ -55,13 +49,7 @@ class ToDoListController extends Controller
         return back()->with('message', 'Successfully Created Task!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
 
@@ -89,13 +77,7 @@ class ToDoListController extends Controller
     }
 
 
-    /**
-     * update completion status of a resource in database
-     * 
-     * @param int $id
-     * 
-     * @return \Illuminate\Http\Response
-     */
+    
     public function updateStatus($id)
     {
         $task =ToDoListModel::find($id);
@@ -105,12 +87,7 @@ class ToDoListController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         $task =ToDoListModel::find($id);
