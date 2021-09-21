@@ -46,6 +46,7 @@
 <li class="nav-item"><a href="/tools" class="nav-link"style="color: white; background-color: #96c0b7; border-radius: 3px;">Tools</a></li>
 <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
 <li class="nav-item"><a href="/request" class="nav-link">Request</a></li>
+<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
 @endsection
 
 @section('content')

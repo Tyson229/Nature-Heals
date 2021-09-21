@@ -52,10 +52,6 @@
         background-color: #96c0b7 !important;
         border-radius: 3px;
     }
-    .navbar{
-        min-height: 82px;
-        height: 82px;
-    }
 
     .table-responsive {
 
@@ -91,6 +87,7 @@
 <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
 
 <li class="nav-item"><a href="/request" class="nav-link">Request</a></li>
+<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
 @endsection
 
 @section('content')

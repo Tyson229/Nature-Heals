@@ -31,6 +31,7 @@
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <a class="btn float-right me-2 text-white" style="background-color: #96c0b7" href="/">Public Side</a>
                <form method="POST" action="{{ route('logout') }}">
                 @csrf
 				<button class="btn btn-primary float-right" id="Search" type="submit">Logout</button>
