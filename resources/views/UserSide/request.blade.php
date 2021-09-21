@@ -452,11 +452,4 @@
             });   
         });
     </script>
-    <script type="text/javascript">
-        @if (count($errors->store)>0)
-        $(function() {
-            $('#createToolForm').modal('show');
-        });
-        @endif
-    </script>
 @endsection

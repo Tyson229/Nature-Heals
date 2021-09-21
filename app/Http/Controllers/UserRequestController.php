@@ -107,7 +107,14 @@ class UserRequestController extends Controller
         $tool->article = $request->createJournal;
         $tool->measure =$request -> createMeasure;
         $tool->program_content =$request -> createProgramContent;
-        $tool->status_ID = 4; 
+        $tool->status_ID = 4;
+        
+        $credit = 'Contributed by '.$request->visitorName.' ';
+        if(!is_null($request->orgName))
+            $credit = $credit.'('.$request->orgName.') ';
+        $credit = $credit.$request->visitorEmail;    
+        $tool->creadit = $credit;
+        
         $tool->created_at = now();
         $tool->updated_at = now();
 

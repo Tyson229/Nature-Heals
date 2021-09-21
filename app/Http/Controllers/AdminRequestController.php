@@ -150,13 +150,6 @@ class AdminRequestController extends Controller
             $tool->program_content =$request -> requestProgramContent;
             if(is_null($orgID)){
                 $tool->status_ID = 1;
-                if(tool_request::where('tool_ID',$id)->first()->internal_request == FALSE){
-                    $credit = 'Contributed by '.$request->adminRequestorName.'<br>';
-                    if(!is_null($request->adminOrgName))
-                        $credit = $credit.$request->adminOrgName.'<br>';
-                    $credit = $credit.$request->adminRequestorEmail;    
-                    $tool->creadit = $credit;
-                }
             }
 
             
@@ -168,9 +161,14 @@ class AdminRequestController extends Controller
             //Add study if have
             $temp1 = 'requestStudyLabel-'.$id;
             $temp2 = 'requestLinkLabel-'.$id;
-            
-            $linkList = linkList::where('tool_ID',$orgID);
-            $linkList->delete();
+            if(!is_null($orgID)){
+                $linkList = linkList::where('tool_ID',$orgID);
+                $linkList->delete();
+            }
+            else{
+                $linkList = linkList::where('tool_ID',$id);
+                $linkList->delete();
+            }
             
             if(!is_null($request->$temp1)){
                 $linkList = new linkList;
@@ -178,8 +176,6 @@ class AdminRequestController extends Controller
                 $linkList->link = $request->$temp2;
                 $linkList->updated_at= now();
                 $linkList->created_at = now();
-
-                
                 if(!is_null($orgID))
                     $linkList->tool_ID = $orgID; //Yes -> get the original ID to make update
                 else

@@ -63,6 +63,9 @@
     @endif    
         <div class="p-5 rounded-3">
             <h1 class="display-5">{{$tool->tool_name}}</h1>
+            @if($tool->creadit)
+                    <p class="text-secondary">{{ $tool->creadit }}</p>
+            @endif
         </div>
         
         <div class="description p-3 m-1">
@@ -98,31 +101,28 @@
                     </div>
                      
                 </div>
+                @if(isset($tool->linkLists) && count($tool->linkLists) > 0)
                 <hr>
                 <h4 class="fw-bold"> Studies Have Used This Tool </h4>
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                @if(isset($tool->linkLists) && count($tool->linkLists) > 0)
                                 <ol>
                                     @foreach ($tool->linkLists as $link)
                                         <li class="mb-1"><a href="{{$link->link}}" target="_blank">{{$link->study_name}}</a> </li>
                                     @endforeach
                                 </ol>
-                                @else
-                                No Links Found.
-                                @endif
                             </div>
                         </div>
                     </div>
-                
+                @endif         
         </div>
     </div>
 
     <div class="container mb-5 rounded-3 bg-white">
         <div class="row">
             <div class="feedback_title col-sm-3 ">
-                <h1 class="display-6">Your Feedback</h1> 
+                <h1 class="display-6">Is this tool useful?</h1> 
             </div>
 
             <div class="col-sm-9 feedback p-3">
