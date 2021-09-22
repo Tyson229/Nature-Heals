@@ -10,7 +10,7 @@ class FeedbackController extends Controller
    
     public function index(Request $request)
     {
-        $feedbacks = ToolFeedbackModel::with('tool')->orderBy('id', 'DESC')->paginate(10);
+        $feedbacks = ToolFeedbackModel::with('tool')->orderBy('id', 'DESC')->paginate(7);
         return view('AdminSide.feedback', compact('feedbacks'));
     }
 

@@ -406,8 +406,10 @@ class ToolsController extends Controller
         $linkList->delete();
         $connection = userCreatesTool::where('tool_ID',$id);
         $connection->delete();
+        ToolFeedbackModel::find($id)->delete();
         $tool = tools::find($id);
         $tool->delete();
+        
        
         return redirect('login/tools')->with('message', 'Successfully Deleted Tool!');
     }

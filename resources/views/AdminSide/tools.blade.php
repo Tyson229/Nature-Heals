@@ -477,6 +477,7 @@ margin-left: 16px;
                 <thead class="table-dark">
                     <tr>
                         <th scope="col" class="align-middle">#</th>
+                        <th scope="col" class="align-middle">Tool ID</th>
                         <th scope="col" class="align-middle">Tool Name</th>
                         <th scope="col" class="align-middle">Health Domain</th>
                         @if (Auth::user()->role_ID == 1)
@@ -492,6 +493,7 @@ margin-left: 16px;
                 @forelse ($tools as $tool)  
                     <tr>
                         <th scope="row">{{ $loop->iteration + $tools->firstItem() - 1 }}</th>
+                        <td class="col-sm-1">{{ $tool->id }}</td>
                         <td class="col-sm-4">{{ $tool->tool_name }}</td>
                         
                         <td class="col-sm-2">{{ $tool->health_domain }}</td>
@@ -501,9 +503,9 @@ margin-left: 16px;
                                         @csrf 
                                         @method('PUT')
                                     @if (!strcmp(($tool->status),'Hidden'))
-                                        <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
+                                        <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hidden </button>
                                     @else
-                                        <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
+                                        <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Published</button> 
                                     @endif
                                 </form>
                                 

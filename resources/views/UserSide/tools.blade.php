@@ -89,7 +89,7 @@
     <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
 
 <li class="nav-item"><a href="/request" class="nav-link">Request</a></li>
-<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
+<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">Admin Portal</a></li>
 @endsection
 
 @section('content')
@@ -338,8 +338,8 @@
                                     <td class="ToolDetailed" width="67%">
                                         <strong class="title">{{ $tool->tool_name }}</strong>
                                         <br>
-                                        @if (strlen($tool->tool_description) > 100)
-                                            {{ substr($tool->tool_description, 0, 100) }}...
+                                        @if (strlen($tool->tool_description) > 145)
+                                            {{ substr($tool->tool_description, 0, 145) }}...
                                         @else
                                             {{ $tool->tool_description }}
                                         @endif
