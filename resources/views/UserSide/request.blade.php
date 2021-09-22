@@ -299,7 +299,11 @@
                                                     <label for="createReliability" class="col-form-label">Reliability</label>
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input id="createReliability" name="createReliability" class="form-control" placeholder="Reliability">
+                                                    <select id="createReliability" name="createReliability" class="form-select">
+                                                        <option value="" selected>Choose...</option>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
                                                 </div> 
                                                 <!--Validity-->
                                                 <div class="col-sm-1"></div>

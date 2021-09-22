@@ -745,7 +745,25 @@
                                                                                             <label for="requestReliability" class="col-form-label">Reliability</label>
                                                                                         </div>
                                                                                         <div class="col-sm-3">
-                                                                                            <input name="requestReliability" class="form-control" value="{{ $tool->reliability }}">
+                                                                                            <select name="requestReliability" class="form-select">
+                                                                                                @switch($tool->validity)
+                                                                                                    @case("Yes")
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Yes" selected>Yes</option>
+                                                                                                        <option value="No">No</option>
+                                                                                                        @break
+                                                                                                    @case("No")
+                                                                                                        <option value="" >Choose...</option>
+                                                                                                        <option value="Yes">Yes</option>
+                                                                                                        <option value="No" selected>No</option>
+                                                                                                        @break
+                                                                                                    @default
+                                                                                                        <option value="" selected >Choose...</option>
+                                                                                                        <option value="Yes">Yes</option>
+                                                                                                        <option value="No" >No</option>
+                                                                                                @endswitch
+                                                                                                
+                                                                                            </select>
                                                                                         </div> 
                                                                                         <!--Validity-->
                                                                                         <div class="col-sm-1"></div>

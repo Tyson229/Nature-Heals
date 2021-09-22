@@ -17,7 +17,7 @@ class ToDoListController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = ToDoListModel::with('creator')->orderBy('completed', 'ASC')->paginate(10);
+        $tasks = ToDoListModel::with('creator')->orderBy('completed', 'ASC')->orderBy('updated_at','desc')->paginate(10);
         return view('AdminSide.todoList', compact('tasks'));
     }
 
