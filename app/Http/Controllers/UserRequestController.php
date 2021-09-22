@@ -105,8 +105,6 @@ class UserRequestController extends Controller
         $tool->year = $request ->createYear;
         $tool->country = $request ->createCountry;
         $tool->article = $request->createJournal;
-        $tool->measure =$request -> createMeasure;
-        $tool->program_content =$request -> createProgramContent;
         $tool->status_ID = 4;
         
         $credit = 'Contributed by '.$request->visitorName.' ';

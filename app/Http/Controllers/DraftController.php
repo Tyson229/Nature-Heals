@@ -137,8 +137,6 @@ class DraftController extends Controller
         $tool->year = $request ->requestYear;
         $tool->country = $request ->requestCountry;
         $tool->article = $request->requestJournal;
-        $tool->measure =$request -> requestMeasure;
-        $tool->program_content =$request -> requestProgramContent;
 
         //If owner saves, change the tool status to 1
         //If admin saves, change the tool status to 4

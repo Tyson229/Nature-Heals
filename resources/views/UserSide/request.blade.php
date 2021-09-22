@@ -266,7 +266,7 @@
                                             <div class="row mb-2">
                                                 <!--Specific NB-->
                                                 <div class="col-sm-2">
-                                                    <label for="createSpecificNB" class="col-form-label">Specific for Nature Base</label>
+                                                    <label for="createSpecificNB" class="col-form-label">Specific for Nature Base?</label>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <select id="createSpecificNB" name="createSpecificNB" class="form-select">

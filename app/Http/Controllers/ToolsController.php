@@ -134,8 +134,6 @@ class ToolsController extends Controller
         $tool->year = $request ->createYear;
         $tool->country = $request ->createCountry;
         $tool->article = $request->createJournal;
-        $tool->measure =$request -> createMeasure;
-        $tool->program_content =$request -> createProgramContent;
 
         if(isset($request->saveDraft)) {
             $tool->status_ID = 3;
@@ -307,8 +305,6 @@ class ToolsController extends Controller
             $tool->year = $request ->editYear;
             $tool->country = $request ->editCountry;
             $tool->article = $request->editJournal;
-            $tool->measure =$request -> editMeasure;
-            $tool->program_content =$request -> editProgramContent;
 
             //If admin edits, a copy will be created and move to the request
             if(Auth::user()->role_ID==2){

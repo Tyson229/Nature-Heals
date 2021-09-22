@@ -372,7 +372,7 @@
                                                                             @if($found_link == 0)
                                                                             <div class="row mb-2" >
                                                                                 <div class="col-sm-6">
-                                                                                    <input  name="requestStudyLabel-{{ $tool->id }}" class="form-control" placeholder="Type the study name">
+                                                                                    <input  name="requestStudyLabel-{{ $tool->id }}" class="form-control" placeholder="Article title">
                                                                                 </div>
                                                                                 <div class="col-sm-4">
                                                                                     <input name="requestLinkLabel-{{ $tool->id }}" class="form-control" placeholder="Upload the link here...">
@@ -390,10 +390,10 @@
                                                                     <!--Attachment-->
                                                                     <div class="row mb-3">     
                                                                         <div class="col-sm-2">
-                                                                            <label for="requestAttachmentLabel" class="col-form-label">Attachment</label>
+                                                                            <label for="requestAttachmentLabel" class="col-form-label" disabled>Attachment (Unavailable)</label>
                                                                         </div>
                                                                         <div class="col-sm-10">
-                                                                            <input type="file" name="requestAttachmentLabel" class="form-control">
+                                                                            <input type="file" name="requestAttachmentLabel" class="form-control" disabled>
                                                                         </div>
                                                                     </div>
                                                 
@@ -586,7 +586,7 @@
                                                                                     <div class="row mb-2">
                                                                                         <!--Specific NB-->
                                                                                         <div class="col-sm-2">
-                                                                                            <label for="requestSpecificNB" class="col-form-label">Specific for Nature Base</label>
+                                                                                            <label for="requestSpecificNB" class="col-form-label">Specific for Nature Base?</label>
                                                                                         </div>
                                                                                         <div class="col-sm-3">
                                                                                             <select name="requestSpecificNB" class="form-select">
@@ -785,58 +785,12 @@
                                                                                     <!--Journal-->    
                                                                                     <div class="row">
                                                                                         <div class="col-sm-2">
-                                                                                            <label for="requestJournal" class="col-form-label">Journal</label>
+                                                                                            <label for="requestJournal" class="col-form-label">Journal Title</label>
                                                                                         </div>
                                                                                         <div class="col-sm-10 mb-3">
                                                                                             <input name="requestJournal" class="form-control" value="{{ $tool->article }}">
                                                                                         </div>
-                                                                                    </div>
-                                                                                    
-                                                                                    <!--Measure-->
-                                                                                    <div class="row mb-3">
-                                                                                        <div class="col-sm-2">
-                                                                                            <label for="requestMeasure" class="col-form-label">Measure</label>
-                                                                                        </div>
-                                                                                        <div class="col-sm-3">
-                                                                                            <select name="requestMeasure" class="form-select">
-                                                                                                @switch($tool->measure)
-                                                                                                    @case("Wellbeing")
-                                                                                                        <option value="" selected>Choose...</option>
-                                                                                                        <option value="Wellbeing">Wellbeing</option>
-                                                                                                        <option value="Self Determination">Self Determination</option>
-                                                                                                        <option value="Reseliance">Reseliance</option>
-                                                                                                        @break
-                                                                                                    @case("Self Determination")
-                                                                                                        <option value="" >Choose...</option>
-                                                                                                        <option value="Wellbeing">Wellbeing</option>
-                                                                                                        <option value="Self Determination"selected>Self Determination</option>
-                                                                                                        <option value="Reseliance">Reseliance</option>
-                                                                                                        @break
-                                                                                                    @case("Reseliance")
-                                                                                                        <option value="" >Choose...</option>
-                                                                                                        <option value="Wellbeing">Wellbeing</option>
-                                                                                                        <option value="Self Determination">Self Determination</option>
-                                                                                                        <option value="Reseliance" selected>Reseliance</option>
-                                                                                                        @break
-                                                                                                    @default
-                                                                                                        <option value="" selected>Choose...</option>
-                                                                                                        <option value="Wellbeing">Wellbeing</option>
-                                                                                                        <option value="Self Determination">Self Determination</option>
-                                                                                                        <option value="Reseliance">Reseliance</option>
-                                                                                                @endswitch
-                                                                                                
-                                                                                            </select>    
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <!--Program Content-->
-                                                                                    <div class="row mb-3">
-                                                                                        <div class="col-sm-2">
-                                                                                            <label for="requestProgramContent" class="col-form-label">Program Content</label>
-                                                                                        </div>
-                                                                                        <div class="col-sm-10" >
-                                                                                            <textarea class="form-control" name="requestProgramContent" rows="2">{{ $tool->program_content }}</textarea>   
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    </div>                                                                    
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -933,7 +887,7 @@
 
             var additionalLink = "requestMore_"+counter+"_"+buttonID[1];
 
-            var html = '<div class="row mb-2" id="'+additionalLink+'" ><div class="col-sm-6"><input name="requestMoreStudyLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="requestMoreLinkLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" id="requestMinus-'+counter+'-'+buttonID[1]+'" onclick="requestMinus(this)" name="requestMinusLink-'+buttonID[1]+'" class="btn btn-danger request-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>';
+            var html = '<div class="row mb-2" id="'+additionalLink+'" ><div class="col-sm-6"><input name="requestMoreStudyLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Article title"></div><div class="col-sm-4"><input name="requestMoreLinkLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" id="requestMinus-'+counter+'-'+buttonID[1]+'" onclick="requestMinus(this)" name="requestMinusLink-'+buttonID[1]+'" class="btn btn-danger request-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>';
 
             $('#retrieved_studies-'+buttonID[1]).append(html);
             console.log($(requestTotal).val());
