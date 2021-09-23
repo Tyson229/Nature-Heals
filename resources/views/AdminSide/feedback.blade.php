@@ -22,7 +22,13 @@
     </a> 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Tool Request
+        <div>Tool Request <span class="badge badge-pill bg-light text-dark ">
+            @if($request_number >= 100)
+                99+
+            @else
+                {{ $request_number }}
+            @endif    
+        </span></div>
     </a>
     <a class="nav-link " href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>

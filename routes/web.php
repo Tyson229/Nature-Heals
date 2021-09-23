@@ -32,7 +32,7 @@ use App\Http\Controllers\ContactController;
 
 Auth::routes();
 Route::get('/', [PagesController::class, 'homepage']);
-Route::get('/home', [PagesController::class, 'adminHomepage']);
+
 
 //Assessment Tools
 Route::get('/tools', [UserToolController::class,'tools']);
@@ -57,6 +57,7 @@ Route::get('/login/forgotPassword', [PagesController::class,'adminForgotPassword
 Route::get('/login/resetPassword', [PagesController::class,'adminresetPassword']);
 
 Route::get('/login/home', [PagesController::class,'adminHome'])->name('admin.home');
+Route::get('/home', [PagesController::class, 'adminHome']);
 
 Route::resource('login/user',UserController::class);
 

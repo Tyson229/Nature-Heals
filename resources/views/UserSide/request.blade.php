@@ -51,7 +51,7 @@
         @if(session('message'))
             <h1 class="text-center display-1"><i class="fas fa-clipboard-check"></i></h1>
             <br>
-            <h1 class="text-center display-5">Thank You For Your Support</p></h1>
+            <h1 class="text-center display-5">Thank you for your support</p></h1>
             <hr>
             <p class="text-center">Your request has been submitted</p>   
         @else

@@ -44,8 +44,11 @@ class ToolsController extends Controller
                     ->join('link_lists','link_lists.tool_ID','=','tools.id')
                     -> select('tools.id','link_lists.study_name','link_lists.link')
                     ->get();
+            
+            $requests = tool_request::get();        
+            $request_number = count($requests);        
 
-            return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);
+            return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link)->with('request_number',$request_number);
         }
         else
             return back();       

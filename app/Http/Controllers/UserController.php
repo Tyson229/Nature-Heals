@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use App\Models\request as tool_request;
 
 
 class UserController extends Controller
@@ -41,10 +42,11 @@ class UserController extends Controller
                         ->orderBy('users.id','desc')
                         ->paginate(7)
                         ->appends(['term'=>$request->term]); 
-
+            $requests = tool_request::get();        
+            $request_number = count($requests);                   
 
             return view('AdminSide.userManagement')
-                        ->with('users', $users);
+                        ->with('users', $users)->with('request_number',$request_number);
         }
         else
             return back();         

@@ -4,18 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\request as tool_request;
 
 class PagesController extends Controller
 {
     public function homepage(){
         return view('UserSide.welcome');
-    }
-    public function adminHomepage(){
-        if(Auth::user())
-            return view('AdminSide.homepage');
-        else
-            return view('UserSide.welcome');    
     }
     public function tools(){
         return view('UserSide.tools');
@@ -44,7 +38,11 @@ class PagesController extends Controller
 
     public function adminHome(){
         if(Auth::user())
-            return view('AdminSide.homepage');
+        {
+            $requests = tool_request::get();        
+            $request_number = count($requests); 
+            return view('AdminSide.homepage')->with('request_number',$request_number);
+        }
         else
             return redirect()->route('login');    
     }

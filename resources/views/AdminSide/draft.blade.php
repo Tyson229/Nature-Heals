@@ -26,7 +26,13 @@
     @if(Auth::user()->role_ID == 1)
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Tool Request
+        <div>Tool Request <span class="badge badge-pill bg-light text-dark ">
+            @if($request_number >= 100)
+                99+
+            @else
+                {{ $request_number }}
+            @endif    
+        </span></div>
     </a>
     @endif
     <a class="nav-link " href="/login/todolist">
@@ -344,10 +350,10 @@
                                                                                         @if ($counter_link == 1)
                                                                                             <div class="row mb-2" >
                                                                                                 <div class="col-sm-6">
-                                                                                                    <input name="requestStudyLabel-{{ $tool->id }}" class="form-control" value="{{ $link->study_name }}">
+                                                                                                    <input name="requestStudyLabel-{{ $tool->id }}" class="form-control" value="{{ $link->study_name }}" placeholder="Article title">
                                                                                                 </div>
                                                                                                 <div class="col-sm-4">
-                                                                                                    <input name="requestLinkLabel-{{ $tool->id }}" class="form-control" value="{{ $link->link }}">
+                                                                                                    <input name="requestLinkLabel-{{ $tool->id }}" class="form-control" value="{{ $link->link }}" placeholder="Upload your link here...">
                                                                                                 </div>
                                                                                                 <div class="col-sm-1">
                                                                                                     <button type="button" name="addLink" class="btn btn-primary request-plus" id="requestPlus-{{ $tool->id }}" onclick="requestPlus(this)" title="Add more links"><i class="fas fa-plus"></i></button>
@@ -356,10 +362,10 @@
                                                                                         @else
                                                                                             <div class="row mb-2" id="requestMore_{{ $counter_link }}_{{ $tool->id }}">
                                                                                                 <div class="col-sm-6">
-                                                                                                    <input name="requestMoreStudyLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->study_name }}">
+                                                                                                    <input name="requestMoreStudyLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->study_name }}" placeholder="Article title">
                                                                                                 </div>
                                                                                                 <div class="col-sm-4">
-                                                                                                    <input name="requestMoreLinkLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->link }}">
+                                                                                                    <input name="requestMoreLinkLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->link }}" placeholder="Upload your link here...">
                                                                                                 </div>
                                                                                                 <div class="col-sm-1">
                                                                                                     <button type="button" name="minusLink" class="btn btn-danger request-minus" id="requestMinus-{{ $counter_link }}-{{ $tool->id }}" onclick="requestMinus(this)" title="Delete link"><i class="fas fa-minus"></i></button>
@@ -390,7 +396,7 @@
                                                                     <!--Attachment-->
                                                                     <div class="row mb-3">     
                                                                         <div class="col-sm-2">
-                                                                            <label for="requestAttachmentLabel" class="col-form-label" disabled>Attachment (Unavailable)</label>
+                                                                            <label for="requestAttachmentLabel" class="col-form-label" >Attachment (Unavailable)</label>
                                                                         </div>
                                                                         <div class="col-sm-10">
                                                                             <input type="file" name="requestAttachmentLabel" class="form-control" disabled>
@@ -745,7 +751,7 @@
                                                                         <div class="accordion-item">
                                                                             <h1 class="accordion-header" id="headingTwo">
                                                                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                                                                    Journal's Details
+                                                                                    Original Tool Publication Details
                                                                                 </button>
                                                                             </h1>
                                                                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
