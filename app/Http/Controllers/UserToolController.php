@@ -9,13 +9,6 @@ use App\Models\toolStatus as ToolStatusModel;
 
 class UserToolController extends Controller
 {
-<<<<<<< HEAD
-
-=======
-    /**
-     * get listing of published tools
-     */
->>>>>>> origin/TysonBranch
     public function tools()
     {
         $publishedStatus = ToolStatusModel::where('status', 'Published')->first();
@@ -25,13 +18,6 @@ class UserToolController extends Controller
         return view('UserSide.tools', compact('tools'));
     }
 
-<<<<<<< HEAD
-
-=======
-    /**
-     * get detailed description of tool
-     */
->>>>>>> origin/TysonBranch
     public function detailed($id)
     {
         $tool = ToolModel::with('linkLists')->findOrFail($id);

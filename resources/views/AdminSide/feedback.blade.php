@@ -197,10 +197,6 @@
             {{$feedbacks->links()}}
                 </div>
             </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/TysonBranch
         </div>
         <!--Table List-->
     </main>

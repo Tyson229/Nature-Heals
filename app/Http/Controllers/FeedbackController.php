@@ -8,16 +8,6 @@ use App\Models\request as tool_request;
 
 class FeedbackController extends Controller
 {
-<<<<<<< HEAD
-  
-    public function index(Request $request)
-    {
-        $feedbacks = ToolFeedbackModel::with('tool')->orderBy('id', 'DESC')->paginate(7);
-        return view('AdminSide.feedback', compact('feedbacks'));
-    }
-
-
-=======
    
     public function index(Request $request)
     {
@@ -28,7 +18,6 @@ class FeedbackController extends Controller
     }
 
     
->>>>>>> origin/TysonBranch
     public function destroy($id)
     {
         $feedback = ToolFeedbackModel::where('id', $id)->first();
