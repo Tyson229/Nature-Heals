@@ -22,7 +22,13 @@
     </a> 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Tool Request
+        <div>Tool Request <span class="badge badge-pill bg-light text-dark ">
+            @if($request_number >= 100)
+                99+
+            @else
+                {{ $request_number }}
+            @endif    
+        </span></div>
     </a>
     <a class="nav-link " href="/login/todolist">
         <div class="sb-nav-link-icon"><i class="fa fa-server"></i></div>
@@ -59,7 +65,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email</th>
+                        <th scope="col">Tool ID</th>
                         <th scope="col">Tool Name</th>
                         <th scope="col">Health Domain</th>
                         <th scope="col">Date</th>
@@ -70,9 +76,9 @@
                 <tbody class="bg-white">
                     @forelse ($feedbacks as $feedback)
                         <tr data-bs-toggle="collapse" data-bs-target="#content-row-{{$feedback->id}}"> 
-                            <td>{{$loop->iteration}}</td>
+                            <td>{{ $loop->iteration + $feedbacks->firstItem() - 1 }}</td>
                             <td class="col-sm-2">{{$feedback->name}}</td>
-                            <td>{{$feedback->email}}</td>
+                            <td>{{$feedback->tool_ID}}</td>
                             <td class="col-sm-3">{{$feedback->tool->tool_name}}</td>
                             <td>{{$feedback->tool->health_domain}}</td>
                             <td>{{$feedback->created_at->format('d-m-Y')}}</td>
@@ -112,11 +118,12 @@
                                                             <label for="domainnameLabel" class="col-form-label">Health Domain: {{$feedback->tool->health_domain}}</label>
                                                         </div>
                                                         <div class="col-sm-12">
-                                                            <label for="contentLabel" class="col-form-label">Feedback: {{$feedback->comment}}</label>
+                                                            <label for="dateLabel" class="col-form-label">Date: {{$feedback->created_at->format('d-m-Y')}}</label><hr>
                                                         </div>
                                                         <div class="col-sm-12">
-                                                            <label for="dateLabel" class="col-form-label">Date: {{$feedback->created_at->format('d-m-Y')}}</label>
+                                                            <label for="contentLabel" class="col-form-label">Feedback: <br>{{$feedback->comment}}</label>
                                                         </div>
+                                                       
                                                     </div> 
                                                 </form>
                                             </div>
@@ -190,6 +197,10 @@
             {{$feedbacks->links()}}
                 </div>
             </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/TysonBranch
         </div>
         <!--Table List-->
     </main>

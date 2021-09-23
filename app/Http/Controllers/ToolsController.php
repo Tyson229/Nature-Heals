@@ -44,8 +44,11 @@ class ToolsController extends Controller
                     ->join('link_lists','link_lists.tool_ID','=','tools.id')
                     -> select('tools.id','link_lists.study_name','link_lists.link')
                     ->get();
+            
+            $requests = tool_request::get();        
+            $request_number = count($requests);        
 
-            return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link);
+            return view('AdminSide.tools')->with('tools', $tools)->with('link_lists',$link)->with('request_number',$request_number);
         }
         else
             return back();       
@@ -134,8 +137,6 @@ class ToolsController extends Controller
         $tool->year = $request ->createYear;
         $tool->country = $request ->createCountry;
         $tool->article = $request->createJournal;
-        $tool->measure =$request -> createMeasure;
-        $tool->program_content =$request -> createProgramContent;
 
         if(isset($request->saveDraft)) {
             $tool->status_ID = 3;
@@ -307,8 +308,6 @@ class ToolsController extends Controller
             $tool->year = $request ->editYear;
             $tool->country = $request ->editCountry;
             $tool->article = $request->editJournal;
-            $tool->measure =$request -> editMeasure;
-            $tool->program_content =$request -> editProgramContent;
 
             //If admin edits, a copy will be created and move to the request
             if(Auth::user()->role_ID==2){
@@ -406,8 +405,10 @@ class ToolsController extends Controller
         $linkList->delete();
         $connection = userCreatesTool::where('tool_ID',$id);
         $connection->delete();
+        ToolFeedbackModel::find($id)->delete();
         $tool = tools::find($id);
         $tool->delete();
+        
        
         return redirect('login/tools')->with('message', 'Successfully Deleted Tool!');
     }

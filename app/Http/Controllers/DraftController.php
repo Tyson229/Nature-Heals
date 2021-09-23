@@ -42,8 +42,9 @@ class DraftController extends Controller
                     ->join('link_lists','link_lists.tool_ID','=','tools.id')
                     -> select('tools.id','link_lists.study_name','link_lists.link')
                     ->get();
-
-            return view('AdminSide.draft')->with('tools', $tools)->with('link_lists',$link);
+            $requests = tool_request::get();        
+            $request_number = count($requests);               
+            return view('AdminSide.draft')->with('tools', $tools)->with('link_lists',$link)->with('request_number',$request_number);
         }
         else
             return back();
@@ -137,8 +138,6 @@ class DraftController extends Controller
         $tool->year = $request ->requestYear;
         $tool->country = $request ->requestCountry;
         $tool->article = $request->requestJournal;
-        $tool->measure =$request -> requestMeasure;
-        $tool->program_content =$request -> requestProgramContent;
 
         //If owner saves, change the tool status to 1
         //If admin saves, change the tool status to 4

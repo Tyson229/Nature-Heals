@@ -147,8 +147,6 @@ class AdminRequestController extends Controller
             $tool->year = $request ->requestYear;
             $tool->country = $request ->requestCountry;
             $tool->article = $request->requestJournal;
-            $tool->measure =$request -> requestMeasure;
-            $tool->program_content =$request -> requestProgramContent;
             if(is_null($orgID)){
                 $tool->status_ID = 1;
             }

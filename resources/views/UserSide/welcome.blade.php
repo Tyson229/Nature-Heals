@@ -29,7 +29,7 @@
     <li class="nav-item"><a href="/tools" class="nav-link">Tools</a></li>
     <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
     <li class="nav-item"><a href="/request" class="nav-link">Request</a></li>
-    <li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
+    <li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">Admin Portal</a></li>
 @endsection
 
 @section('content')
@@ -90,8 +90,15 @@
                         <img src="/pictures/wsu-shield.jpg" class="card-img-top" width="200" height="350">
                         <div class="card-body">
                             <h1 class="display-6 mb-3 text-center card-title">Dev Team</h1>
-                            <p class="card-text" style="margin-bottom: 5.8rem;">
-                                A group of dedicated university students, whom have helped Dr.Nicole and Dr.Arianne develop and operate Nature Heals.
+                            <p class="card-text">
+                                A group of dedicated university students, whom have helped Dr. Nicole Peel and Dr. Arianne Reis develop and operate Nature Heals.
+                                <div class="row">
+                                    <div class="col-sm-6">Abdullah Alghamdi</div>
+                                    <div class="col-sm-6">Mohannad Hassan</div>
+                                    <div class="col-sm-6">Hao Li</div>
+                                    <div class="col-sm-6">Usha Basnet</div>
+                                    <div class="col-sm-6">Tien Khoa Nguyen</div>
+                                </div>    
                             </p>
                         </div>
                     </div> 

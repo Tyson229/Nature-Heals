@@ -28,7 +28,13 @@
     @if(Auth::user()->role_ID == 1) 
     <a class="nav-link  " href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-      Tool Request
+      <div>Tool Request <span class="badge badge-pill bg-light text-dark ">
+        @if($request_number >= 100)
+            99+
+        @else
+            {{ $request_number }}
+        @endif    
+    </span></div>
     </a>
     @endif
     <a class="nav-link bg-primary text-white" href="/login/todolist">
@@ -137,8 +143,8 @@
         <!--Modal-->
 
         <!--Message-->
-       <br> @if(session('message'))
-            <div class="alert alert-success mb-1" role="alert">
+        @if(session('message'))
+            <div class="alert alert-success mb-1 mt-1" role="alert">
                 <i class="fas fa-check-circle"></i>
                 <strong>
                     {{ session('message')}}            

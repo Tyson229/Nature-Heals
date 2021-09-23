@@ -25,16 +25,6 @@ class DatabaseSeeder extends Seeder
             'id' => 2,
             'role_name' => 'Admin'
         ]);
-        
-        User::create([
-            'email' => 'NatureHeals.21@gmail.com',
-             'fname' => 'Nature',
-             'lname' => 'Heals',
-             'password' => Hash::make('Welcome@123'),
-            'role_ID' => 1
-        ]);
-
-        
 
         DB::table('tool_statuses')->insert([
             'status' => 'Hidden',

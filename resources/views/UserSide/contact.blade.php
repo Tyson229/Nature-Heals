@@ -3,7 +3,7 @@
 @section('style')
 <style>
 
-	html{
+html{
 		font-size:1.2rem;
 	}
 	
@@ -33,6 +33,7 @@
 		border-top-left-radius: 0.5rem;
 		border-bottom-left-radius: 0.5rem;
 	}
+	
 	
 	.contact-info {
 		margin-top: 10%;
@@ -112,7 +113,7 @@
 	{
 	
 	padding: 40px 5px 5px 5px;
-	width:440px;
+	width: 440px;
 	}
 	
 	
@@ -127,10 +128,11 @@
 	{
 		padding-left: 10px;
 	}
+
 	@media (min-width:1025px) {
 	.contact-wrap
 	{
-		padding-right: 0 !important;
+		padding-right: 0 !important
 		padding-top: 25px !important;
 		padding-bottom: 25px !important;
 	}
@@ -140,10 +142,10 @@
 	}
 
 	}
-	@media (max-width:481px)  {
+	@media (max-width:768px)  {
 	.col-md-5.align-items-stretch
 	{
-		padding: 1.6rem !important;
+		padding: 1.6rem !important;		
 		display: block !important; 
 	}
 	.info-wrap
@@ -151,6 +153,7 @@
 		padding: 45px !important;
 	}
 	}
+
 	</style>
 @endsection
 
@@ -159,7 +162,7 @@
 	<li class="nav-item"><a href="/tools" class="nav-link">Tools</a></li>
 	<li class="nav-item"><a href="/contact" class="nav-link"style="color: white; background-color: #96c0b7; border-radius: 3px;">Contact</a></li>
 	<li class="nav-item"><a href="/request" class="nav-link">Request</a></li>
-	<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
+	<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">Admin Portal</a></li>
 @endsection
 
 @section('content')
@@ -185,7 +188,7 @@
 								<div class="contact-wrap w-100 p-md-5 p-4  border-top border-bottom border-start rounded-3" style="border-radius: 3px;background-color:#f8f9fa;">
 									<div class="form-sub">
 										<h1 class="mb-4 display-4"> Get in touch </h1>
-										<h5 class="text-sub"> To get a update Please provide email address. </h5> <hr>
+										<h5 class="text-sub"> To get an update, please provide email address. </h5> <hr>
 										<div id="form-message-warning" class="mb-4"></div>
 										<div id="form-message-success" class="mb-4"> </div>
 										<form id="contact-us-form" method="post" action="{{route('contact.send-information')}}">
@@ -243,7 +246,7 @@
 									<div class="dbox w-100 d-flex align-items-center">
 										<div class="icon d-flex align-items-center justify-content-center">  </div>
 										<div class="text pl-6">
-											<p style="position:relative; top:-42px;" ><span><b> Telephone: </span> <span class="address-data"> +61298525222 </b></span>
+											<p style="position:relative; top:-42px;" ><span><b> Dr. Nicole Peel</b> </span>
 												<a href="tel://1234567920"> </a>
 											</p>
 										</div>
@@ -251,11 +254,28 @@
 									<div class="dbox w-100 d-flex align-items-center">
 										<div class="icon d-flex align-items-center justify-content-center">  </div>
 										<div class="text pl-6">
-											<p style="position:relative; top:-42px;"><span><b>Email:</span><span class="address-data">NatureHeals.21@gmail.com</b></span>
+											<p style="position:relative; top:-42px;"><span>Email:</span><span class="address-data">NatureHeals.21@gmail.com</span>
 												<a href="mailto:info@yoursite.com"></a>
 											</p>
 										</div>
 									</div>
+									<div class="dbox w-100 d-flex align-items-center">
+										<div class="icon d-flex align-items-center justify-content-center">  </div>
+										<div class="text pl-6">
+											<p style="position:relative; top:-42px;" ><span><b> Dr. Arianne Reis</b> </span>
+												<a href="tel://1234567920"> </a>
+											</p>
+										</div>
+									</div>
+									<div class="dbox w-100 d-flex align-items-center">
+										<div class="icon d-flex align-items-center justify-content-center">  </div>
+										<div class="text pl-6">
+											<p style="position:relative; top:-42px;"><span>Email:</span><span class="address-data">NatureHeals.21@gmail.com</span>
+												<a href="mailto:info@yoursite.com"></a>
+											</p>
+										</div>
+									</div>
+
 								</div>
 						
 							</div>

@@ -41,7 +41,7 @@
     <li class="nav-item"><a href="/tools" class="nav-link">Tools</a></li>
     <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
     <li class="nav-item"><a href="/request" class="nav-link"style="color: white; background-color: #96c0b7; border-radius: 3px;">Request</a></li>
-    <li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
+    <li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">Admin Portal</a></li>
 @endsection
 
 @section('content')
@@ -51,7 +51,7 @@
         @if(session('message'))
             <h1 class="text-center display-1"><i class="fas fa-clipboard-check"></i></h1>
             <br>
-            <h1 class="text-center display-5">Thank You For Your Support</p></h1>
+            <h1 class="text-center display-5">Thank you for your support</p></h1>
             <hr>
             <p class="text-center">Your request has been submitted</p>   
         @else
@@ -171,7 +171,7 @@
                                     
                                     <div class="row mb-2" >
                                         <div class="col-sm-6">
-                                            <input id="createStudyLabel" name="createStudyLabel" class="form-control" placeholder="Type the study name">
+                                            <input id="createStudyLabel" name="createStudyLabel" class="form-control" placeholder="Article title">
                                         </div>
                                         <div class="col-sm-4">
                                             <input id="createLinkLabel" name="createLinkLabel" class="form-control" placeholder="Upload your link here...">
@@ -188,10 +188,10 @@
                         <!--Attachment-->
                         <div class="row mb-3">     
                                 <div class="col-sm-2">
-                                    <label for="createAttachmentLabel" class="col-form-label">Attachment</label>
+                                    <label for="createAttachmentLabel" class="col-form-label">Attachment (Unavailable)</label>
                                 </div>
                                 <div class="col-sm-10">
-                                    <input type="file" id="createAttachmentLabel" name="createAttachmentLabel" class="form-control">
+                                    <input type="file" id="createAttachmentLabel" name="createAttachmentLabel" class="form-control" disabled>
                                 </div>
                         </div>
                     
@@ -266,7 +266,7 @@
                                             <div class="row mb-2">
                                                 <!--Specific NB-->
                                                 <div class="col-sm-2">
-                                                    <label for="createSpecificNB" class="col-form-label">Specific for Nature Base</label>
+                                                    <label for="createSpecificNB" class="col-form-label">Specific for Nature Base?</label>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <select id="createSpecificNB" name="createSpecificNB" class="form-select">
@@ -299,7 +299,11 @@
                                                     <label for="createReliability" class="col-form-label">Reliability</label>
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input id="createReliability" name="createReliability" class="form-control" placeholder="Reliability">
+                                                    <select id="createReliability" name="createReliability" class="form-select">
+                                                        <option value="" selected>Choose...</option>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
                                                 </div> 
                                                 <!--Validity-->
                                                 <div class="col-sm-1"></div>
@@ -322,7 +326,7 @@
                             <div class="accordion-item">
                                     <h1 class="accordion-header" id="headingTwo">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                            Journal's Details
+                                            Original Tool Publication Details
                                         </button>
                                     </h1>
                                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
@@ -362,34 +366,10 @@
                                             <!--Journal-->    
                                             <div class="row">
                                                 <div class="col-sm-2">
-                                                    <label for="createJournal" class="col-form-label">Journal</label>
+                                                    <label for="createJournal" class="col-form-label">Journal Title</label>
                                                 </div>
                                                 <div class="col-sm-10 mb-3">
                                                     <input id="createJournal" name="createJournal" class="form-control" placeholder="Journal">
-                                                </div>
-                                            </div>
-                                            
-                                            <!--Measure-->
-                                            <div class="row mb-3">
-                                                <div class="col-sm-2">
-                                                    <label for="createMeasure" class="col-form-label">Measure</label>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <select id="createMeasure" name="createMeasure" class="form-select">
-                                                        <option value="" selected>Choose...</option>
-                                                        <option value="Wellbeing">Wellbeing</option>
-                                                        <option value="Self Determination">Self Determination</option>
-                                                        <option value="Reseliance">Reseliance</option>
-                                                    </select>    
-                                                </div>
-                                            </div>
-                                            <!--Program Content-->
-                                            <div class="row mb-3">
-                                                <div class="col-sm-2">
-                                                    <label for="createProgramContent" class="col-form-label">Program Content</label>
-                                                </div>
-                                                <div class="col-sm-10" >
-                                                    <textarea class="form-control" id="createProgramContent" name="createProgramContent" rows="2"></textarea>   
                                                 </div>
                                             </div>
                                         </div>
@@ -414,7 +394,7 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript">
+   <script type="text/javascript">
         $(function() {
             $('button.plus').click(function(e) {
                 e.preventDefault();
@@ -422,7 +402,7 @@
                 var counter = parseInt($('#total').val()) + 1;
                 $('#total').val(counter);
 
-                var html = '<div class="row mb-2" id="more_'+counter+'" ><div class="col-sm-6"><input name="createMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="minusLink" id="MinusLink" class="btn btn-danger minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
+                var html = '<div class="row mb-2" id="more_'+counter+'" ><div class="col-sm-6"><input name="createMoreStudyLabel[]" class="form-control" placeholder="Article title"></div><div class="col-sm-4"><input name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="minusLink" id="MinusLink" class="btn btn-danger minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
                 $('#studies').append(html);
             });
 
@@ -453,4 +433,5 @@
             });   
         });
     </script>
+   
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\todolist as ToDoListModel;
 use Illuminate\Support\Facades\Validator;
+use App\Models\request as tool_request;
 
 class ToDoListController extends Controller
 {
@@ -17,8 +18,10 @@ class ToDoListController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = ToDoListModel::with('creator')->orderBy('completed', 'ASC')->paginate(10);
-        return view('AdminSide.todoList', compact('tasks'));
+        $requests = tool_request::get();        
+        $request_number = count($requests);   
+        $tasks = ToDoListModel::with('creator')->orderBy('completed', 'ASC')->orderBy('updated_at','desc')->paginate(10);
+        return view('AdminSide.todoList', compact('tasks'))->with('request_number',$request_number);
     }
 
     /**

@@ -49,7 +49,13 @@ margin-left: 16px;
     @if(Auth::user()->role_ID == 1)
     <a class="nav-link" href="/login/request">
         <div class="sb-nav-link-icon"><i class="fa fa-paper-plane"></i></div>
-        Tool Request
+        <div>Tool Request <span class="badge badge-pill bg-light text-dark ">
+            @if($request_number >= 100)
+                99+
+            @else
+                {{ $request_number }}
+            @endif    
+        </span></div>
     </a>
     @endif
     <a class="nav-link" href="/login/todolist">
@@ -210,7 +216,7 @@ margin-left: 16px;
                                                 
                                                 <div class="row mb-2" >
                                                     <div class="col-sm-6">
-                                                        <input id="createStudyLabel" name="createStudyLabel" class="form-control" placeholder="Type the study name">
+                                                        <input id="createStudyLabel" name="createStudyLabel" class="form-control" placeholder="Article title">
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <input id="createLinkLabel" name="createLinkLabel" class="form-control" placeholder="Upload your link here...">
@@ -228,10 +234,10 @@ margin-left: 16px;
                                         <!--Attachment-->
                                         <div class="row mb-3">     
                                             <div class="col-sm-2">
-                                                <label for="createAttachmentLabel" class="col-form-label">Attachment</label>
+                                                <label for="createAttachmentLabel" class="col-form-label">Attachment (Unavailable)</label>
                                             </div>
                                             <div class="col-sm-10">
-                                                <input type="file" id="createAttachmentLabel" name="createAttachmentLabel" class="form-control">
+                                                <input type="file" id="createAttachmentLabel" name="createAttachmentLabel" class="form-control" disabled>
                                             </div>
                                         </div>
                     
@@ -306,7 +312,7 @@ margin-left: 16px;
                                                         <div class="row mb-2">
                                                             <!--Specific NB-->
                                                             <div class="col-sm-2">
-                                                                <label for="createSpecificNB" class="col-form-label">Specific for Nature Base</label>
+                                                                <label for="createSpecificNB" class="col-form-label">Specific for Nature Base?</label>
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <select id="createSpecificNB" name="createSpecificNB" class="form-select">
@@ -339,7 +345,11 @@ margin-left: 16px;
                                                                 <label for="createReliability" class="col-form-label">Reliability</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input id="createReliability" name="createReliability" class="form-control" placeholder="Reliability">
+                                                                <select id="createReliability" name="createReliability" class="form-select">
+                                                                    <option value="" selected>Choose...</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
                                                             </div> 
                                                             <!--Validity-->
                                                             <div class="col-sm-1"></div>
@@ -362,7 +372,7 @@ margin-left: 16px;
                                             <div class="accordion-item">
                                                 <h1 class="accordion-header" id="headingTwo">
                                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                                        Journal's Details
+                                                        Original Tool Publication Details
                                                     </button>
                                                 </h1>
                                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
@@ -408,30 +418,6 @@ margin-left: 16px;
                                                                 <input id="createJournal" name="createJournal" class="form-control" placeholder="Journal">
                                                             </div>
                                                         </div>
-                                                        
-                                                        <!--Measure-->
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-2">
-                                                                <label for="createMeasure" class="col-form-label">Measure</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                                <select id="createMeasure" name="createMeasure" class="form-select">
-                                                                    <option value="" selected>Choose...</option>
-                                                                    <option value="Wellbeing">Wellbeing</option>
-                                                                    <option value="Self Determination">Self Determination</option>
-                                                                    <option value="Reseliance">Reseliance</option>
-                                                                </select>    
-                                                            </div>
-                                                        </div>
-                                                        <!--Program Content-->
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-2">
-                                                                <label for="createProgramContent" class="col-form-label">Program Content</label>
-                                                            </div>
-                                                            <div class="col-sm-10" >
-                                                                <textarea class="form-control" id="createProgramContent" name="createProgramContent" rows="2"></textarea>   
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -473,6 +459,7 @@ margin-left: 16px;
                 <thead class="table-dark">
                     <tr>
                         <th scope="col" class="align-middle">#</th>
+                        <th scope="col" class="align-middle">Tool ID</th>
                         <th scope="col" class="align-middle">Tool Name</th>
                         <th scope="col" class="align-middle">Health Domain</th>
                         @if (Auth::user()->role_ID == 1)
@@ -488,6 +475,7 @@ margin-left: 16px;
                 @forelse ($tools as $tool)  
                     <tr>
                         <th scope="row">{{ $loop->iteration + $tools->firstItem() - 1 }}</th>
+                        <td class="col-sm-1">{{ $tool->id }}</td>
                         <td class="col-sm-4">{{ $tool->tool_name }}</td>
                         
                         <td class="col-sm-2">{{ $tool->health_domain }}</td>
@@ -497,9 +485,9 @@ margin-left: 16px;
                                         @csrf 
                                         @method('PUT')
                                     @if (!strcmp(($tool->status),'Hidden'))
-                                        <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hide </button>
+                                        <button class="btn btn-secondary" type="submit" name="publish_switch" value="2"><i class="fas fa-eye-slash"></i> Hidden </button>
                                     @else
-                                        <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Public</button> 
+                                        <button class="btn btn-primary" type="submit" name="publish_switch" value="1" checked><i class="fas fa-eye"></i> Published</button> 
                                     @endif
                                 </form>
                                 
@@ -571,7 +559,7 @@ margin-left: 16px;
                                                                                         <!--Attachment-->
                                                                                         <div class="row mb-12">     
                                                                                             <div class="col-sm-12">
-                                                                                                <label for="createAttachmentLabel" class="col-form-label"><strong>Attachment:</strong></label>
+                                                                                                <label for="createAttachmentLabel" class="col-form-label"><strong>Attachment:</strong> Unavailable at this time</label>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div><hr>
@@ -624,7 +612,7 @@ margin-left: 16px;
                                                                                                     <div class="row mb-12">
                                                                                                         <!--Specific NB-->
                                                                                                         <div class="col-sm-12">
-                                                                                                            <label for="createSpecificNB" class="col-form-label"><strong>Specific for Nature Base:</strong> {{ $tool->specific_NB }}  </label>
+                                                                                                            <label for="createSpecificNB" class="col-form-label"><strong>Specific for Nature Base?:</strong> {{ $tool->specific_NB }}  </label>
                                                                                                         </div>
                                                                                                     </div>
                                     
@@ -695,22 +683,9 @@ margin-left: 16px;
                                                                                                     <!--Journal-->    
                                                                                                     <div class="row">
                                                                                                         <div class="col-sm-12">
-                                                                                                            <label for="createJournal" class="col-form-label"><strong> Journal: </strong>   {{ $tool->article }} </label>
+                                                                                                            <label for="createJournal" class="col-form-label"><strong> Journal Title: </strong>   {{ $tool->article }} </label>
                                                                                                         </div>
                                                                                     
-                                                                                                    </div>
-                                                                                                    
-                                                                                                    <!--Measure-->
-                                                                                                    <div class="row mb-12">
-                                                                                                        <div class="col-sm-12">
-                                                                                                            <label for="createMeasure" class="col-form-label"><strong> Measure:</strong> {{ $tool->measure }}   </label>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <!--Program Content-->
-                                                                                                    <div class="row mb-12">
-                                                                                                        <div class="col-sm-12">
-                                                                                                            <label for="createProgramContent" class="col-form-label"><strong>Program Content: </strong>   {{ $tool->program_content }}  </label>
-                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -953,10 +928,10 @@ margin-left: 16px;
                                                                                 @if ($counter_link == 1)
                                                                                     <div class="row mb-2" >
                                                                                         <div class="col-sm-6">
-                                                                                            <input name="editStudyLabel-{{ $tool->id }}" class="form-control" value="{{ $link->study_name }}">
+                                                                                            <input name="editStudyLabel-{{ $tool->id }}" class="form-control" value="{{ $link->study_name }}" placeholder="Article title">
                                                                                         </div>
                                                                                         <div class="col-sm-4">
-                                                                                            <input name="editLinkLabel-{{ $tool->id }}" class="form-control" value="{{ $link->link }}">
+                                                                                            <input name="editLinkLabel-{{ $tool->id }}" class="form-control" value="{{ $link->link }}" placeholder="Upload the link here...">
                                                                                         </div>
                                                                                         <div class="col-sm-1">
                                                                                             <button type="button" name="addLink" class="btn btn-primary edit-plus" id="editPlus-{{ $tool->id }}" onclick="editPlus(this)" title="Add more links"><i class="fas fa-plus"></i></button>
@@ -965,10 +940,10 @@ margin-left: 16px;
                                                                                 @else
                                                                                     <div class="row mb-2" id="editMore_{{ $counter_link }}_{{ $tool->id }}">
                                                                                         <div class="col-sm-6">
-                                                                                            <input name="editMoreStudyLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->study_name }}">
+                                                                                            <input name="editMoreStudyLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->study_name }}" placeholder="Article title">
                                                                                         </div>
                                                                                         <div class="col-sm-4">
-                                                                                            <input name="editMoreLinkLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->link }}">
+                                                                                            <input name="editMoreLinkLabel-{{ $tool->id }}[]" class="form-control" value="{{ $link->link }}" placeholder="Upload the link here...">
                                                                                         </div>
                                                                                         <div class="col-sm-1">
                                                                                             <button type="button" name="minusLink" class="btn btn-danger edit-minus" id="editMinus-{{ $counter_link }}-{{ $tool->id }}" onclick="editMinus(this)" title="Delete link"><i class="fas fa-minus"></i></button>
@@ -980,7 +955,7 @@ margin-left: 16px;
                                                                     @if($found_link == 0)
                                                                     <div class="row mb-2" >
                                                                         <div class="col-sm-6">
-                                                                            <input  name="editStudyLabel-{{ $tool->id }}" class="form-control" placeholder="Type the study name">
+                                                                            <input  name="editStudyLabel-{{ $tool->id }}" class="form-control" placeholder="Type the study name" placeholder="Article title">
                                                                         </div>
                                                                         <div class="col-sm-4">
                                                                             <input name="editLinkLabel-{{ $tool->id }}" class="form-control" placeholder="Upload the link here...">
@@ -998,10 +973,10 @@ margin-left: 16px;
                                                             <!--Attachment-->
                                                             <div class="row mb-3">     
                                                                 <div class="col-sm-2">
-                                                                    <label for="editAttachmentLabel" class="col-form-label">Attachment</label>
+                                                                    <label for="editAttachmentLabel" class="col-form-label">Attachment (Unavailable)</label>
                                                                 </div>
                                                                 <div class="col-sm-10">
-                                                                    <input type="file" name="editAttachmentLabel" class="form-control">
+                                                                    <input type="file" name="editAttachmentLabel" class="form-control" disabled>
                                                                 </div>
                                                             </div>
                                         
@@ -1194,7 +1169,7 @@ margin-left: 16px;
                                                                             <div class="row mb-2">
                                                                                 <!--Specific NB-->
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="editSpecificNB" class="col-form-label">Specific for Nature Base</label>
+                                                                                    <label for="editSpecificNB" class="col-form-label">Specific for Nature Base?</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
                                                                                     <select name="editSpecificNB" class="form-select">
@@ -1297,7 +1272,26 @@ margin-left: 16px;
                                                                                     <label for="editReliability" class="col-form-label">Reliability</label>
                                                                                 </div>
                                                                                 <div class="col-sm-3">
-                                                                                    <input name="editReliability" class="form-control" value="{{ $tool->reliability }}">
+                                                                                    <select name="editReliability" class="form-select">
+                                                                                        @switch($tool->validity)
+                                                                                            @case("Yes")
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Yes" selected>Yes</option>
+                                                                                                <option value="No">No</option>
+                                                                                                @break
+                                                                                            @case("No")
+                                                                                                <option value="" >Choose...</option>
+                                                                                                <option value="Yes">Yes</option>
+                                                                                                <option value="No" selected>No</option>
+                                                                                                @break
+                                                                                            @default
+                                                                                                <option value="" selected >Choose...</option>
+                                                                                                <option value="Yes">Yes</option>
+                                                                                                <option value="No" >No</option>
+                                                                                        @endswitch
+                                                                                    
+                                                                                        
+                                                                                    </select>    
                                                                                 </div> 
                                                                                 <!--Validity-->
                                                                                 <div class="col-sm-1"></div>
@@ -1334,7 +1328,7 @@ margin-left: 16px;
                                                                 <div class="accordion-item">
                                                                     <h1 class="accordion-header" id="headingTwo">
                                                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                                                            Journal's Details
+                                                                            Original Tool Publication Details
                                                                         </button>
                                                                     </h1>
                                                                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" >
@@ -1362,68 +1356,15 @@ margin-left: 16px;
                                                                                     <input name="editYear" class="form-control" value="{{ $tool->year }}">
                                                                                 </div>
                                                                                 <div class="col-sm-12"></div>
-                                                                                <!--Country-->
-                                                                                <div class="col-sm-1">
-                                                                                    <label for="editCountry" class="col-form-label">Country</label>
-                                                                                </div>
-                                                                                <div class="col-sm-3 mb-3">
-                                                                                    <input name="editCountry" class="form-control" value="{{ $tool->country }}">
-                                                                                </div>
                                                                             </div>
                                                         
                                                                             <!--Journal-->    
                                                                             <div class="row">
                                                                                 <div class="col-sm-2">
-                                                                                    <label for="editJournal" class="col-form-label">Journal</label>
+                                                                                    <label for="editJournal" class="col-form-label">Journal Title</label>
                                                                                 </div>
                                                                                 <div class="col-sm-10 mb-3">
                                                                                     <input name="editJournal" class="form-control" value="{{ $tool->article }}">
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                            <!--Measure-->
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="editMeasure" class="col-form-label">Measure</label>
-                                                                                </div>
-                                                                                <div class="col-sm-3">
-                                                                                    <select name="editMeasure" class="form-select">
-                                                                                        @switch($tool->measure)
-                                                                                            @case("Wellbeing")
-                                                                                                <option value="" selected>Choose...</option>
-                                                                                                <option value="Wellbeing">Wellbeing</option>
-                                                                                                <option value="Self Determination">Self Determination</option>
-                                                                                                <option value="Reseliance">Reseliance</option>
-                                                                                                @break
-                                                                                            @case("Self Determination")
-                                                                                                <option value="" >Choose...</option>
-                                                                                                <option value="Wellbeing">Wellbeing</option>
-                                                                                                <option value="Self Determination"selected>Self Determination</option>
-                                                                                                <option value="Reseliance">Reseliance</option>
-                                                                                                @break
-                                                                                            @case("Reseliance")
-                                                                                                <option value="" >Choose...</option>
-                                                                                                <option value="Wellbeing">Wellbeing</option>
-                                                                                                <option value="Self Determination">Self Determination</option>
-                                                                                                <option value="Reseliance" selected>Reseliance</option>
-                                                                                                @break
-                                                                                            @default
-                                                                                                <option value="" selected>Choose...</option>
-                                                                                                <option value="Wellbeing">Wellbeing</option>
-                                                                                                <option value="Self Determination">Self Determination</option>
-                                                                                                <option value="Reseliance">Reseliance</option>
-                                                                                        @endswitch
-                                                                                        
-                                                                                    </select>    
-                                                                                </div>
-                                                                            </div>
-                                                                            <!--Program Content-->
-                                                                            <div class="row mb-3">
-                                                                                <div class="col-sm-2">
-                                                                                    <label for="editProgramContent" class="col-form-label">Program Content</label>
-                                                                                </div>
-                                                                                <div class="col-sm-10" >
-                                                                                    <textarea class="form-control" name="editProgramContent" rows="2">{{ $tool->program_content }}</textarea>   
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1512,7 +1453,7 @@ margin-left: 16px;
                 var counter = parseInt($('#total').val()) + 1;
                 $('#total').val(counter);
 
-                var html = '<div class="row mb-2" id="more_'+counter+'" ><div class="col-sm-6"><input name="createMoreStudyLabel[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="minusLink" id="MinusLink" class="btn btn-danger minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
+                var html = '<div class="row mb-2" id="more_'+counter+'" ><div class="col-sm-6"><input name="createMoreStudyLabel[]" class="form-control" placeholder="Article title"></div><div class="col-sm-4"><input name="createMoreLinkLabel[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" name="minusLink" id="MinusLink" class="btn btn-danger minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>'
                 $('#studies').append(html);
             });
 
@@ -1572,7 +1513,7 @@ margin-left: 16px;
 
             var additionalLink = "editMore_"+counter+"_"+buttonID[1];
 
-            var html = '<div class="row mb-2" id="'+additionalLink+'" ><div class="col-sm-6"><input name="editMoreStudyLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Type the study name"></div><div class="col-sm-4"><input name="editMoreLinkLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" id="editMinus-'+counter+'-'+buttonID[1]+'" onclick="editMinus(this)" name="editMinusLink-'+buttonID[1]+'" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>';
+            var html = '<div class="row mb-2" id="'+additionalLink+'" ><div class="col-sm-6"><input name="editMoreStudyLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Article title"></div><div class="col-sm-4"><input name="editMoreLinkLabel-'+buttonID[1]+'[]" class="form-control" placeholder="Upload your link here..."></div><div class="col-sm-1"><button type="button" id="editMinus-'+counter+'-'+buttonID[1]+'" onclick="editMinus(this)" name="editMinusLink-'+buttonID[1]+'" class="btn btn-danger edit-minus" title="Delete link"><i class="fas fa-minus"></i></button></div></div>';
 
             $('#retrieved_studies-'+buttonID[1]).append(html);
             console.log($(editTotal).val());

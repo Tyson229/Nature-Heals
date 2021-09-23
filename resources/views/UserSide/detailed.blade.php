@@ -46,7 +46,7 @@
 <li class="nav-item"><a href="/tools" class="nav-link"style="color: white; background-color: #96c0b7; border-radius: 3px;">Tools</a></li>
 <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
 <li class="nav-item"><a href="/request" class="nav-link">Request</a></li>
-<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">For Admin</a></li>
+<li class="nav-item"><a href="/login" class="nav-link ms-4 text-light">Admin Portal</a></li>
 @endsection
 
 @section('content')
@@ -123,7 +123,7 @@
     <div class="container mb-5 rounded-3 bg-white">
         <div class="row">
             <div class="feedback_title col-sm-3 ">
-                <h1 class="display-6">Is this tool useful?</h1> 
+                <h1 class="display-6">Want to leave a feedback?</h1> 
             </div>
 
             <div class="col-sm-9 feedback p-3">

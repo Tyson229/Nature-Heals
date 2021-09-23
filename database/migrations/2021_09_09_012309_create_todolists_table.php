@@ -19,7 +19,6 @@ class CreateTodolistsTable extends Migration
             $table->string('priority', 10);
             $table->boolean('completed');
             $table->foreignId('user_id')->constrained('users');
-
             $table->timestamps();
         });
     }
