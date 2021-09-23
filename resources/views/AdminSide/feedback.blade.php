@@ -185,7 +185,11 @@
                     @endforelse
                 </tbody>
             </table>
+            <div class="row">
+                <div class="col-sm-7 offset-sm-5">
             {{$feedbacks->links()}}
+                </div>
+            </div>
         </div>
         <!--Table List-->
     </main>
