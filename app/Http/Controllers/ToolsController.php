@@ -405,7 +405,7 @@ class ToolsController extends Controller
         $linkList->delete();
         $connection = userCreatesTool::where('tool_ID',$id);
         $connection->delete();
-        ToolFeedbackModel::find($id)->delete();
+        ToolFeedbackModel::where('tool_ID', '=',$id)->delete();
         $tool = tools::find($id);
         $tool->delete();
         

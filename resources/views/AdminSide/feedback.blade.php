@@ -188,7 +188,7 @@
                             <!--Delete Modal-->
                         </tr>
                     @empty
-                        <tr><td colspan="7">No Records Found.</td></tr>
+                        <tr><td colspan="7" class="text-center">No Records Found</td></tr>
                     @endforelse
                 </tbody>
             </table>

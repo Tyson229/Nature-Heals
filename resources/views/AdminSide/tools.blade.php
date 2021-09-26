@@ -1426,9 +1426,9 @@ margin-left: 16px;
                     </tr>
                 @empty
                     @if(Auth::user()->role_ID == 1)
-                        <tr><td colspan="5" class="text-center">No Records Found</td></tr>
+                        <tr><td colspan="6" class="text-center">No Records Found</td></tr>
                     @else
-                        <tr><td colspan="4" class="tex-center">No Records Found</td></tr>
+                        <tr><td colspan="5" class="tex-center">No Records Found</td></tr>
                     @endif    
                 @endforelse
                
