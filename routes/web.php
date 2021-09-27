@@ -36,7 +36,7 @@ Route::get('/home', [PagesController::class, 'adminHomepage']);
 
 //Assessment Tools
 Route::get('/tools', [UserToolController::class,'tools']);
-Route::post('search-tools', [UserToolController::class,'search'])->name('tools.search');
+Route::get('search-tools', [UserToolController::class,'search'])->name('tools.search');
 
 //Detailed Tool
 Route::get('detailed/{id}', [UserToolController::class,'detailed'])->name('tools.detailed');

@@ -96,7 +96,7 @@
     <div class="container mt-5 mb-5 ">
         <div class="grid search">
             <div class="grid-body border rounded-3">
-                <form method="POST" action="{{ route('tools.search') }}">
+                <form method="get" action="{{ route('tools.search') }}">
                     @csrf
                     <div class="row">
                         <!-- Category col  -->
@@ -338,8 +338,8 @@
                                     <td class="ToolDetailed" width="67%">
                                         <strong class="title">{{ $tool->tool_name }}</strong>
                                         <br>
-                                        @if (strlen($tool->tool_description) > 100)
-                                            {{ substr($tool->tool_description, 0, 100) }}...
+                                        @if (strlen($tool->tool_description) > 140)
+                                            {{ substr($tool->tool_description, 0, 140) }}...
                                         @else
                                             {{ $tool->tool_description }}
                                         @endif
@@ -357,15 +357,21 @@
                             @endforelse
                         </tbody>
                     </table>
-
+                    {{
+                        $tools
+                        ->appends([
+                            'searched_keyword' => Request::get('searched_keyword'),
+                            'domains' => Request::get('domains'),
+                            'health_condition' => Request::get('health_condition'),
+                            'modality' => Request::get('modality'),
+                            'settings' => Request::get('settings'),
+                            'age_group' => Request::get('age_group'),
+                        ])
+                        ->links()
+                    }}
+                        
                 </div>
-
-                <div class="d-flex"><div class="mx-auto">
-                    {{$tools->links()}}
-                </div>
-            </div>
-            
-            
+               
             </div>
           
         </div>

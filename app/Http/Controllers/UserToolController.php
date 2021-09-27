@@ -30,6 +30,7 @@ class UserToolController extends Controller
         return view('UserSide.detailed', compact('tool'));
     }
 
+    
     public function search(Request $request)
     {
         $publishedStatus = ToolStatusModel::where('status', 'Published')->first();

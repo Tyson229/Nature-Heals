@@ -232,6 +232,6 @@ return [
     ],
 
     
-    'receive_contact_form_email' => 'NatureHeals.21@gmail.com',
+    'receive_contact_form_email' => 'Abdullah.Algamdi210@gmail.com',
 
 ];
